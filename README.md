@@ -1,16 +1,16 @@
 # Алгоритмы и структуры данных
-Задачи для курса "Алгоритмы и структуры данных" 2020 года
+Задачи для курса "Алгоритмы и структуры данных" 2021 года
 [курса](https://polis.mail.ru/curriculum/program/discipline/836/) в [Технополис](https://polis.mail.ru).
 
 ## Fork
 [Форкните проект](https://help.github.com/articles/fork-a-repo/), склонируйте и добавьте `upstream`:
 ```
-$ git clone git@github.com:<username>/2020-ads.git
-Cloning into '2020-ads'...
+$ git clone git@github.com:<username>/2021-ads.git
+Cloning into '2021-ads'...
 ...
-$ git remote add upstream git@github.com:polis-mail-ru/2020-ads.git
+$ git remote add upstream git@github.com:polis-mail-ru/2021-ads.git
 $ git fetch upstream
-From github.com:polis-mail-ru/2020-ads
+From github.com:polis-mail-ru/2021-ads
  * [new branch]      master     -> upstream/master
 ```
 
@@ -32,7 +32,7 @@ $ git checkout -b part1
 Можно воспользоваться классом `ru.mail.polis.ads.SolveTemplate`, в котором остается реализовать лишь метод `solve`.
 
 После того, как решения будут доведены до рабочего состояния (все тесты будут проходить),
-можно коммитить, пушить и создавать pull request в `polis-mail-ru/2020-ads`.
+можно коммитить, пушить и создавать pull request в `polis-mail-ru/2021-ads`.
 В самом PR либо в его описании, либо в комментариях к каждому классу-решению
 нужно добавить ссылку на submission в e-olymp, где видно, что все решение прошло все тесты. 
 Эти ссылки имеют вид "https://www.e-olymp.com/ru/submissions/5707028".
@@ -55,139 +55,3 @@ $ git checkout -b part1
   * https://www.e-olymp.com/ru/problems/6125 - очередь
 
 За каждое полностью рабочее решение дается 2 балла (да, даже за первую задачу).
-
-## ДЗ 2.
-Задачи с e-olymp.com
-
-Дэдлайн - 13.10
-  * https://www.e-olymp.com/ru/problems/3738 - Простая сортировка
-  * https://www.e-olymp.com/ru/problems/1462 - Хитрая сортировка
-  * https://www.e-olymp.com/ru/problems/4741 - Сортировка пузырьком
-  * https://www.e-olymp.com/ru/problems/4827 - k-тая порядковая статистика
-  * https://www.e-olymp.com/ru/problems/4037 - Сортировка слиянием
-  
-## ДЗ 3.
-Задачи с e-olymp.com
-  
-Дэдлайн - 20.10
-  * https://www.e-olymp.com/ru/problems/3737 - Куча ли?
-  * https://www.e-olymp.com/ru/problems/4039 - Хипуй
-  * https://www.e-olymp.com/ru/problems/4074 - Найти медиану 2  
-  * https://www.e-olymp.com/ru/problems/9016 - Бинарный поиск
-  * https://www.e-olymp.com/ru/problems/5149 - Коровы - в стойла
-
-## ДЗ 4.
-Задачи с e-olymp.com
-Дэдлайн - 27.10
-  * https://www.e-olymp.com/ru/problems/1087 - Скобочная последовательность
-  * https://www.e-olymp.com/ru/problems/15 - Мышки и зернышки
-  * https://www.e-olymp.com/ru/problems/1618 - Наибольшая общая подпоследовательность
-  * https://www.e-olymp.com/ru/problems/262 - Лесенка
-  * https://www.e-olymp.com/ru/problems/4261 - Количество инверсий
-
-## ДЗ 5.
-Дэдлайн - 3.11
-  * https://www.e-olymp.com/ru/problems/3968 - Квадратный корень
-  * https://www.e-olymp.com/ru/problems/3969 - Дипломы
-  * https://www.e-olymp.com/ru/problems/264 - Наибольшая последовательнократная подпоследовательность
-  * https://www.e-olymp.com/ru/problems/991 - Шаблон и слово
-  * https://www.e-olymp.com/ru/problems/2169 - Перестановки
-
-## ДЗ 6.
-
-Дэдлайн - 11.11
-
-Pull-request нужно создавать в ветку `avl`, ее же нужно зачекаутить в локальном репозитории, 
-чтобы появился интерфейс `Bst` и тесты.
-
-Реализация АВЛ-дерева.
-Дан интерфейс двоичного дерева поиска с поддержкой упорядоченных операций `ru.mail.polis.ads.bst.Bst`.
-Решения с использованием библиотечных структур данных
-(`TreeMap`, которая на самом деле не на АВЛ работает) не принимаются.
-
-Основные методы:
-  * `Value get(Key key)` - возвращает значение по заданному ключу или `null`, если такого ключа нет
-  * `void put(Key key, Value value)` - сохраняет заданное значение по указанному ключу
-  * `Value remove(Key key)` - удаляет заданный ключ (и связанное с ним значение, возвращая его)
-
-Методы, основанные на порядке ключей:
-  * `Key min()` - возвращает минимальный ключ или `null`, если структура пустая
-  * `Value minValue()` - возвращает значение, ассоцирированное с минимальным ключом, или `null`, если структура пустая
-  * `Key max()` - возвращает максимальный ключ или `null`, если структура пустая
-  * `Value maxValue()` - возвращает значение, ассоцирированное с максимальным ключом, или `null`, если структура пустая
-  * `Key floor(Key key)` - возвращает максимальный ключ, меньший либо равный заданному, или `null`, если такого нет
-  * `Key ceil(Key key)` - вовзращает минимальный ключ, больший либо равный заданному, или `null`, если такого нет
-
-Служебные методы:
-  * `int size()` - вовзращает количество узлов в дереве
-  * `int height()` - возвращает высоту дерева (максимальная длина пути от корня до листа)
-  
-Локально запускать тесты можно через
-```commandline
-./gradlew test
-```
-
-## ДЗ 7.
-
-Дэдлайн - 18.11
-
-N.B. Pull-реквесты нужно делать в ветку `red-black`.
-
-Реализация Left-Leaning Red-Black Tree.
-Дан интерфейс двоичного дерева поиска с поддержкой упорядоченных операций `ru.mail.polis.ads.bst.Bst`.
-Решения с использованием библиотечных структур данных
-(`TreeMap`, которая на самом деле работает на красно-черных деревьях из Кормена) не принимаются.
-
-Основные методы:
-  * `Value get(Key key)` - возвращает значение по заданному ключу или `null`, если такого ключа нет
-  * `void put(Key key, Value value)` - сохраняет заданное значение по указанному ключу  
-  * `Value remove(Key key)` - удаляет заданный ключ (и связанное с ним значение, возвращая его)
-
-Методы, основанные на порядке ключей
-  * `Key min()` - возвращает минимальный ключ или `null`, если структура пустая
-  * `Value minValue()` - возвращает значение, ассоцирированное с минимальным ключом, или `null`, если структура пустая
-  * `Key max()` - возвращает максимальный ключ или `null`, если структура пустая
-  * `Value maxValue()` - возвращает значение, ассоцирированное с максимальным ключом, или `null`, если структура пустая
-  * `Key floor(Key key)` - возвращает максимальный ключ, меньший либо равный заданному, или `null`, если такого нет
-  * `Key ceil(Key key)` - вовзращает минимальный ключ, больший либо равный заданному, или `null`, если такого нет
-  
-Служебные методы:
-  * `int size()` - вовзращает количество узлов в дереве
-  
-## ДЗ 8.
-
-Дэдлайн - 25.11
-
-N.B. Pull-реквесты нужно делать в ветку `hash`.     
-
-Реализация HashTable с разрешением коллизий методом цепочек.
-
-Дан интерфейс хеш-таблицы `ru.mail.polis.ads.hash.HashTable`.
-Решения с использованием библиотечных структур данных (`java.util.HashMap/Hashtable`) не принимаются.
-
-Основные методы:
-  * `Value get(Key key)` - возвращает значение по заданному ключу или `null`, если такого ключа нет
-  * `void put(Key key, Value value)` - сохраняет заданное значение по указанному ключу  
-  * `Value remove(Key key)` - удаляет заданный ключ (и связанное с ним значение, возвращая его)
-  
-Служебные методы:
-  * `int size()` - вовзращает количество ключей
-
-## ДЗ 9.
-
-Задачки с e-olymp.
-
-Дэдлайн - 9.12
-  * https://www.e-olymp.com/ru/problems/1948 - Топологическая сортировка
-  * https://www.e-olymp.com/ru/problems/2022 - Циклы в графе
-  * https://www.e-olymp.com/ru/problems/1453 - Форд-Беллман
-  * https://www.e-olymp.com/ru/problems/4856 - Кратчайший путь
-  * https://www.e-olymp.com/ru/problems/4853 - Кратчайший путь
-
-## ДЗ 10.
-
-Дэдлайн - 15.12
-  * https://www.e-olymp.com/ru/problems/1943 - Мосты
-  * https://www.e-olymp.com/ru/problems/3835 - Минимальный каркас
-  * https://www.e-olymp.com/ru/problems/325 - Опасный маршрут
-  * https://www.e-olymp.com/ru/problems/1947 - Конденсация графа
