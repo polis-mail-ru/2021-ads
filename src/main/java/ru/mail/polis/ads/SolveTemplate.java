@@ -43,6 +43,10 @@ public final class SolveTemplate {
         }
     }
 
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
+    }
+
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
         try (PrintWriter out = new PrintWriter(System.out)) {
