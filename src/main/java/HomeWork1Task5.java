@@ -1,19 +1,32 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
+import java.util.function.BinaryOperator;
 
 
-public final class HomeWork1Task1 {
-    private HomeWork1Task1() {
+public final class HomeWork1Task5 {
+    private HomeWork1Task5() {
         // Should not be instantiated
     }
 
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        int number = in.nextInt();
-        out.println(number%10);
+        List<Integer> list = new ArrayList<>();
+        Map<String, BinaryOperator<Integer>> operators = new HashMap<>();
+        operators.put("+", (x1, x2) -> x1 + x2);
+        operators.put("-", (x1, x2) -> x1 - x2);
+        operators.put("*", (x1, x2) -> x1 * x2);
+        do {
+            String readString = in.next();
+            if (operators.containsKey(readString)) {
+                int operand1 = list.remove(list.size() - 2);
+                int operand2 = list.remove(list.size() - 1);
+                int result = operators.get(readString).apply(operand1, operand2);
+                list.add(result);
+            } else {
+                list.add(Integer.parseInt(readString));
+            }
+        } while (in.hasNext());
+        out.println(list.get(0));
     }
 
     private static class FastScanner {
@@ -32,7 +45,15 @@ public final class HomeWork1Task1 {
                     e.printStackTrace();
                 }
             }
+
             return tokenizer.nextToken();
+        }
+
+        boolean hasNext() {
+            if (tokenizer == null) {
+                return true;
+            }
+            return tokenizer.hasMoreTokens();
         }
 
         int nextInt() {

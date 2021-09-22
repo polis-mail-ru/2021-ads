@@ -1,12 +1,12 @@
 import java.io.*;
-import java.util.*;
-import java.util.function.Supplier;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
-import static com.google.common.primitives.Chars.asList;
 
-
-public final class HomeWork1Task3 {
-    private HomeWork1Task3() {
+public final class HomeWork1Task4 {
+    private HomeWork1Task4() {
         // Should not be instantiated
     }
 
@@ -17,7 +17,7 @@ public final class HomeWork1Task3 {
         for (char bracket : bracketsSequence.toCharArray()) {
             if (brackets.containsKey(bracket)) {
                 list.add(bracket);
-            } else if (bracket == brackets.get(list.get(list.size() - 1))){
+            } else if (!list.isEmpty() && bracket == brackets.get(list.get(list.size() - 1))){
                 list.remove(list.size() - 1);
             } else {
                 out.println("no");

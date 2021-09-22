@@ -22,7 +22,7 @@ public final class HomeWork1Task3 {
         });
         commands.put("size", HomeWork1Task3::size);
         commands.put("pop", HomeWork1Task3::pop);
-        commands.put("front", HomeWork1Task3::front);
+        commands.put("back", HomeWork1Task3::back);
         commands.put("clear", HomeWork1Task3::clear);
         commands.put("exit", HomeWork1Task3::exit);
 
@@ -40,13 +40,13 @@ public final class HomeWork1Task3 {
         if (list.isEmpty()) {
             return "error";
         }
-        return list.remove(0).toString();
+        return list.remove(size() - 1).toString();
     }
-    private static String front() {
+    private static String back() {
         if (list.isEmpty()) {
             return "error";
         }
-        return list.get(0).toString();
+        return list.get(size() - 1).toString();
     }
     private static String clear() {
         list.clear();

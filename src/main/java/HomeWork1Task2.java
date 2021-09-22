@@ -1,19 +1,59 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.function.Supplier;
 
 
-public final class HomeWork1Task1 {
-    private HomeWork1Task1() {
+public final class HomeWork1Task2 {
+    private HomeWork1Task2() {
         // Should not be instantiated
     }
 
+    private static ArrayList<Integer> list = new ArrayList<>();
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        int number = in.nextInt();
-        out.println(number%10);
+        Map<String, Supplier> commands = new HashMap<>();
+        commands.put("push", () -> {
+            int number = in.nextInt();
+            list.add(number);
+            return "ok";
+        });
+        commands.put("size", HomeWork1Task2::size);
+        commands.put("pop", HomeWork1Task2::pop);
+        commands.put("front", HomeWork1Task2::front);
+        commands.put("clear", HomeWork1Task2::clear);
+        commands.put("exit", HomeWork1Task2::exit);
+
+        String command = "";
+        while (!command.equals("exit")) {
+            command = in.next();
+            out.println(commands.get(command).get());
+        }
+    }
+
+    private static int size() {
+        return list.size();
+    }
+    private static String pop() {
+        if (list.isEmpty()) {
+            return "error";
+        }
+        return list.remove(0).toString();
+    }
+    private static String front() {
+        if (list.isEmpty()) {
+            return "error";
+        }
+        return list.get(0).toString();
+    }
+    private static String clear() {
+        list.clear();
+        return "ok";
+    }
+    private static String exit() {
+        return "bye";
     }
 
     private static class FastScanner {
