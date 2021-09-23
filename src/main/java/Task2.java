@@ -10,7 +10,7 @@ public class Task2 {
     }
 
     private static void solve(final Task2.FastScanner in, final PrintWriter out) {
-        Queue<Integer> data = new LinkedList<>();
+        LinkedList<Integer> data = new LinkedList<>();
         String input;
         boolean active = true;
         while (active) {
