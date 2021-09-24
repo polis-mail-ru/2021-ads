@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.LinkedList;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -19,43 +20,49 @@ public final class Brackets {
 
   private static void solve(final FastScanner in, final PrintWriter out) {
     LinkedList<Character> stack = new LinkedList<>();
-    String bracketsSequence = in.next();
+    Scanner input = new Scanner(System.in);
+    String bracketSequence = input.hasNext() ? input.next() : "";
+    boolean isRightBracketSequence = true;
 
-    int bracketSequenceSize = bracketsSequence.length();
-    for (int i = 0; i < bracketSequenceSize; ++i) {
-      char curChar = bracketsSequence.charAt(i);
-      if ((curChar == OPEN_PARENTHESIS)
-          || (curChar == OPEN_BRACKET)
-          || (curChar == OPEN_BRACE)) {
+    for (int position = 0; position < bracketSequence.length(); ++position) {
+      Character curChar = bracketSequence.charAt(position);
+      if (isOpenBracket(curChar)) {
         stack.addLast(curChar);
         continue;
       }
-      if (curChar == CLOSE_PARENTHESIS) {
-        if (stack.getLast() != OPEN_PARENTHESIS) {
-          out.println("no");
-          return;
-        }
-      } else if (curChar == CLOSE_BRACKET) {
-        if (stack.getLast() != OPEN_BRACKET) {
-          out.println("no");
-          return;
-        }
-      } else if (curChar == CLOSE_BRACE) {
-        if (stack.getLast() != OPEN_BRACE) {
-          out.println("no");
-          return;
-        }
-      } else {
-        out.println("no");
-        return;
+
+      if (stack.isEmpty()) {
+        isRightBracketSequence = false;
+        break;
       }
-      stack.pollLast();
+
+      Character lastOpenBracket = stack.pollLast();
+      boolean isRightParenthesisPair = isParenthesisPair(curChar, lastOpenBracket),
+          isRightBracketsPair = isBracketsPair(curChar, lastOpenBracket),
+          isRightBracesPair = isBracesPair(curChar, lastOpenBracket);
+      if (isRightParenthesisPair || isRightBracketsPair || isRightBracesPair) {
+        continue;
+      }
+      isRightBracketSequence = false;
+      break;
     }
-    if (stack.isEmpty()) {
-      out.println("yes");
-    } else {
-      out.println("no");
-    }
+    out.println((isRightBracketSequence && stack.isEmpty()) ? "yes" : "no");
+  }
+
+  private static boolean isOpenBracket(Character ch) {
+    return (ch.equals(OPEN_PARENTHESIS) || ch.equals(OPEN_BRACKET) || ch.equals(OPEN_BRACE));
+  }
+
+  private static boolean isParenthesisPair(Character ch1, Character ch2) {
+    return (ch1.equals(CLOSE_PARENTHESIS) && ch2.equals(OPEN_PARENTHESIS));
+  }
+
+  private static boolean isBracketsPair(Character ch1, Character ch2) {
+    return (ch1.equals(CLOSE_BRACKET) && ch2.equals(OPEN_BRACKET));
+  }
+
+  private static boolean isBracesPair(Character ch1, Character ch2) {
+    return (ch1.equals(CLOSE_BRACE) && ch2.equals(OPEN_BRACE));
   }
 
   private static class FastScanner {
