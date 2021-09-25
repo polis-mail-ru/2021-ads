@@ -1,22 +1,14 @@
-package ru.mail.polis.ads;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
-public final class SolveTemplate {
-    private SolveTemplate() {
+public final class Week1Task1 {
+    private Week1Task1() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write here
+        int a = in.nextInt();
+        out.println(a % 10);
     }
 
     private static class FastScanner {
