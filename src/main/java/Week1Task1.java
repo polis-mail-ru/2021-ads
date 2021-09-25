@@ -14,8 +14,10 @@ public class Week1Task1 {
     }
 
     private static int lastDigit(int number) {
-        // number >= 0
-        return number % 10;
+        if (number == Integer.MIN_VALUE) {
+            return Math.abs(number + 10) % 10;
+        }
+        return Math.abs(number) % 10;
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
