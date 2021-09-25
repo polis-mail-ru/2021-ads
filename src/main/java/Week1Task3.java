@@ -35,6 +35,7 @@ public final class Week1Task3 {
         int pop() {
             int data = top.data;
             top = top.next;
+            size--;
             return data;
         }
         // значение последнего элемента
