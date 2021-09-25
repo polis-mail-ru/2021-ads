@@ -1,4 +1,3 @@
-package ru.mail.polis.ads;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +9,13 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-	private SolveTemplate() {
+public final class Week1Test1 {
+	private Week1Test1() {
 		// Should not be instantiated
 	}
 
 	private static void solve(final FastScanner in, final PrintWriter out) {
-		// Write me
+		out.println(in.nextInt() % 10);
 	}
 
 	private static class FastScanner {

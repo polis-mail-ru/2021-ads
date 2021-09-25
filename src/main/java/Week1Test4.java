@@ -1,22 +1,55 @@
-package ru.mail.polis.ads;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-	private SolveTemplate() {
+public final class Week1Test4 {
+	private Week1Test4() {
 		// Should not be instantiated
 	}
 
+	private static boolean isValid(char[] sequence) {
+		Deque<Character> stack = new ArrayDeque<Character>();
+		for (int i = 0; i < sequence.length; ++i) {
+
+			final char ch = sequence[i];
+			if (!stack.isEmpty()) {
+				if (ch == ')') {
+					if (stack.pop() == '(')
+						continue;
+					else
+						return false;
+				} else if (ch == ']') {
+					if (stack.pop() == '[')
+						continue;
+					else
+						return false;
+				} else if (ch == '}') {
+					if (stack.pop() == '{')
+						continue;
+					else
+						return false;
+				}
+			}
+
+			stack.push(ch);
+		}
+		return stack.isEmpty();
+	}
+
 	private static void solve(final FastScanner in, final PrintWriter out) {
-		// Write me
+		char[] sequence = in.next().toCharArray();
+		out.println(isValid(sequence) ? "yes" : "no");
+
 	}
 
 	private static class FastScanner {
