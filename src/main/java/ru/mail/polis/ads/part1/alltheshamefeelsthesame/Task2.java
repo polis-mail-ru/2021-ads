@@ -24,12 +24,10 @@ public class Task2 {
         private int quantity = 0;
 
         public int front() {
-            if (head != null) {
-                return head.data;
-            } else {
-                System.out.println("error");
-                return Integer.MIN_VALUE;
+            if (head == null) {
+                throw new NullPointerException("Empty queue");
             }
+            return head.data;
         }
 
         public int size() {
@@ -56,8 +54,7 @@ public class Task2 {
 
         public int pop() {
             if (head == null) {
-                System.out.println("error");
-                return Integer.MIN_VALUE;
+                throw new NullPointerException("Empty queue");
             }
             int result = head.data;
             head = head.nextPointer;
@@ -83,15 +80,17 @@ public class Task2 {
                 int result;
                 switch (str) {
                     case "pop":
-                        result = queue.pop();
-                        if (result != Integer.MIN_VALUE) {
-                            System.out.println(result);
+                        try {
+                            System.out.println(queue.pop());
+                        } catch (NullPointerException e) {
+                            System.out.println("error");
                         }
                         break;
                     case "front":
-                        result = queue.front();
-                        if (result != Integer.MIN_VALUE) {
-                            System.out.println(result);
+                        try {
+                            System.out.println(queue.front());
+                        } catch (NullPointerException e) {
+                            System.out.println("error");
                         }
                         break;
                     case "size":

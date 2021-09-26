@@ -30,8 +30,7 @@ public class Task3 {
 
         public int pop() {
             if (head == null) {
-                System.out.println("error");
-                return Integer.MIN_VALUE;
+                throw new NullPointerException("Empty queue");
             }
             int result = head.data;
             head = head.nextPointer;
@@ -51,8 +50,7 @@ public class Task3 {
 
         public int back() {
             if (head == null) {
-                System.out.println("error");
-                return Integer.MIN_VALUE;
+                throw new NullPointerException("Empty queue");
             }
             return head.data;
         }
@@ -73,18 +71,19 @@ public class Task3 {
                 queue.push(Integer.parseInt(str.substring(5)));
                 System.out.println("ok");
             } else {
-                int result;
                 switch (str) {
                     case "pop":
-                        result = queue.pop();
-                        if (result != Integer.MIN_VALUE) {
-                            System.out.println(result);
+                        try {
+                            System.out.println(queue.pop());
+                        } catch (NullPointerException e) {
+                            System.out.println("error");
                         }
                         break;
                     case "back":
-                        result = queue.back();
-                        if (result != Integer.MIN_VALUE) {
-                            System.out.println(result);
+                        try {
+                            System.out.println(queue.back());
+                        } catch (NullPointerException e) {
+                            System.out.println("error");
                         }
                         break;
                     case "size":
