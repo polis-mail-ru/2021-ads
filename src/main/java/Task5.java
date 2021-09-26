@@ -21,7 +21,6 @@ public final class Task5 {
         String input = in.nextLine();
         String[] words = input.split(" ");
         LinkedList<Integer> stack = new LinkedList<>();
-        int tmpRes = 0;
 
         for (String word : words) {
             switch (word) {
