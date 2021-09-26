@@ -1,29 +1,28 @@
 package ru.mail.polis.ads.part1.FetisovVladislav;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Task3 {
 
-    private static class MyStack<T> {
-        private final List<T> stack;
+    static class MyStack<T> {
+        private final LinkedList<T> stack;
 
         public MyStack() {
-            this.stack = new ArrayList<>();
+            this.stack = new LinkedList<>();
         }
 
         public void push(T el) {
-            stack.add(0, el);
+            stack.addFirst(el);
         }
 
         public T pop() {
-            return !stack.isEmpty() ? stack.remove(0) : null;
+            return !stack.isEmpty() ? stack.removeFirst() : null;
         }
 
         public T back() {
-            return !stack.isEmpty() ? stack.get(0) : null;
+            return !stack.isEmpty() ? stack.getFirst() : null;
         }
 
         public int size() {
