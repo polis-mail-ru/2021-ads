@@ -5,17 +5,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
-public final class Week1Task1 {
-    private Week1Task1() {
+// A. Последняя цифра
+public final class Main {
+    private Main() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        int a = in.nextInt();
-        out.println(a%10);
+        System.out.println(in.nextInt() % 10);
     }
 
     private static class FastScanner {
@@ -48,7 +45,7 @@ public final class Week1Task1 {
 
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = createPrintWriterForLocalTests()) {
+        try (PrintWriter out = new PrintWriter(System.out)) {
             solve(in, out);
         }
     }
