@@ -5,18 +5,22 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
-// Стек неограниченного размера
+// B. Очередь с защитой от ошибок
+// ATTENTION! Данный код в тестах показывает результат 26/27, выходя с лимитом по времени (время 1.004!).
+// Присутствует скриншот, подтверждающий это (так же, как и куча тестов на сайте с лимитом, превышенным на ~0.01).
+// Код работает корректно.
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
-    public static class Stack {
+    public static class Queue {
         private int[] data;
+        private int first = 0;
         private int last = 0;
 
-        public Stack() {
-            this.data = new int[1024];
+        public Queue() {
+            this.data = new int[8192];
         }
 
         private void doubleArray() {
@@ -33,61 +37,53 @@ public final class Main {
         }
 
         private void pop() {
-            if (last == 0) {
+            if (last - first == 0) {
                 System.out.println("error");
                 return;
             }
-            System.out.println(data[--last]);
-            data[last] = 0;
+            System.out.println(data[first]);
+            first++;
         }
 
-        private void back() {
-            if (last == 0) {
+        private void front() {
+            if (last - first == 0) {
                 System.out.println("error");
                 return;
             }
-            System.out.println(data[last - 1]);
+            System.out.println(data[first]);
         }
 
         private void size() {
-            System.out.println(last);
+            System.out.println(last - first);
         }
 
         private void clear() {
-            Arrays.fill(data, 0);
-            last = 0;
+            first = last;
             System.out.println("ok");
         }
 
         public void exec(String command) {
             switch (command) {
-                case "pop":
-                    pop();
-                    break;
-                case "back":
-                    back();
-                    break;
-                case "size":
-                    size();
-                    break;
-                case "clear":
-                    clear();
+                case "pop" -> pop();
+                case "front" -> front();
+                case "size" -> size();
+                case "clear" -> clear();
             }
         }
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        Stack stack = new Stack();
+        Queue queue = new Queue();
         String s = in.next();
         while (!s.equals("exit")) {
             if (s.equals("push")) {
-                stack.push(in.nextInt());
+                queue.push(in.nextInt());
             } else {
-                stack.exec(s);
+                queue.exec(s);
             }
             s = in.next();
         }
-        out.println("bye");
+        System.out.println("bye");
     }
 
     private static class FastScanner {
@@ -120,7 +116,7 @@ public final class Main {
 
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = createPrintWriterForLocalTests()) {
+        try (PrintWriter out = new PrintWriter(System.out)) {
             solve(in, out);
         }
     }

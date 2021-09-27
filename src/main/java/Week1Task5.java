@@ -5,89 +5,92 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
-// Простая очередь
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.*;
+
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
-    public static class Queue {
+    public static class Stack {
         private int[] data;
-        private int first = 0;
         private int last = 0;
 
-        public Queue() {
+        public Stack() {
             this.data = new int[1024];
         }
 
-        private void doubleArray() {
+        public void doubleArray() {
             data = Arrays.copyOf(data, data.length * 2);
         }
 
-        private void push(int n) {
+        public void push(int n) {
             if (data.length <= last) {
                 doubleArray();
             }
             data[last] = n;
             last++;
-            System.out.println("ok");
         }
 
-        private void pop() {
-            if (last - first == 0) {
-                System.out.println("error");
-                return;
+        public int pop() {
+            if (last == 0) {
+                return 0;
             }
-            System.out.println(data[first]);
-            first++;
+            int a = data[--last];
+            data[last] = 0;
+            return a;
         }
 
-        private void front() {
-            if (last - first == 0) {
-                System.out.println("error");
-                return;
+        public int back() {
+            if (last == 0) {
+                return 0;
             }
-            System.out.println(data[first]);
+            return data[last - 1];
         }
 
-        private void size() {
-            System.out.println(last - first);
+        public int size() {
+            return last;
         }
 
-        private void clear() {
-            first = last;
-            System.out.println("ok");
-        }
-
-        public void exec(String command) {
-            switch (command) {
-                case "pop":
-                    pop();
-                    break;
-                case "front":
-                    front();
-                    break;
-                case "size":
-                    size();
-                    break;
-                case "clear":
-                    clear();
-            }
+        public void clear() {
+            Arrays.fill(data, 0);
+            last = 0;
         }
     }
 
+    private static int getAnswerBySignOperation(String sign, int a, int b) {
+        return switch (sign) {
+            case "+" -> a + b;
+            case "-" -> a - b;
+            case "*" -> a * b;
+            default -> 0;
+        };
+    }
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        Queue queue = new Queue();
-        String s = in.next();
-        while (!s.equals("exit")) {
-            if (s.equals("push")) {
-                queue.push(Integer.parseInt(in.next()));
+        Stack stack = new Stack();
+        Set<String> set = new HashSet<>(Arrays.asList("+", "-", "*"));
+
+        Scanner scanner = new Scanner(System.in);
+
+        String[] s = scanner.nextLine().trim().split(" ");
+
+        for (String el : s) {
+            if (set.contains(el)) {
+                int a = stack.pop();
+                int b = stack.pop();
+                stack.push(getAnswerBySignOperation(el, b, a));
             } else {
-                queue.exec(s);
+                stack.push(Integer.parseInt(el));
             }
-            s = in.next();
         }
-        System.out.println("bye");
+
+        out.println(stack.pop());
     }
 
     private static class FastScanner {
@@ -120,7 +123,7 @@ public final class Main {
 
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
+        try (PrintWriter out = createPrintWriterForLocalTests()) {
             solve(in, out);
         }
     }
