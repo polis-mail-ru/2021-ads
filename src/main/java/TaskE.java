@@ -1,6 +1,6 @@
 import java.io.*;
 import java.security.InvalidParameterException;
-import java.util.Stack;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -18,7 +18,7 @@ public final class TaskE {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Stack<Integer> stack = new Stack<>();
+        ArrayList<Integer> stack = new ArrayList<>();
         int a, b, infixSize = infix.length();
         for (int i = 0; i < infixSize; i++) {
             if(infix.charAt(i) == ' ')
@@ -31,13 +31,13 @@ public final class TaskE {
 				*/
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    a = stack.peek();
-                    stack.pop();
+                    a = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    b = stack.peek();
-                    stack.pop();
-                    stack.push(a + b);
+                    b = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
+                    stack.add(a + b);
                     break;
 
                 case '-':
@@ -47,13 +47,13 @@ public final class TaskE {
 				*/
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    a = stack.peek();
-                    stack.pop();
+                    a = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    b = stack.peek();
-                    stack.pop();
-                    stack.push(b - a);
+                    b = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
+                    stack.add(b - a);
                     break;
 
                 case '*':
@@ -61,13 +61,13 @@ public final class TaskE {
 				throw std::invalid_argument("Entered wrong seq\n");*/
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    a = stack.peek();
-                    stack.pop();
+                    a = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    b = stack.peek();
-                    stack.pop();
-                    stack.push(a * b);
+                    b = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
+                    stack.add(a * b);
                     break;
 
                 case '/':
@@ -75,13 +75,13 @@ public final class TaskE {
 				throw std::invalid_argument("Entered wrong seq\n");*/
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    a = stack.peek();
-                    stack.pop();
+                    a = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
                     if (stack.isEmpty())
                         throw new InvalidParameterException("Entered wrong seq\n");
-                    b = stack.peek();
-                    stack.pop();
-                    stack.push((int) (b / a));
+                    b = stack.get(stack.size()-1);
+                    stack.remove(stack.size()-1);
+                    stack.add((int) (b / a));
                     break;
 
                 default:
@@ -92,7 +92,7 @@ public final class TaskE {
 
                         } while ( (i < infix.length() - 1) && infix.charAt(++i) != ' ');
 
-                        stack.push(Integer.parseInt(strbdl.toString()));
+                        stack.add(Integer.parseInt(strbdl.toString()));
                     }
                     else
                         throw new InvalidParameterException("Entered unknown symbol\n");
@@ -100,7 +100,7 @@ public final class TaskE {
             }
         }
         if (stack.size() == 1)
-            System.out.println(stack.peek());
+            System.out.println(stack.get(stack.size()-1));
         else
             throw new InvalidParameterException("Entered wrong seq\n");
     }

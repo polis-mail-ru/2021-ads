@@ -1,6 +1,7 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Stack;
+
 
 /**
  * Problem solution template.
@@ -12,57 +13,57 @@ public final class TaskD {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
 
-        Stack<Integer> stack = new Stack<>();
+        ArrayList<Integer> stack = new ArrayList<>();
         String str = in.next();
         for (int i = 0; i < str.length(); i++) {
             char a = str.charAt(i);
             switch (a) {
                 case '(':
-                    stack.push(0);
+                    stack.add(0);
                     break;
                 case '[':
-                    stack.push(1);
+                    stack.add(1);
                     break;
                 case '{':
-                    stack.push(2);
+                    stack.add(2);
                     break;
                 case ')':
-                    if (stack.empty()) {
+                    if (stack.isEmpty()) {
                         System.out.println("no");
                         return;
                     }
-                    if (stack.peek() != 0) {
+                    if (stack.get(stack.size()-1) != 0) {
                         System.out.println("no");
                         return;
                     }
-                    stack.pop();
+                    stack.remove(stack.size()-1);
                     break;
                 case ']':
-                    if (stack.empty()) {
+                    if (stack.isEmpty()) {
                         System.out.println("no");
                         return;
                     }
-                    if (stack.peek() != 1) {
-                        System.out.println("no");
-                        return;
-                    }
-                    stack.pop();
-                    break;
+                    if (stack.get(stack.size()-1) != 1) {
+                    System.out.println("no");
+                    return;
+                }
+                stack.remove(stack.size()-1);
+                break;
                 case '}':
-                    if (stack.empty()) {
+                    if (stack.isEmpty()) {
                         System.out.println("no");
                         return;
                     }
-                    if (stack.peek() != 2) {
-                        System.out.println("no");
-                        return;
-                    }
-                    stack.pop();
-                    break;
+                    if (stack.get(stack.size()-1 )!= 2) {
+                    System.out.println("no");
+                    return;
+                }
+                stack.remove(stack.size()-1);
+                break;
             }
         }
 
-        if (stack.empty())
+        if (stack.isEmpty())
             System.out.println("yes");
         else
             System.out.println("no");
