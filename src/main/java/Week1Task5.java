@@ -38,9 +38,6 @@ public final class Week1Task5 {
                 case "*":
                     stack.push(stack.pop() * rhs);
                     break;
-                case "/":
-                    stack.push(stack.pop() / rhs);
-                    break;
                 default:
                     // Operation 'token' is unsupported
                     return;
