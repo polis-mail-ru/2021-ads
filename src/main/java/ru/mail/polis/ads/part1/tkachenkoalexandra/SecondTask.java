@@ -1,43 +1,42 @@
 package ru.mail.polis.ads.part1.tkachenkoalexandra;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public final class SecondTask {
     private SecondTask() {
     }
-
     private static class Queue<T> {
-        private ArrayList<T> arrayList;
+        private LinkedList<T> list;
 
         public Queue() {
-            arrayList = new ArrayList<T>();
+            list = new LinkedList<T>();
         }
 
         public void push(T object) {
-            arrayList.add((T) object);
+            list.add((T) object);
         }
 
         public T pop() {
-            return arrayList.remove(0);
+            return list.removeFirst();
         }
 
         public T front() {
-            return arrayList.get(0);
+            return list.getFirst();
         }
 
         public int size() {
-            return arrayList.size();
+            return list.size();
         }
 
         public void clear() {
-            arrayList.clear();
+            list.clear();
         }
     }
 
     public static void solve(final FastScanner in, final PrintWriter out) {
-        Queue queue = new Queue<Integer>();
+        Queue<Integer> queue = new Queue<>();
         String string = in.next();
         while (!string.equals("exit")) {
             switch (string) {
@@ -89,7 +88,8 @@ public final class SecondTask {
         }
     }
 
-    public static PrintWriter createPrintWriterForLocalTests() { return new PrintWriter(System.out, true);
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
     }
 
     public static void main(final String[] arg) {
