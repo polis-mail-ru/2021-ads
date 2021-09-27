@@ -3,7 +3,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 /**
@@ -15,13 +17,13 @@ public final class Week1Task4 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        ArrayList<Character> stack = new ArrayList<>();
+        Deque<Character> stack = new ArrayDeque<>();
         for (char token : in.next().toCharArray()) {
             if ("([{".indexOf(token) != -1) {
-                stack.add(token);
+                stack.push(token);
                 continue;
             }
-            if (stack.isEmpty() || ")]}".indexOf(token) != "([{".indexOf(stack.remove(stack.size() - 1))) {
+            if (stack.isEmpty() || ")]}".indexOf(token) != "([{".indexOf(stack.pop())) {
                 out.println("no");
                 return;
             }
