@@ -13,29 +13,35 @@ public class Week1Task2 {
         // Should not be instantiated
     }
 
+    // Queue implemented using single-linked list
     private static class Queue {
-        Node first = null;
-        Node last = null;
-        int size = 0;
+        private Node first = null;
+        private Node last = null;
+        private int size = 0;
 
         private static class Node {
-            public int data;
-            public Node next;
-            public Node(int data, Node next) {
+            int data;
+            Node next;
+
+            Node(int data, Node next) {
                 this.data = data;
                 this.next = next;
             }
         }
 
-        // Добавить в очередь число n
+        // push the element to the end
         public void push(int n) {
-            last = new Node(n, last);
-            if (first == null) {
-                first = last;
+            if (last == null) {
+                first = new Node(n, null);
+                last = first;
+            } else {
+                last.next = new Node(n, null);
+                last = last.next;
             }
             size++;
         }
-        // Удалить из очереди первый элемент
+
+        // pop the front element
         public int pop() {
             int data = first.data;
             first = first.next;
@@ -45,29 +51,28 @@ public class Week1Task2 {
             size--;
             return data;
         }
-        // Значение первого элемента, не удаляя его из очереди
+
+        // get the front element
         public int front() {
             return first.data;
         }
-        // количество элементов в очереди
+
         public int size() {
             return size;
         }
-        // очистить очередь
+
         public void clear() {
-            first = last = null;
+            first = null;
+            last = null;
             size = 0;
         }
-        // проверить очередь на пустоту
-        public boolean empty() {
+
+        public boolean isEmpty() {
             return size == 0;
         }
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Перед исполнением операций front и pop программа должна проверять,
-        // содержится ли в очереди хотя бы один элемент. Если во входных данных встречается операция front или pop,
-        // и при этом очередь пуста, то программа должна вместо числового значения вывести строку error.
         Queue queue = new Queue();
         while (true) {
             String operation = in.next();
@@ -77,18 +82,18 @@ public class Week1Task2 {
                     out.println("ok");
                     break;
                 case "pop":
-                    if (queue.empty()) {
+                    if (queue.isEmpty()) {
                         out.println("error");
-                    } else {
-                        out.println(queue.pop());
+                        break;
                     }
+                    out.println(queue.pop());
                     break;
                 case "front":
-                    if (queue.empty()) {
+                    if (queue.isEmpty()) {
                         out.println("error");
-                    } else {
-                        out.println(queue.front());
+                        break;
                     }
+                    out.println(queue.front());
                     break;
                 case "size":
                     out.println(queue.size());
