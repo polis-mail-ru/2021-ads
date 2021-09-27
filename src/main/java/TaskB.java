@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class TaskB {
@@ -46,10 +47,10 @@ public class TaskB {
     }
 
     private static class MyDeque {
-        private ArrayList<Integer> elems;
+        private LinkedList<Integer> elems;
 
         public MyDeque() {
-            elems = new ArrayList<Integer>();
+            elems = new LinkedList<Integer>();
         }
 
         public void push(int elem) {
