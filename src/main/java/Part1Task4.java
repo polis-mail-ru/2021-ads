@@ -14,12 +14,11 @@ public final class Part1Task4 {
         // Should not be instantiated
     }
 
-    private static final ArrayList<Character> stack = new ArrayList<>();
+    private static ArrayList<Character> stack = new ArrayList<>();
 
     private static void solve(final FastScanner in, final PrintWriter out) {
 
         String inToString = in.next();
-        int stackSize = 0;
 
         for (int i = 0; i < inToString.length(); i++) {
             switch (inToString.charAt(i)) {
@@ -27,10 +26,13 @@ public final class Part1Task4 {
                 case '{':
                 case '[':
                     stack.add(inToString.charAt(i));
-                    stackSize++;
                     break;
                 case ')':
-                    if (stack.isEmpty() || !(stack.get(stackSize - 1) == ('('))) {
+                    if (stack.isEmpty()) {
+                        out.println("no");
+                        return;
+                    }
+                    if (!(stack.get(stack.size() - 1) == ('('))) {
                         out.println("no");
                         return;
                     } else {
@@ -38,7 +40,11 @@ public final class Part1Task4 {
                     }
                     break;
                 case '}':
-                    if (stack.isEmpty() || !(stack.get(stackSize - 1) == ('{'))) {
+                    if (stack.isEmpty()) {
+                        out.println("no");
+                        return;
+                    }
+                    if (!(stack.get(stack.size() - 1) == ('{'))) {
                         out.println("no");
                         return;
                     } else {
@@ -46,7 +52,11 @@ public final class Part1Task4 {
                     }
                     break;
                 case ']':
-                    if (stack.isEmpty() || !(stack.get(stackSize - 1) == ('['))) {
+                    if (stack.isEmpty()) {
+                        out.println("no");
+                        return;
+                    }
+                    if (!(stack.get(stack.size() - 1) == ('['))) {
                         out.println("no");
                         return;
                     } else {
@@ -55,7 +65,11 @@ public final class Part1Task4 {
                     break;
             }
         }
-        out.println(stack.isEmpty() ? "yes" : "no");
+        if (stack.isEmpty()) {
+            out.println("yes");
+        } else {
+            out.println("no");
+        }
     }
 
     private static class FastScanner {
