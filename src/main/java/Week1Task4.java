@@ -3,15 +3,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+/**
+ * Задача №51. Правильная скобочная последовательность
+ */
 public final class Week1Task4 {
     private Week1Task4() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        ArrayList<Character> stack = new ArrayList<>();
+        for (char token : in.next().toCharArray()) {
+            if ("([{".indexOf(token) != -1) {
+                stack.add(token);
+                continue;
+            }
+            if (stack.isEmpty() || ")]}".indexOf(token) != "([{".indexOf(stack.remove(stack.size() - 1))) {
+                out.println("no");
+                return;
+            }
+        }
+        out.println(stack.isEmpty() ? "yes" : "no");
     }
 
     private static class FastScanner {
