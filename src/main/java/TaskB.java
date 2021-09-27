@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -71,8 +72,7 @@ public final class TaskB {
     }
 
     private static class MyQueue {
-        private final List<Integer> q = new ArrayList<>();
-
+        private final List<Integer> q = new LinkedList<>();
 
         String push(int n) {
             q.add(n);
