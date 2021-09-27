@@ -13,15 +13,14 @@ public class Week1Task1 {
         // Should not be instantiated
     }
 
+    /**
+     * Last digit of natural number
+     */
     private static int lastDigit(int number) {
-        if (number == Integer.MIN_VALUE) {
-            return Math.abs(number + 10) % 10;
-        }
-        return Math.abs(number) % 10;
+        return number % 10;
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Дано натуральное число. Выведите его последнюю цифру.
         out.println(lastDigit(in.nextInt()));
     }
 
