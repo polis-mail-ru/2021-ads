@@ -13,52 +13,54 @@ public final class Week1Task3 {
         // Should not be instantiated
     }
 
+    // Stack implemented using single-linked list
     private static class Stack {
         Node top;
         int size;
 
         private static class Node {
-            public int data;
-            public Node next;
-            public Node(int data, Node next) {
+            int data;
+            Node next;
+
+            Node(int data, Node next) {
                 this.data = data;
                 this.next = next;
             }
         }
 
-        // Добавить в стек число n
-        void push(int n) {
+        // push element to the front
+        public void push(int n) {
             top = new Node(n, top);
             size++;
         }
-        // Удалить из стека последний элемент
-        int pop() {
+
+        // pop the back element
+        public int pop() {
             int data = top.data;
             top = top.next;
             size--;
             return data;
         }
-        // значение последнего элемента
-        int back() {
+
+        public int back() {
             return top.data;
         }
-        // количество элементов в стеке
-        int size() {
+
+        public int size() {
             return size;
         }
-        //очистить стек
-        void clear() {
+
+        public void clear() {
             top = null;
             size = 0;
         }
-        // пуст ли стек
-        boolean empty() {
+
+        public boolean isEmpty() {
             return size == 0;
         }
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Перед исполнением операций back и pop программа должна проверять, содержится ли в стеке хотя бы один элемент. Если во входных данных встречается операция back или pop, и при этом стек пуст, то программа должна вместо числового значения вывести строку error.
         Stack stack = new Stack();
         while (true) {
             String operation = in.next();
@@ -68,18 +70,18 @@ public final class Week1Task3 {
                     out.println("ok");
                     break;
                 case "pop":
-                    if (stack.empty()) {
+                    if (stack.isEmpty()) {
                         out.println("error");
-                    } else {
-                        out.println(stack.pop());
+                        break;
                     }
+                    out.println(stack.pop());
                     break;
                 case "back":
-                    if (stack.empty()) {
+                    if (stack.isEmpty()) {
                         out.println("error");
-                    } else {
-                        out.println(stack.back());
+                        break;
                     }
+                    out.println(stack.back());
                     break;
                 case "size":
                     out.println(stack.size());
