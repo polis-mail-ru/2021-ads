@@ -6,59 +6,46 @@ import java.io.PrintWriter;
 import java.util.*;
 
 // B. Очередь с защитой от ошибок
-// ATTENTION! Данный код в тестах показывает результат 26/27, выходя с лимитом по времени (время 1.004!).
-// Присутствует скриншот, подтверждающий это (так же, как и куча тестов на сайте с лимитом, превышенным на ~0.01).
-// Код работает корректно.
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
     public static class Queue {
-        private int[] data;
-        private int first = 0;
-        private int last = 0;
+        private final LinkedList<Integer> data;
 
         public Queue() {
-            this.data = new int[8192];
-        }
-
-        private void doubleArray() {
-            data = Arrays.copyOf(data, data.length * 2);
+            this.data = new LinkedList<>();
         }
 
         private void push(int n) {
-            if (data.length <= last) {
-                doubleArray();
-            }
-            data[last] = n;
-            last++;
+            data.addLast(n);
             System.out.println("ok");
         }
 
         private void pop() {
-            if (last - first == 0) {
+            if (data.isEmpty()) {
                 System.out.println("error");
                 return;
             }
-            System.out.println(data[first]);
-            first++;
+            System.out.println(data.getFirst());
+            data.removeFirst();
         }
 
         private void front() {
-            if (last - first == 0) {
+            if (data.isEmpty()) {
                 System.out.println("error");
                 return;
             }
-            System.out.println(data[first]);
+            System.out.println(data.getFirst());
         }
 
         private void size() {
-            System.out.println(last - first);
+            System.out.println(data.size());
         }
 
         private void clear() {
-            first = last;
+            data.clear();
             System.out.println("ok");
         }
 
