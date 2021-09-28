@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
+// E. Постфиксная запись
 public final class Main {
     private Main() {
         // Should not be instantiated

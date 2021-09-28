@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.LinkedList;
 
 // B. Очередь с защитой от ошибок
 public final class Main {
@@ -12,41 +13,43 @@ public final class Main {
     }
 
     public static class Queue {
-        private final LinkedList<Integer> data;
+        private final java.util.LinkedList<Integer> data;
+        private final PrintWriter out;
 
         public Queue() {
             this.data = new LinkedList<>();
+            this.out = Main.createPrintWriterForLocalTests();
         }
 
         private void push(int n) {
             data.addLast(n);
-            System.out.println("ok");
+            out.println("ok");
         }
 
         private void pop() {
             if (data.isEmpty()) {
-                System.out.println("error");
+                out.println("error");
                 return;
             }
-            System.out.println(data.getFirst());
+            out.println(data.getFirst());
             data.removeFirst();
         }
 
         private void front() {
             if (data.isEmpty()) {
-                System.out.println("error");
+                out.println("error");
                 return;
             }
-            System.out.println(data.getFirst());
+            out.println(data.getFirst());
         }
 
         private void size() {
-            System.out.println(data.size());
+            out.println(data.size());
         }
 
         private void clear() {
             data.clear();
-            System.out.println("ok");
+            out.println("ok");
         }
 
         public void exec(String command) {
@@ -70,7 +73,7 @@ public final class Main {
             }
             s = in.next();
         }
-        System.out.println("bye");
+        out.println("bye");
     }
 
     private static class FastScanner {
