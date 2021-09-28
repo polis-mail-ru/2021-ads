@@ -1,53 +1,99 @@
-import java.util.Scanner;
-import java.util.Stack;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
 
-public class StackTerminal {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Stack<Integer> stack = new Stack<Integer>();
+/**
+ * Problem solution template.
+ */
+public final class StackTerminal {
+    private void StackTerminal() {
+
+    }
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        LinkedList<Integer> stack = new LinkedList<>();
         String string = "";
         while (!string.equals("exit")) {
-            string = scanner.next();
+            string = in.next();
             switch (string) {
                 case "push": {
-                    stack.push(scanner.nextInt());
-                    System.out.println("ok");
+                    stack.push(in.nextInt());
+                    out.println("ok");
                     break;
                 }
                 case "pop": {
                     if (stack.isEmpty()) {
-                        System.out.println("error");
+                        out.println("error");
                         break;
                     }
-                    System.out.println(stack.pop());
+                    out.println(stack.pop());
                     break;
                 }
                 case "back": {
                     if (stack.isEmpty()) {
-                        System.out.println("error");
+                        out.println("error");
                         break;
                     }
-                    System.out.println(stack.peek());
+                    out.println(stack.peek());
                     break;
                 }
                 case "size": {
-                    System.out.println(stack.size());
+                    out.println(stack.size());
                     break;
                 }
                 case "clear": {
                     stack.clear();
-                    System.out.println("ok");
+                    out.println("ok");
                     break;
                 }
                 case "exit": {
-                    System.out.println("bye");
+                    out.println("bye");
                     return;
                 }
                 default: {
-                    System.out.println("error");
+                    out.println("error");
                     return;
                 }
             }
+        }
+    }
+
+    private static class FastScanner {
+        private final BufferedReader reader;
+        private StringTokenizer tokenizer;
+
+        FastScanner(final InputStream in) {
+            reader = new BufferedReader(new InputStreamReader(in));
+        }
+
+        String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+    }
+
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
+    }
+
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
         }
     }
 }

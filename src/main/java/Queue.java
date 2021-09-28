@@ -1,52 +1,100 @@
-import java.util.*;
 
-public class Queue {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+/**
+ * Problem solution template.
+ */
+public final class Queue {
+    private Queue() {
+
+    }
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
         LinkedList<Integer> queue = new LinkedList<Integer>();
         String string = "";
         do {
-            string = scanner.next();
+            string = in.next();
             switch (string) {
                 case "push": {
-                    queue.add(scanner.nextInt());
-                    System.out.println("ok");
+                    queue.add(in.nextInt());
+                    out.println("ok");
                     break;
                 }
                 case "pop": {
                     if (queue.isEmpty()) {
-                        System.out.println("error");
+                        out.println("error");
                         break;
                     }
-                    System.out.println(queue.remove());
+                    out.println(queue.remove());
                     break;
                 }
                 case "front": {
                     if (queue.isEmpty()) {
-                        System.out.println("error");
+                        out.println("error");
                         break;
                     }
-                    System.out.println(queue.peek());
+                    out.println(queue.peek());
                     break;
                 }
                 case "size": {
-                    System.out.println(queue.size());
+                    out.println(queue.size());
                     break;
                 }
                 case "clear": {
                     queue.clear();
-                    System.out.println("ok");
+                    out.println("ok");
                     break;
                 }
                 case "exit": {
-                    System.out.println("bye");
+                    out.println("bye");
                     break;
                 }
                 default: {
-                    System.out.println("error");
+                    out.println("error");
                     return;
                 }
             }
         } while (!string.equals("exit"));
+    }
+
+    private static class FastScanner {
+        private final BufferedReader reader;
+        private StringTokenizer tokenizer;
+
+        FastScanner(final InputStream in) {
+            reader = new BufferedReader(new InputStreamReader(in));
+        }
+
+        String next() {
+            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
+                try {
+                    tokenizer = new StringTokenizer(reader.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return tokenizer.nextToken();
+        }
+
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+    }
+
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
+    }
+
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
     }
 }
