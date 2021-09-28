@@ -2,27 +2,28 @@ package ru.mail.polis.ads.part1.FetisovVladislav;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Task2 {
     private static class MyQueue<T> {
-        private final List<T> queue;
+        private final LinkedList<T> queue;
 
         public MyQueue() {
-            this.queue = new ArrayList<>();
+            this.queue = new LinkedList<>();
         }
 
         public void push(T el) {
-            queue.add(el);
+            queue.addLast(el);
         }
 
         public T pop() {
-            return (!queue.isEmpty()) ? queue.remove(0) : null;
+            return (!queue.isEmpty()) ? queue.removeFirst() : null;
         }
 
         public T front() {
-            return (!queue.isEmpty()) ? queue.get(0) : null;
+            return (!queue.isEmpty()) ? queue.getFirst() : null;
         }
 
         public int size() {
