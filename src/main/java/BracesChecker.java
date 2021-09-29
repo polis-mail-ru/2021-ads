@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -5,7 +6,7 @@ public class BracesChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Stack<Character> stack = new Stack<>();
+        LinkedList<Character> list = new LinkedList<>();
         if (!scanner.hasNext()) {
             System.err.println("Incorrect input");
         }
@@ -15,17 +16,17 @@ public class BracesChecker {
                 case '(':
                 case '[':
                 case '{': {
-                    stack.push(temp);
+                    list.push(temp);
                     break;
                 }
                 case ')':
                 case ']':
                 case '}': {
-                    if (stack.isEmpty()) {
+                    if (list.isEmpty()) {
                         System.out.println("no");
                         return;
                     }
-                    Character bracket = stack.pop();
+                    Character bracket = list.pop();
                     if (!(((bracket == '[') && (temp == ']')) || ((bracket == '(') && (temp == ')')) || ((bracket == '{') && (temp == '}')))) {
                         System.out.println("no");
                         return;
@@ -38,7 +39,7 @@ public class BracesChecker {
                 }
             }
         }
-        if (!stack.isEmpty()) {
+        if (!list.isEmpty()) {
             System.out.println("no");
         } else {
             System.out.println("yes");

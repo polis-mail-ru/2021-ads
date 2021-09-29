@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Stack;
 
@@ -5,7 +6,7 @@ public class Postfix {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        Stack<Integer> stack = new Stack<>();
+        LinkedList<Integer> list = new LinkedList<>();
         if (!scanner.hasNext()) {
             System.err.println("Incorrect input");
         }
@@ -18,15 +19,15 @@ public class Postfix {
                 case '+':
                 case '*':
                 case '-': {
-                    if (stack.size() < 2) {
+                    if (list.size() < 2) {
                         System.err.println("Incorrect input");
                         return;
                     }
                     Integer[] operands = new Integer[2];
-                    operands[1] = stack.pop();
-                    operands[0] = stack.pop();
+                    operands[1] = list.pop();
+                    operands[0] = list.pop();
 
-                    stack.push(switch (temp) {
+                    list.push(switch (temp) {
                         case '+' -> operands[0] + operands[1];
                         case '-' -> operands[0] - operands[1];
                         case '*' -> operands[0] * operands[1];
@@ -39,15 +40,15 @@ public class Postfix {
                         System.err.println("Incorrect input");
                         return;
                     }
-                    stack.push(Character.getNumericValue(temp));
+                    list.push(Character.getNumericValue(temp));
                     break;
                 }
             }
         }
-        if (stack.size() != 1) {
+        if (list.size() != 1) {
             System.err.println("Incorrect input");
         } else {
-            System.out.println(stack.pop());
+            System.out.println(list.pop());
         }
     }
 }
