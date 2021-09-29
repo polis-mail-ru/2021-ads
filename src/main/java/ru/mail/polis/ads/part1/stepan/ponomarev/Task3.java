@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-public final class Task2 {
+public final class Task3 {
     private static final String EMPTY_QUEUE_ERROR_MSG = "Queue is empty";
     private static final String UNSUPPORTED_COMMAND_ERROR_MSG = "Unsupported command:";
     
@@ -16,7 +16,7 @@ public final class Task2 {
     private static final String ERROR_TEXT = "error";
     
     
-    private static final Queue queue = new Queue();
+    private static final Stack STACK = new Stack();
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         Command command;
@@ -33,16 +33,16 @@ public final class Task2 {
         try {
             switch (command) {
                 case PUSH:
-                    queue.push(arg);
+                    STACK.push(arg);
                     return OK_TEXT;
                 case POP:
-                    return String.valueOf(queue.pop());
-                case FRONT:
-                    return String.valueOf(queue.front());
+                    return String.valueOf(STACK.pop());
+                case BACK:
+                    return String.valueOf(STACK.back());
                 case SIZE:
-                    return String.valueOf(queue.size());
+                    return String.valueOf(STACK.size());
                 case CLEAN:
-                    queue.clear();
+                    STACK.clear();
                     return OK_TEXT;
                 case EXIT:
                     return EXIT_TEXT;
@@ -64,7 +64,7 @@ public final class Task2 {
     private enum Command {
         PUSH("push", true),
         POP("pop"),
-        FRONT("front"),
+        BACK("back"),
         SIZE("size"),
         CLEAN("clear"),
         EXIT("exit");
@@ -100,43 +100,34 @@ public final class Task2 {
         }
     }
 
-    private static class Queue {
-        private Node first;
-        private Node last;
+    private static class Stack {
+        private Node head;
         private int size;
 
-        public Queue() {
-            this.first = null;
-            this.last = null;
+        public Stack() {
+            this.head = null;
             this.size = 0;
         }
 
         public void push(final int n) {
-            if (size == 0) {
-                this.first = new Node(n, null);
-                this.last = this.first;
-            } else {
-                this.last.nextNode = new Node(n, null);
-                this.last = this.last.nextNode;
-            }
-
+            this.head = new Node(n, this.head);
             this.size++;
         }
 
         public int pop() {
-            int value = this.front();
-            this.first = this.first.nextNode;
+            int value = this.back();
+            this.head = this.head.nextNode;
             this.size--;
 
             return value;
         }
 
-        public int front() {
+        public int back() {
             if (size == 0) {
                 throw new IllegalStateException(EMPTY_QUEUE_ERROR_MSG);
             }
 
-            return this.first.data;
+            return this.head.data;
         }
 
         public int size() {
@@ -144,14 +135,13 @@ public final class Task2 {
         }
 
         public void clear() {
-            this.first = null;
-            this.last = null;
+            this.head = null;
             this.size = 0;
         }
 
         private static class Node {
             private final int data;
-            private Node nextNode;
+            private final Node nextNode;
 
             public Node(int data, Node nextNode) {
                 this.data = data;
