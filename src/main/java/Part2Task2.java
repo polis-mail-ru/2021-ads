@@ -13,9 +13,14 @@ public final class Part2Task2 {
         // Should not be instantiated
     }
 
-    private static final long shift = 107L * 20_100_000L;
+    // Общий сдвиг, чтобы точно убрать возможный минус у инта, при этом не изменив "цикличность" остатков от деления
+    // на 108.
+    private static final long shift = 108L * 20_100_000L;
+
+    // Локальный сдвиг, который вычисляется так, чтобы максимальное число имело максимальный остаток от деления на 108.
     private static long localShift = 0;
 
+    // Структура данных, чтобы по остатку от деления на 108 восстановить исходное число.
     private static class myMap {
         private final long[] values = new long[108];
 
@@ -30,8 +35,6 @@ public final class Part2Task2 {
 
     // Пара, где мы можем хранить число и его остаток от деления на 108.
     private static class myPair {
-        //private static final long shift = 107L * 20_100_000L;
-        //private static final long shift = 2 * ((long) Integer.MAX_VALUE) + 2;
         private long shiftedValue;
         private int mod;
 
@@ -94,7 +97,8 @@ public final class Part2Task2 {
             }
         }
         long shiftedMaxValue = max + shift;
-        localShift = 108 - shiftedMaxValue % 108 - 1;
+        // Остаток от деления на 108 у максимального числа должен быть максимальным (равным 107).
+        localShift = 107 - shiftedMaxValue % 108;
         for (int i = 0; i < n; i++) {
             arr[i].addLocalShift();
         }
