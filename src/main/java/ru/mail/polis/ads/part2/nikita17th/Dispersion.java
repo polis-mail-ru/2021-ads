@@ -31,10 +31,6 @@ public final class Dispersion {
         int k = maxElement - minElement + 1;
         int[] arrayForCount = new int[k];
 
-        for (int i = 0; i < k; i++) {
-            arrayForCount[i] = 0;
-        }
-
         for (int i = 0; i < n; i++){
             arrayForCount[array[i] - minElement]++;
         }

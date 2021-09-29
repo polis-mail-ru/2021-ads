@@ -17,28 +17,12 @@ public final class ResultOfOlympiad {
     }
 
     private static class OlympiadParticipant{
-        public int numberOfParticipant;
-        public int pointsOfParticipant;
-
-        OlympiadParticipant() {
-            numberOfParticipant = 0;
-            pointsOfParticipant = 0;
-        }
+        public final int numberOfParticipant;
+        public final int pointsOfParticipant;
 
         OlympiadParticipant(int numberOfParticipant, int pointsOfParticipant) {
             this.numberOfParticipant = numberOfParticipant;
             this.pointsOfParticipant = pointsOfParticipant;
-        }
-    }
-
-    private static class CompareParticipant implements Comparator<OlympiadParticipant> {
-
-        @Override
-        public int compare(OlympiadParticipant o1, OlympiadParticipant o2) {
-            if (o1.pointsOfParticipant != o2.pointsOfParticipant) {
-                return o1.pointsOfParticipant - o2.pointsOfParticipant;
-            }
-            return o2.numberOfParticipant - o1.numberOfParticipant;
         }
     }
 
@@ -50,8 +34,12 @@ public final class ResultOfOlympiad {
             array[i] = new OlympiadParticipant(in.nextInt(), in.nextInt());
         }
 
-        Comparator<OlympiadParticipant> comparator = new CompareParticipant();
-        sort(array, comparator);
+        sort(array, (OlympiadParticipant o1, OlympiadParticipant o2) -> {
+            if (o1.pointsOfParticipant != o2.pointsOfParticipant) {
+                return o1.pointsOfParticipant - o2.pointsOfParticipant;
+            }
+            return o2.numberOfParticipant - o1.numberOfParticipant;
+        });
 
         for (int i = 0; i < n; i++) {
             out.println(array[i].numberOfParticipant + " " + array[i].pointsOfParticipant);
