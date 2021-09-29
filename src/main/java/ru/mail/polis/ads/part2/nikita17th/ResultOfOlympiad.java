@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /**
@@ -15,36 +16,69 @@ public final class ResultOfOlympiad {
         // Should not be instantiated
     }
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        int n = in.nextInt();
-        int[][] array = new int[n][2];
+    private static class OlympiadParticipant{
+        public int numberOfParticipant;
+        public int pointsOfParticipant;
 
-        for (int i = 0; i < n; i++) {
-            array[i][0] = in.nextInt();
-            array[i][1] = in.nextInt();
+        OlympiadParticipant() {
+            numberOfParticipant = 0;
+            pointsOfParticipant = 0;
         }
 
+        OlympiadParticipant(int numberOfParticipant, int pointsOfParticipant) {
+            this.numberOfParticipant = numberOfParticipant;
+            this.pointsOfParticipant = pointsOfParticipant;
+        }
+    }
+
+    private static class CompareParticipant implements Comparator<OlympiadParticipant> {
+
+        @Override
+        public int compare(OlympiadParticipant o1, OlympiadParticipant o2) {
+            if (o1.pointsOfParticipant != o2.pointsOfParticipant) {
+                return o1.pointsOfParticipant - o2.pointsOfParticipant;
+            }
+            return o2.numberOfParticipant - o1.numberOfParticipant;
+        }
+    }
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        int n = in.nextInt();
+        OlympiadParticipant[] array = new OlympiadParticipant[n];
+
+        for (int i = 0; i < n; i++) {
+            array[i] = new OlympiadParticipant(in.nextInt(), in.nextInt());
+        }
+
+        Comparator<OlympiadParticipant> comparator = new CompareParticipant();
+        sort(array, comparator);
+
+        for (int i = 0; i < n; i++) {
+            out.println(array[i].numberOfParticipant + " " + array[i].pointsOfParticipant);
+        }
+
+    }
+
+    private static void sort(OlympiadParticipant[] array, Comparator<OlympiadParticipant> comparator) {
+        int n = array.length;
+        OlympiadParticipant tmp;
         for (int i = 0; i < n - 1; i++) {
             int maxIndex = i;
 
             for (int j = i + 1; j < n; j++) {
-                if (array[j][1] > array[maxIndex][1]) {
-                    maxIndex = j;
-                } else if (array[j][1] == array[maxIndex][1] && array[j][0] < array[maxIndex][0]) {
+                if (comparator.compare(array[j], array[maxIndex]) > 0) {
                     maxIndex = j;
                 }
             }
 
-            out.println(array[maxIndex][0] + " " + array[maxIndex][1]);
             if (maxIndex != i) {
-                array[maxIndex][0] = array[i][0];
-                array[maxIndex][1] = array[i][1];
+                tmp = array[i];
+                array[i] = array[maxIndex];
+                array[maxIndex] = tmp;
             }
         }
-
-        out.println(array[n - 1][0] + " " + array[n - 1][1]);
-
     }
+
 
     private static class FastScanner {
         private final BufferedReader reader;
