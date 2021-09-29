@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.junit.jupiter:junit-jupiter:5.7.0")
     // Guava primitives
     compile("com.google.guava:guava:27.0.1-jre")
 

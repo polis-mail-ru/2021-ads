@@ -32,11 +32,15 @@ public final class Part2Task2 {
         private final int mod;
 
         public myPair(long value) {
-            this.value = value;
+            this.value = value + 2 * (long) Integer.MAX_VALUE;
             this.mod = (int) (value % 108);
         }
 
-        public long getValue() {
+        public long getNormalValue() {
+
+        }
+
+        public long getShiftedValue() {
             return value;
         }
 
@@ -68,13 +72,13 @@ public final class Part2Task2 {
         int n = in.nextInt();
         myPair[] arr = new myPair[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = new myPair(in.nextInt() + (long) Integer.MAX_VALUE + 10);
+            arr[i] = new myPair(in.nextInt() + (long) Integer.MAX_VALUE + Integer.MAX_VALUE);
         }
         sort(arr);
         for (int i = 0; i < n - 1; i++) {
-            out.print(arr[i].getValue() - Integer.MAX_VALUE - 10 + " ");
+            out.print(arr[i].getValue() - Integer.MAX_VALUE - Integer.MAX_VALUE + " ");
         }
-        out.println(arr[n - 1].getValue() - Integer.MAX_VALUE - 10);
+        out.println(arr[n - 1].getValue() - Integer.MAX_VALUE - Integer.MAX_VALUE);
     }
 
     private static class FastScanner {
