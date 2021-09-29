@@ -47,7 +47,7 @@ public final class Task2 {
                 case EXIT:
                     return EXIT_TEXT;
                 default:
-                    throw new IllegalArgumentException(UNSUPPORTED_COMMAND_ERROR_MSG + " " + command.getCommand());
+                    throw new IllegalArgumentException(UNSUPPORTED_COMMAND_ERROR_MSG + " " + command.getTextCommand());
             }
         } catch (IllegalStateException e) {
             return ERROR_TEXT;
@@ -69,21 +69,21 @@ public final class Task2 {
         CLEAN("clear"),
         EXIT("exit");
 
-        private final String command;
+        private final String textCommand;
         private final boolean hasArgument;
 
-        Command(String command) {
-            this(command, false);
+        Command(String textCommand) {
+            this(textCommand, false);
         }
 
-        Command(String command, boolean hasArgument) {
-            this.command = command;
+        Command(String textCommand, boolean hasArgument) {
+            this.textCommand = textCommand;
             this.hasArgument = hasArgument;
         }
 
         public static Command parse(String command) {
             for (Command c : Command.values()) {
-                if (c.command.equals(command)) {
+                if (c.textCommand.equals(command)) {
                     return c;
                 }
             }
@@ -95,8 +95,8 @@ public final class Task2 {
             return hasArgument;
         }
 
-        public String getCommand() {
-            return command;
+        public String getTextCommand() {
+            return textCommand;
         }
     }
 
