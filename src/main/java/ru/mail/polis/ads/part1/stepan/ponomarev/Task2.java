@@ -8,42 +8,159 @@ import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
 public final class Task2 {
-    public static final String EXIT_TEXT = "bye";
-    public static final String OK_TEXT = "ok";
-    public static final Queue queue = new Queue();
+    private static final String EMPTY_QUEUE_ERROR_MSG = "Queue is empty";
+    private static final String UNSUPPORTED_COMMAND_ERROR_MSG = "Unsupported command:";
+    
+    private static final String EXIT_TEXT = "bye";
+    private static final String OK_TEXT = "ok";
+    private static final String ERROR_TEXT = "error";
+    
+    
+    private static final Queue queue = new Queue();
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         Command command;
         do {
             command = Command.parse(in.next());
-            handleCommand(command, command.isHasArgument() ? Integer.parseInt(in.next()) : null, in, out);
+
+            Integer argument = command.isHasArgument() ? Integer.parseInt(in.next()) : null;
+            String result = handleCommand(command, argument);
+            out.println(result);
         } while (command != Command.EXIT);
     }
 
-    private static void handleCommand(Command command, Integer arg, final FastScanner in, final PrintWriter out) {
-        switch (command) {
-            case PUSH:
-                queue.push(arg);
-                out.println(OK_TEXT);
-                break;
-            case POP:
-                out.println(queue.pop());
-                break;
-            case FRONT:
-                out.println(queue.front());
-                break;
-            case SIZE:
-                out.println(queue.size());
-                break;
-            case CLEAN:
-                queue.clear();
-                out.println(OK_TEXT);
-                break;
-            case EXIT:
-                out.println(EXIT_TEXT);
-                break;
-            default:
-                throw new IllegalArgumentException("Unsupported command: " + command.getCommand());
+    private static String handleCommand(Command command, Integer arg) {
+        try {
+            switch (command) {
+                case PUSH:
+                    queue.push(arg);
+                    return OK_TEXT;
+                case POP:
+                    return String.valueOf(queue.pop());
+                case FRONT:
+                    return String.valueOf(queue.front());
+                case SIZE:
+                    return String.valueOf(queue.size());
+                case CLEAN:
+                    queue.clear();
+                    return OK_TEXT;
+                case EXIT:
+                    return EXIT_TEXT;
+                default:
+                    throw new IllegalArgumentException(UNSUPPORTED_COMMAND_ERROR_MSG + " " + command.getCommand());
+            }
+        } catch (IllegalStateException e) {
+            return ERROR_TEXT;
+        }
+    }
+
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
+    }
+
+    private enum Command {
+        PUSH("push", true),
+        POP("pop"),
+        FRONT("front"),
+        SIZE("size"),
+        CLEAN("clear"),
+        EXIT("exit");
+
+        private final String command;
+        private final boolean hasArgument;
+
+        Command(String command) {
+            this(command, false);
+        }
+
+        Command(String command, boolean hasArgument) {
+            this.command = command;
+            this.hasArgument = hasArgument;
+        }
+
+        public static Command parse(String command) {
+            for (Command c : Command.values()) {
+                if (c.command.equals(command)) {
+                    return c;
+                }
+            }
+
+            throw new IllegalArgumentException(UNSUPPORTED_COMMAND_ERROR_MSG + " " + command);
+        }
+
+        public boolean isHasArgument() {
+            return hasArgument;
+        }
+
+        public String getCommand() {
+            return command;
+        }
+    }
+
+    private static class Queue {
+        private Node first;
+        private Node last;
+        private int size;
+
+        public Queue() {
+            this.first = null;
+            this.last = null;
+            this.size = 0;
+        }
+
+        public void push(final int n) {
+            if (size == 0) {
+                this.first = new Node(n, null);
+                this.last = this.first;
+            } else {
+                this.last.nextNode = new Node(n, null);
+                this.last = this.last.nextNode;
+            }
+
+            this.size++;
+        }
+
+        public int pop() {
+            if (size == 0) {
+                throw new IllegalStateException(EMPTY_QUEUE_ERROR_MSG);
+            }
+
+            int value = this.front();
+            this.first = this.first.nextNode;
+            this.size--;
+
+            return value;
+        }
+
+        public int front() {
+            if (size == 0) {
+                throw new IllegalStateException(EMPTY_QUEUE_ERROR_MSG);
+            }
+
+            return this.first.data;
+        }
+
+        public int size() {
+            return this.size;
+        }
+
+        public void clear() {
+            this.first = null;
+            this.last = null;
+            this.size = 0;
+        }
+
+        private static class Node {
+            private final int data;
+            private Node nextNode;
+
+            public Node(int data, Node nextNode) {
+                this.data = data;
+                this.nextNode = nextNode;
+            }
         }
     }
 
@@ -68,114 +185,6 @@ public final class Task2 {
 
         int nextInt() {
             return Integer.parseInt(next());
-        }
-    }
-
-    public static PrintWriter createPrintWriterForLocalTests() {
-        return new PrintWriter(System.out, true);
-    }
-
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
-        }
-    }
-}
-
-enum Command {
-    PUSH("push", true),
-    POP("pop"),
-    FRONT("front"),
-    SIZE("size"),
-    CLEAN("clear"),
-    EXIT("exit");
-
-    private final String command;
-    private final boolean hasArgument;
-
-    Command(String command) {
-        this(command, false);
-    }
-
-    Command(String command, boolean hasArgument) {
-        this.command = command;
-        this.hasArgument = hasArgument;
-    }
-
-    public boolean isHasArgument() {
-        return hasArgument;
-    }
-
-    public String getCommand() {
-        return command;
-    }
-
-    public static Command parse(String command) {
-        for (Command c : Command.values()) {
-            if (c.command.equals(command)) {
-                return c;
-            }
-        }
-
-        throw new IllegalArgumentException("Unsupported command: " + command);
-    }
-}
-
-class Queue {
-    private Node head = null;
-    private int size = 0;
-
-    public void push(int value) {
-        head = new Node(head, value);
-        size++;
-    }
-
-    public int pop() {
-        int value = head.value;
-        head = head.prevNode;
-        size--;
-
-        return value;
-    }
-
-    public int front() {
-        if (head.prevNode == null) {
-            int value = head.value;
-            head = null;
-            size--;
-
-            return value;
-        }
-
-        Node currNode = head;
-        while (currNode.prevNode.prevNode != null) {
-            currNode = currNode.prevNode;
-        }
-
-        int value = currNode.value;
-        currNode.prevNode = null;
-        size--;
-
-        return value;
-    }
-
-    public int size() {
-        return size;
-    }
-
-    public void clear() {
-        head = null;
-        size = 0;
-    }
-
-    private final class Node {
-        private Node prevNode;
-        private final int value;
-
-        public Node(Node prevNode, int value) {
-            this.prevNode = prevNode;
-            this.value = value;
         }
     }
 }
