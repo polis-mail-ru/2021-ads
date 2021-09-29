@@ -13,9 +13,11 @@ public final class Part2Task2 {
         // Should not be instantiated
     }
 
+    private static final long shift = 107L * 20_100_000L;
+    private static long localShift = 0;
 
     private static class myMap {
-        private long[] values = new long[108];
+        private final long[] values = new long[108];
 
         public void putValueWithMod(long value, int mod) {
             values[mod] = value;
@@ -28,20 +30,31 @@ public final class Part2Task2 {
 
     // Пара, где мы можем хранить число и его остаток от деления на 108.
     private static class myPair {
-        private final long value;
-        private final int mod;
+        //private static final long shift = 107L * 20_100_000L;
+        //private static final long shift = 2 * ((long) Integer.MAX_VALUE) + 2;
+        private long shiftedValue;
+        private int mod;
 
         public myPair(long value) {
-            this.value = value + 2 * (long) Integer.MAX_VALUE;
-            this.mod = (int) (value % 108);
+            this.shiftedValue = value + shift;
+        }
+
+        public void addLocalShift() {
+            shiftedValue += localShift;
+            mod = (int) (shiftedValue % 108);
+        }
+
+        public void setNewShiftedValue(long value) {
+            this.shiftedValue = value;
+            this.mod = (int) (shiftedValue % 108);
         }
 
         public long getNormalValue() {
-
+            return shiftedValue - shift - localShift;
         }
 
         public long getShiftedValue() {
-            return value;
+            return shiftedValue;
         }
 
         public int getMod() {
@@ -53,15 +66,15 @@ public final class Part2Task2 {
         int[] countOfOccurrences = new int[108];
         myMap map = new myMap();
         // Заполняем мапу, чтобы по остатку от деления можно было быстро узнать значение.
-        // Одновременно считаем количество встречаемости для младших разрядов
+        // Одновременно считаем количество встречаемости.
         for (int i = 0; i < arr.length; i++) {
-            map.putValueWithMod(arr[i].getValue(), arr[i].getMod());
+            map.putValueWithMod(arr[i].getShiftedValue(), arr[i].getMod());
             countOfOccurrences[arr[i].getMod()]++;
         }
         int j = 0;
         for (int i = 0; i < countOfOccurrences.length; i++) {
             while (countOfOccurrences[i] > 0) {
-                arr[j] = new myPair(map.getValueFromMod(i));
+                arr[j].setNewShiftedValue(map.getValueFromMod(i));
                 countOfOccurrences[i]--;
                 j++;
             }
@@ -70,15 +83,25 @@ public final class Part2Task2 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
+        long max = Long.MIN_VALUE;
         myPair[] arr = new myPair[n];
+        int value;
         for (int i = 0; i < n; i++) {
-            arr[i] = new myPair(in.nextInt() + (long) Integer.MAX_VALUE + Integer.MAX_VALUE);
+            value = in.nextInt();
+            arr[i] = new myPair(value);
+            if (value > max) {
+                max = value;
+            }
+        }
+        long shiftedMaxValue = max + shift;
+        localShift = 108 - shiftedMaxValue % 108 - 1;
+        for (int i = 0; i < n; i++) {
+            arr[i].addLocalShift();
         }
         sort(arr);
-        for (int i = 0; i < n - 1; i++) {
-            out.print(arr[i].getValue() - Integer.MAX_VALUE - Integer.MAX_VALUE + " ");
+        for (int i = 0; i < n; i++) {
+            out.print(arr[i].getNormalValue() + " ");
         }
-        out.println(arr[n - 1].getValue() - Integer.MAX_VALUE - Integer.MAX_VALUE);
     }
 
     private static class FastScanner {
