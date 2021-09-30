@@ -39,41 +39,6 @@ public final class Part2Task4 {
         return count;
     }
 
-    private static class Participant implements Comparable<Participant> {
-        private int id;
-        private int score;
-
-        public Participant(int id, int score) {
-            this.id = id;
-            this.score = score;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public void setScore(int score) {
-            this.score = score;
-        }
-
-        @Override
-        public int compareTo(Participant participant) {
-            int condition1 = participant.score - this.score;
-            if (condition1 != 0) {
-                return condition1;
-            }
-            return this.id - participant.id;
-        }
-    }
-
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
