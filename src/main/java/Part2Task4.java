@@ -13,6 +13,7 @@ public final class Part2Task4 {
         // Should not be instantiated
     }
 
+
     private static void merge(int[] arr, int from, int mid, int to) {
         int[] temp = new int[to - from];
         int i = 0;
