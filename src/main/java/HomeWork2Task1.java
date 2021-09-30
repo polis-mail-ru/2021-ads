@@ -56,7 +56,6 @@ public final class HomeWork2Task1 {
             sort(participants, fromInclusive, mid);
             sort(participants, mid + 1, toInclusive);
             merge(participants, fromInclusive, mid, toInclusive);
-            merge(participants, fromInclusive, mid, toInclusive);
         }
     }
 
