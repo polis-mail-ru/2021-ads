@@ -50,12 +50,13 @@ public final class HomeWork2Task1 {
         }
     }
 
-    static void sort(Participant[] arr, int fromInclusive, int toInclusive) {
+    static void sort(Participant[] participants, int fromInclusive, int toInclusive) {
         if (fromInclusive < toInclusive) {
             int mid = (fromInclusive + toInclusive) / 2;
-            sort(arr, fromInclusive, mid);
-            sort(arr, mid + 1, toInclusive);
-            merge(arr, fromInclusive, mid, toInclusive);
+            sort(participants, fromInclusive, mid);
+            sort(participants, mid + 1, toInclusive);
+            merge(participants, fromInclusive, mid, toInclusive);
+            merge(participants, fromInclusive, mid, toInclusive);
         }
     }
 
