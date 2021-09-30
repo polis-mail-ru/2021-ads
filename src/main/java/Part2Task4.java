@@ -13,43 +13,43 @@ public final class Part2Task4 {
         // Should not be instantiated
     }
 
+    static int[] bufferedArray;
 
-    private static void merge(int[] arr, int from, int mid, int to) {
-        int[] temp = new int[to - from];
+    private static void merge(int[] arr, int from, int mid, int to, int[] bufferedArray) {
         int i = 0;
         int j = 0;
 
         while (from + i < mid && mid + j < to) {
             if (arr[from + i] < arr[mid + j]) {
-                temp[i + j] = arr[from + i];
+                bufferedArray[i + j] = arr[from + i];
                 i++;
             } else {
-                temp[i + j] = arr[mid + j];
+                bufferedArray[i + j] = arr[mid + j];
                 j++;
             }
         }
         while (from + i < mid) {
-            temp[i + j] = arr[from + i];
+            bufferedArray[i + j] = arr[from + i];
             i++;
         }
         while (mid + j < to) {
-            temp[i + j] = arr[mid + j];
+            bufferedArray[i + j] = arr[mid + j];
             j++;
         }
 
         for (i = 0; i < to - from; i++) {
-            arr[from + i] = temp[i];
+            arr[from + i] = bufferedArray[i];
         }
     }
 
-    private static void mergeSort(int[] arr, int from, int to) {
+    private static void mergeSort(int[] arr, int from, int to, int[] bufferedArray) {
         if (from == to - 1) {
             return;
         }
         int mid = from + ((to - from) >> 1);
-        mergeSort(arr, from, mid);
-        mergeSort(arr, mid, to);
-        merge(arr, from, mid, to);
+        mergeSort(arr, from, mid, bufferedArray);
+        mergeSort(arr, mid, to, bufferedArray);
+        merge(arr, from, mid, to, bufferedArray);
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
@@ -58,7 +58,8 @@ public final class Part2Task4 {
         for (int i = 0; i < n; i++) {
             arr[i] = in.nextInt();
         }
-        mergeSort(arr, 0, n);
+        int[] bufferedArray = new int[n];
+        mergeSort(arr, 0, n, bufferedArray);
         int count = 1;
         int last = arr[0];
         for (int i = 1; i < n; i++) {
