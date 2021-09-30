@@ -13,8 +13,6 @@ public final class Part2Task4 {
         // Should not be instantiated
     }
 
-    static int[] bufferedArray;
-
     private static void merge(int[] arr, int from, int mid, int to, int[] bufferedArray) {
         int i = 0;
         int j = 0;
