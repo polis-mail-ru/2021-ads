@@ -18,11 +18,11 @@ public final class Part2Task1 {
         }
     }
 
-    public static void sort(Comparable[] array, int fromInclusive, int toExclusive) {
+    public static <T> void sort(Comparable<T>[] array, int fromInclusive, int toExclusive) {
         for (int i = fromInclusive + 1; i < toExclusive; i++) {
-            Comparable key = array[i];
+            Comparable<T> key = array[i];
             int j = i - 1;
-            while (j >= fromInclusive && array[j].compareTo(key) > 0) {
+            while (j >= fromInclusive && array[j].compareTo((T) key) > 0) {
                 array[j + 1] = array[j];
                 j--;
             }
@@ -31,8 +31,8 @@ public final class Part2Task1 {
     }
 
     private static class Participant implements Comparable<Participant> {
-        private int id;
-        private int score;
+        private final int id;
+        private final int score;
 
         public Participant(int id, int score) {
             this.id = id;
@@ -47,19 +47,11 @@ public final class Part2Task1 {
             return score;
         }
 
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public void setScore(int score) {
-            this.score = score;
-        }
-
         @Override
         public int compareTo(Participant participant) {
-            int condition1 = participant.score - this.score;
-            if (condition1 != 0) {
-                return condition1;
+            int cmp1 = participant.score - this.score;
+            if (cmp1 != 0) {
+                return cmp1;
             }
             return this.id - participant.id;
         }
