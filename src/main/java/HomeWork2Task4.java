@@ -32,12 +32,12 @@ public final class HomeWork2Task4 {
         out.println(n - counter);
     }
 
-    static void sort(int[] arr, int fromInclusive, int toInclusive) {
+    static void sort(int[] array, int fromInclusive, int toInclusive) {
         if (fromInclusive < toInclusive) {
             int mid = (fromInclusive + toInclusive) / 2;
-            sort(arr, fromInclusive, mid);
-            sort(arr, mid + 1, toInclusive);
-            merge(arr, fromInclusive, mid, toInclusive);
+            sort(array, fromInclusive, mid);
+            sort(array, mid + 1, toInclusive);
+            merge(array, fromInclusive, mid, toInclusive);
         }
     }
 
