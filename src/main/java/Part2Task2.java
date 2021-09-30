@@ -21,7 +21,7 @@ public final class Part2Task2 {
     private static long localShift = 0;
 
     // Структура данных, чтобы по остатку от деления на 108 восстановить исходное число.
-    private static class myMap {
+    private static class MyMap {
         private final long[] values = new long[108];
 
         public void putValueWithMod(long value, int mod) {
@@ -34,11 +34,11 @@ public final class Part2Task2 {
     }
 
     // Пара, где мы можем хранить число и его остаток от деления на 108.
-    private static class myPair {
+    private static class MyPair {
         private long shiftedValue;
         private int mod;
 
-        public myPair(long value) {
+        public MyPair(long value) {
             this.shiftedValue = value + shift;
         }
 
@@ -65,9 +65,9 @@ public final class Part2Task2 {
         }
     }
 
-    private static void sort(myPair[] arr) {
+    private static void sort(MyPair[] arr) {
         int[] countOfOccurrences = new int[108];
-        myMap map = new myMap();
+        MyMap map = new MyMap();
         // Заполняем мапу, чтобы по остатку от деления можно было быстро узнать значение.
         // Одновременно считаем количество встречаемости.
         for (int i = 0; i < arr.length; i++) {
@@ -87,11 +87,11 @@ public final class Part2Task2 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
         long max = Long.MIN_VALUE;
-        myPair[] arr = new myPair[n];
+        MyPair[] arr = new MyPair[n];
         int value;
         for (int i = 0; i < n; i++) {
             value = in.nextInt();
-            arr[i] = new myPair(value);
+            arr[i] = new MyPair(value);
             if (value > max) {
                 max = value;
             }
