@@ -13,42 +13,41 @@ public final class Part2Task5 {
         // Should not be instantiated
     }
 
-    private static void merge(int[] arr, int from, int mid, int to) {
-        int[] temp = new int[to - from];
+    private static void merge(int[] arr, int from, int mid, int to, int[] bufferedArray) {
         int i = 0;
         int j = 0;
 
         while (from + i < mid && mid + j < to) {
             if (arr[from + i] < arr[mid + j]) {
-                temp[i + j] = arr[from + i];
+                bufferedArray[i + j] = arr[from + i];
                 i++;
             } else {
-                temp[i + j] = arr[mid + j];
+                bufferedArray[i + j] = arr[mid + j];
                 j++;
             }
         }
         while (from + i < mid) {
-            temp[i + j] = arr[from + i];
+            bufferedArray[i + j] = arr[from + i];
             i++;
         }
         while (mid + j < to) {
-            temp[i + j] = arr[mid + j];
+            bufferedArray[i + j] = arr[mid + j];
             j++;
         }
 
         for (i = 0; i < to - from; i++) {
-            arr[from + i] = temp[i];
+            arr[from + i] = bufferedArray[i];
         }
     }
 
-    private static void mergeSort(int[] arr, int from, int to) {
+    private static void mergeSort(int[] arr, int from, int to, int[] bufferedArray) {
         if (from == to - 1) {
             return;
         }
         int mid = from + ((to - from) >> 1);
-        mergeSort(arr, from, mid);
-        mergeSort(arr, mid, to);
-        merge(arr, from, mid, to);
+        mergeSort(arr, from, mid, bufferedArray);
+        mergeSort(arr, mid, to, bufferedArray);
+        merge(arr, from, mid, to, bufferedArray);
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
@@ -62,8 +61,10 @@ public final class Part2Task5 {
         for (int i = 0; i < n; i++) {
             arr2[i] = in.nextInt();
         }
-        mergeSort(arr1, 0, arr1.length);
-        mergeSort(arr2, 0, arr2.length);
+        int[] bufferedArray = new int[arr1.length];
+        mergeSort(arr1, 0, arr1.length, bufferedArray);
+        bufferedArray = new int[arr2.length];
+        mergeSort(arr2, 0, arr2.length, bufferedArray);
 
         int i = 0;
         int j = 0;
@@ -73,7 +74,7 @@ public final class Part2Task5 {
                 check = false;
                 break;
             }
-            if (i == arr1.length - 1 && j == arr2.length -1) {
+            if (i == arr1.length - 1 && j == arr2.length - 1) {
                 break;
             }
             while (i < arr1.length - 1 && arr1[i + 1] == arr1[i]) {
