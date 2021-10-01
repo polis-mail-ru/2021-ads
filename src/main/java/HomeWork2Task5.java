@@ -68,22 +68,18 @@ public final class HomeWork2Task5 {
         int l = mid - fromInclusive + 1;
         int r = toInclusive - mid;
         long[] leftArray = new long[l];
-        long[] rightArray = new long[r];
         for (int i = 0; i < l; ++i) {
             leftArray[i] = array[fromInclusive + i];
-        }
-        for (int j = 0; j < r; ++j) {
-            rightArray[j] = array[mid + 1 + j];
         }
         int i = 0;
         int j = 0;
         int k = fromInclusive;
         while (i < l && j < r) {
-            if (leftArray[i] < rightArray[j]) {
+            if (leftArray[i] < array[mid + 1 + j]) {
                 array[k] = leftArray[i];
                 i++;
             } else {
-                array[k] = rightArray[j];
+                array[k] = array[mid + 1 + j];
                 j++;
             }
             k++;
@@ -94,7 +90,7 @@ public final class HomeWork2Task5 {
             k++;
         }
         while (j < r) {
-            array[k] = rightArray[j];
+            array[k] = array[mid + 1 + j];
             j++;
             k++;
         }

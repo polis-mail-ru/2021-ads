@@ -63,22 +63,18 @@ public final class HomeWork2Task1 {
         int l = mid - fromInclusive + 1;
         int r = toInclusive - mid;
         Participant[] leftArray = new Participant[l];
-        Participant[] rightArray = new Participant[r];
         for (int i = 0; i < l; ++i) {
             leftArray[i] = participants[fromInclusive + i];
-        }
-        for (int j = 0; j < r; ++j) {
-            rightArray[j] = participants[mid + 1 + j];
         }
         int i = 0;
         int j = 0;
         int k = fromInclusive;
         while (i < l && j < r) {
-            if (leftArray[i].compareTo(rightArray[j]) > 0) {
+            if (leftArray[i].compareTo(participants[mid + 1 + j]) > 0) {
                 participants[k] = leftArray[i];
                 i++;
             } else {
-                participants[k] = rightArray[j];
+                participants[k] = participants[mid + 1 + j];
                 j++;
             }
             k++;
@@ -89,7 +85,7 @@ public final class HomeWork2Task1 {
             k++;
         }
         while (j < r) {
-            participants[k] = rightArray[j];
+            participants[k] = participants[mid + 1 + j];
             j++;
             k++;
         }
