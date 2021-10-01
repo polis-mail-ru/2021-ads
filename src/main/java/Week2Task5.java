@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 public final class Week2Task5 {
+    static int[] b;
+
     private Week2Task5() {
         // Should not be instantiated
     }
@@ -17,8 +19,9 @@ public final class Week2Task5 {
         for (int i = 0; i < n; i++) {
             arrB[i] = in.nextInt();
         }
-
+        b = new int[m];
         Sort(arrA, 0, m);
+        b = new int[n];
         Sort(arrB, 0, n);
 
         int i = 0;
@@ -92,7 +95,6 @@ public final class Week2Task5 {
     static void merge(int[] a, int from, int mid, int to) {
         int i = 0;
         int j = 0;
-        int[] b = new int[to - from];
         while (from + i < mid && mid + j < to) {
             if (a[from + i] < a[mid + j]) {
                 b[i + j] = a[from + i];
