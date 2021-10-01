@@ -3,6 +3,9 @@ import java.util.StringTokenizer;
 
 
 public final class HomeWork2Task1 {
+
+    private static Participant[] tempArray;
+
     private HomeWork2Task1() {
         // Should not be instantiated
     }
@@ -44,6 +47,7 @@ public final class HomeWork2Task1 {
         for (int i = 0; i < n; i++) {
             participants[i] = new Participant(in.nextInt(), in.nextInt());
         }
+        tempArray = new Participant[n];
         sort(participants, 0, n - 1);
         for (int i = 0; i < n; i++) {
             out.println(participants[i]);
@@ -62,16 +66,15 @@ public final class HomeWork2Task1 {
     static void merge(Participant[] participants, int fromInclusive, int mid, int toInclusive) {
         int l = mid - fromInclusive + 1;
         int r = toInclusive - mid;
-        Participant[] leftArray = new Participant[l];
         for (int i = 0; i < l; ++i) {
-            leftArray[i] = participants[fromInclusive + i];
+            tempArray[i] = participants[fromInclusive + i];
         }
         int i = 0;
         int j = 0;
         int k = fromInclusive;
         while (i < l && j < r) {
-            if (leftArray[i].compareTo(participants[mid + 1 + j]) > 0) {
-                participants[k] = leftArray[i];
+            if (tempArray[i].compareTo(participants[mid + 1 + j]) > 0) {
+                participants[k] = tempArray[i];
                 i++;
             } else {
                 participants[k] = participants[mid + 1 + j];
@@ -80,7 +83,7 @@ public final class HomeWork2Task1 {
             k++;
         }
         while (i < l) {
-            participants[k] = leftArray[i];
+            participants[k] = tempArray[i];
             i++;
             k++;
         }

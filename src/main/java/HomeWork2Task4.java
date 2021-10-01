@@ -4,6 +4,9 @@ import java.util.StringTokenizer;
 
 
 public final class HomeWork2Task4 {
+
+    private static int[] tempArray;
+
     private HomeWork2Task4() {
         // Should not be instantiated
     }
@@ -23,6 +26,7 @@ public final class HomeWork2Task4 {
         for (int i = 0; i < n; i++) {
             array[i] = in.nextInt();
         }
+        tempArray = new int[n];
         sort(array, 0, n - 1);
         int counter = 0;
         for (int i = 0; i < n - 1; i++) {
@@ -45,16 +49,15 @@ public final class HomeWork2Task4 {
     static void merge(int[] array, int fromInclusive, int mid, int toInclusive) {
         int l = mid - fromInclusive + 1;
         int r = toInclusive - mid;
-        int[] leftArray = new int[l];
         for (int i = 0; i < l; ++i) {
-            leftArray[i] = array[fromInclusive + i];
+            tempArray[i] = array[fromInclusive + i];
         }
         int i = 0;
         int j = 0;
         int k = fromInclusive;
         while (i < l && j < r) {
-            if (leftArray[i] < array[mid + 1 + j]) {
-                array[k] = leftArray[i];
+            if (tempArray[i] < array[mid + 1 + j]) {
+                array[k] = tempArray[i];
                 i++;
             } else {
                 array[k] = array[mid + 1 + j];
@@ -63,7 +66,7 @@ public final class HomeWork2Task4 {
             k++;
         }
         while (i < l) {
-            array[k] = leftArray[i];
+            array[k] = tempArray[i];
             i++;
             k++;
         }

@@ -3,6 +3,9 @@ import java.util.StringTokenizer;
 
 
 public final class HomeWork2Task5 {
+
+    private static long[] tempArray;
+
     private HomeWork2Task5() {
         // Should not be instantiated
     }
@@ -18,7 +21,9 @@ public final class HomeWork2Task5 {
         for (int i = 0; i < n2; i++) {
             array2[i] = in.nextInt();
         }
+        tempArray = new long[n1];
         sort(array1, 0, n1 - 1);
+        tempArray = new long[n2];
         sort(array2, 0, n2 - 1);
         if (n1 <= n2) {
             out.println(isSimilar(array1, array2));
@@ -67,16 +72,15 @@ public final class HomeWork2Task5 {
     static void merge(long[] array, int fromInclusive, int mid, int toInclusive) {
         int l = mid - fromInclusive + 1;
         int r = toInclusive - mid;
-        long[] leftArray = new long[l];
         for (int i = 0; i < l; ++i) {
-            leftArray[i] = array[fromInclusive + i];
+            tempArray[i] = array[fromInclusive + i];
         }
         int i = 0;
         int j = 0;
         int k = fromInclusive;
         while (i < l && j < r) {
-            if (leftArray[i] < array[mid + 1 + j]) {
-                array[k] = leftArray[i];
+            if (tempArray[i] < array[mid + 1 + j]) {
+                array[k] = tempArray[i];
                 i++;
             } else {
                 array[k] = array[mid + 1 + j];
@@ -85,7 +89,7 @@ public final class HomeWork2Task5 {
             k++;
         }
         while (i < l) {
-            array[k] = leftArray[i];
+            array[k] = tempArray[i];
             i++;
             k++;
         }
