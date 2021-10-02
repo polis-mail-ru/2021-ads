@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 public class Task1 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[][] arr = new int[n][n];
+        int[][] arr = new int[n][2];
         for (int i = 0; i < n; i++) {
             arr[i] = new int[]{in.nextInt(), in.nextInt()};
         }
@@ -24,49 +24,60 @@ public class Task1 {
             return pointsDiffer;//-1 if pair[1]<pair[2],1 if pair[1]>pair[2]
         };
 
-        arr = mergeSort(arr, comparator, 0, arr.length - 1);
+        mergeSort(arr, comparator);
 
         for (int[] pairs : arr) {
             System.out.printf("%d %d%n", pairs[0], pairs[1]);
         }
     }
 
-    private static int[][] mergeSort(int[][] arr, Comparator<int[]> comparator, int l, int r) {
-        if (l == r) return new int[][]{arr[l]};
-        int middle = (l + r) / 2;
-        int[][] left = mergeSort(arr, comparator, l, middle);
-        int[][] right = mergeSort(arr, comparator, middle + 1, r);
-        return merge(left, right, comparator);
+    private static void mergeSort(int[][] arr, Comparator<int[]> comparator) {
+        int[][] temp = new int[arr.length][2];
+        mergeSort(arr, temp, 0, arr.length - 1, comparator);
     }
 
-    private static int[][] merge(int[][] arr1, int[][] arr2, Comparator<int[]> comparator) {
-        int[][] result = new int[arr1.length + arr2.length][2];
-        int i = 0, j = 0;
-        while (true) {
-            int res = comparator.compare(arr1[i], arr2[j]);
-            if (res > 0) {
-                result[i + j] = arr1[i];
+    private static void mergeSort(int[][] arr, int[][] temp, int l, int r, Comparator<int[]> comparator) {
+        if (l == r) {
+            return;
+        }
+        int middle = (l + r) / 2;
+        mergeSort(arr, temp, l, middle, comparator);
+        mergeSort(arr, temp, middle + 1, r, comparator);
+        merge(arr, temp, l, middle, r, comparator);
+    }
+
+    private static void merge(int[][] arr, int[][] temp, int l, int middle, int r, Comparator<int[]> comparator) {
+        int i = l;
+        int j = middle + 1;
+        for (int k = l; k <= r; k++) {
+            int result = comparator.compare(arr[i], arr[j]);
+            if (result > 0) {
+                temp[k] = arr[i];
                 i++;
             } else {
-                result[i + j] = arr2[j];
+                temp[k] = arr[j];
                 j++;
             }
-            if (i == arr1.length) {
-                for (int k = i + j; k < result.length; k++) {
-                    result[k] = arr2[j];
+            if (i == middle + 1) {
+                for (int m = k + 1; m <= r; m++) {
+                    temp[m] = arr[j];
                     j++;
                 }
-                return result;
+                break;
             }
-            if (j == arr2.length) {
-                for (int k = i + j; k < result.length; k++) {
-                    result[k] = arr1[i];
+            if (j == r + 1) {
+                for (int m = k + 1; m <= r; m++) {
+                    temp[m] = arr[i];
                     i++;
                 }
-                return result;
+                break;
             }
         }
+        for (int k = l; k <= r; k++) {
+            arr[k] = temp[k];
+        }
     }
+
 
     private static class FastScanner {
         private final BufferedReader reader;
