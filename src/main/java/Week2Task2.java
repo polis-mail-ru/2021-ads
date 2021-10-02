@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.LinkedList;
 
 // B. Разброс
 public final class Main {
@@ -12,26 +11,60 @@ public final class Main {
         // Should not be instantiated
     }
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        TreeMap<Integer, Integer> map = new TreeMap<>();
-        HashSet<Integer> set = new HashSet<>();
+    public static void merge(long[] a, int l, int mid, int r) {
+        long[] aLeft = new long[mid - l + 1];
+        long[] aRight = new long[r - mid];
 
-        int n = in.nextInt(), a;
-
-        for (int i = 0; i < n; i++) {
-            a = in.nextInt();
-            if (!set.contains(a)) {
-                map.put(a, 1);
-                set.add(a);
-            } else {
-                map.put(a, map.get(a) + 1);
-            }
+        for (int i = 0; i < aLeft.length; i++) {
+            aLeft[i] = a[l + i];
         }
 
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                System.out.print(entry.getKey() + " ");
+        for (int i = 0; i < aRight.length; i++) {
+            aRight[i] = a[mid + i + 1];
+        }
+
+        int iLeft = 0, iRight = 0;
+
+        for (int i = l; i < r + 1; i++) {
+            if (iLeft < aLeft.length && iRight < aRight.length) {
+                if (aLeft[iLeft] < aRight[iRight]) {
+                    a[i] = aLeft[iLeft];
+                    iLeft++;
+                } else {
+                    a[i] = aRight[iRight];
+                    iRight++;
+                }
+            } else if (iLeft < aLeft.length) {
+                a[i] = aLeft[iLeft];
+                iLeft++;
+            } else if (iRight < aRight.length) {
+                a[i] = aRight[iRight];
+                iRight++;
             }
+        }
+    }
+
+    public static void sort(long[] array, int left, int right) {
+        if (right <= left) return;
+
+        int mid = (left + right) / 2;
+        sort(array, left, mid);
+        sort(array, mid + 1, right);
+        merge(array, left, mid, right);
+    }
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        int n = in.nextInt();
+        long[] a = new long[n];
+
+        for (int i = 0; i < n; i++) {
+            a[i] = Long.parseLong(in.next());
+        }
+
+        sort(a, 0, a.length - 1);
+
+        for (long el : a) {
+            out.print(el + " ");
         }
     }
 
