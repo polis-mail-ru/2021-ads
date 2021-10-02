@@ -42,16 +42,13 @@ public class Task1 {
         arr[minIdx] = current;
     }
 
-    public static void sort(int[][] arr, Comparator<Integer> comparator) {
+    public static void sort(int[][] arr, Compare compare) {
         int maxIdx;
 
         for (int i = 0; i < arr.length - 1; i++) {
             maxIdx = i;
             for (int j = i + 1; j < arr.length; j++) {
-                int compare = comparator.compare(arr[j][1], arr[maxIdx][1]);
-                if (compare > 0) {
-                    maxIdx = j;
-                } else if (compare == 0 && arr[j][0] < arr[maxIdx][0]) {
+                if (compare.compare(arr[maxIdx], arr[j]) < 0) {
                     maxIdx = j;
                 }
             }
@@ -72,8 +69,18 @@ public class Task1 {
             arr[i][1] = scanner.nextInt();
         }
 
-        sort(arr, Comparator.naturalOrder());
+        sort(arr, new Compare());
+    }
 
+    static class Compare implements Comparator<int[]> {
+        @Override
+        public int compare(int[] o1, int[] o2) {
+            if (o1[1] == o2[1]) {
+                return o2[0] - o1[0];
+            }
+            return o1[1] - o2[1];
+        }
     }
 }
+
 

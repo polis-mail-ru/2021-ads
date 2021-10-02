@@ -39,7 +39,6 @@ public class Task2 {
         int[] counter = new int[214];
         int first = scanner.nextInt();
 
-        Arrays.fill(counter, 0);
         counter[106]++;
 
         for (int i = 1; i < N; i++) {
