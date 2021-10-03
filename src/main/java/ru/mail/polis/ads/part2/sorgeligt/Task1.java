@@ -21,46 +21,52 @@ public class Task1 {
         }
         MergeSort.sort(participants, 0, participants.size(), (o1, o2) -> {
             if (o1.getScore() < o2.getScore()) {
-                return 1;
-            } else if (o1.getScore() > o2.getScore()) {
                 return -1;
+            } else if (o1.getScore() > o2.getScore()) {
+                return 1;
             } else {
-                return o1.getId() - o2.getId();
+                return o2.getId() - o1.getId();
             }
         });
         participants.forEach(x -> out.println(x.getId() + " " + x.getScore()));
     }
 
     static class MergeSort {
-        public static <T> void sort(List<T> list, int begin, int end, Comparator<T> cmp) {
+        public static <T> void sort(List<T> array, int begin, int end, Comparator<T> cmp) {
+            ArrayList<T> auxiliaryArray = new ArrayList<>(end - begin);
+            sort(array, begin, end, auxiliaryArray, cmp);
+        }
+
+        private static <T> void sort(List<T> array, int begin, int end, ArrayList<T> utilityArray, Comparator<T> cmp) {
             if (begin >= end - 1) {
                 return;
             }
             final int mid = begin + ((end - begin) >> 1);
-            sort(list, begin, mid, cmp);
-            sort(list, mid, end, cmp);
-            merge(list, begin, mid, end, cmp);
+            sort(array, begin, mid, utilityArray, cmp);
+            sort(array, mid, end, utilityArray, cmp);
+            merge(array, begin, mid, end, utilityArray, cmp);
         }
 
-        private static <T> void merge(List<T> list, int begin, int mid, int end, Comparator<T> cmp) {
-            ArrayList<T> result = new ArrayList<>(end - begin);
+        private static <T> void merge(List<T> array, int begin, int mid, int end,
+                                      ArrayList<T> utilityArray, Comparator<T> cmp) {
+            utilityArray.clear();
             int l = begin;
             int r = mid;
             while (l < mid && r < end) {
-                if (cmp.compare(list.get(l), list.get(r)) >= 0) {
-                    result.add(list.get(r++));
+                if (cmp.compare(array.get(r), array.get(l)) >= 0) {
+                    utilityArray.add(array.get(r++));
                 } else {
-                    result.add(list.get(l++));
+                    utilityArray.add(array.get(l++));
                 }
             }
             while (l < mid) {
-                result.add(list.get(l++));
+                utilityArray.add(array.get(l++));
             }
             while (r < end) {
-                result.add(list.get(r++));
+                utilityArray.add(array.get(r++));
             }
             for (int k = begin, m = 0; k < end; k++, m++) {
-                list.set(k, result.get(m));
+                array.set(k, utilityArray.get(m));
             }
         }
     }
