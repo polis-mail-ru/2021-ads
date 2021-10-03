@@ -14,7 +14,22 @@ public final class Week2Task3 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        out.println(squareOrCube(in.nextInt()));
+    }
+
+    private static long squareOrCube(int resultIndex) {
+        long squareIndex = 0;
+        long cubeIndex = 0;
+        for (int i = 0; i < resultIndex; i++) {
+            int compare = Long.compare(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
+            if (compare <= 0) {
+                squareIndex++;
+            }
+            if (compare >= 0) {
+                cubeIndex++;
+            }
+        }
+        return Long.min(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
     }
 
     private static class FastScanner {
