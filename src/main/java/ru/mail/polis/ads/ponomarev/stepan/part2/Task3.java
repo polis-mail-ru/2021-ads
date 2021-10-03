@@ -30,10 +30,6 @@ public class Task3 {
         System.out.println(Math.min(square, cube));
     }
 
-    private static int getIndex(int minValue, int currentValue) {
-        return currentValue - minValue;
-    }
-
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
