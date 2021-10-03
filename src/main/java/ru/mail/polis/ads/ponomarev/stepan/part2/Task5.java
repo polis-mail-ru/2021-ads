@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+//TODO: Пока не работает
+
 public class Task5 {
     private static final Map<Integer, Boolean> VALUE_TO_REPEAT_COUNT = new HashMap<>();
 
