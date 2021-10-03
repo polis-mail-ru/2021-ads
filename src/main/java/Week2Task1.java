@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /**
@@ -14,7 +15,67 @@ public final class Week2Task1 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        OlympiadEntry[] entries = new OlympiadEntry[in.nextInt()];
+        for (int i = 0; i < entries.length; i++) {
+            entries[i] = new OlympiadEntry(in);
+        }
+        mergeSort(entries);
+        for (OlympiadEntry entry : entries) {
+            entry.println(out);
+        }
+    }
+
+    static class OlympiadEntry {
+        final int id;
+        final int result;
+
+        public OlympiadEntry(int id, int result) {
+            this.id = id;
+            this.result = result;
+        }
+
+        public OlympiadEntry(FastScanner in) {
+            this(in.nextInt(), in.nextInt());
+        }
+
+        void println(PrintWriter out) {
+            out.print(id);
+            out.print(' ');
+            out.println(result);
+        }
+
+        public static final Comparator<OlympiadEntry> byResult = Comparator
+                .comparingInt((OlympiadEntry e) -> e.result)
+                .reversed()
+                .thenComparingInt((OlympiadEntry e) -> e.id);
+    }
+
+    static void mergeSort(OlympiadEntry[] array) {
+        OlympiadEntry[] buffer = new OlympiadEntry[array.length];
+        mergeSort(array, 0, array.length, buffer);
+    }
+
+    static void mergeSort(OlympiadEntry[] array, int begin, int end, OlympiadEntry[] buffer) {
+        if (begin >= end - 1) {
+            return;
+        }
+        int mid = begin + ((end - begin) >> 1);
+        mergeSort(array, begin, mid, buffer);
+        mergeSort(array, mid, end, buffer);
+        merge(array, begin, mid, end, buffer);
+    }
+
+    static void merge(OlympiadEntry[] array, int begin, int mid, int end, OlympiadEntry[] buffer) {
+        for (int i = begin, j = mid, k = i; i < mid || j < end; ) {
+            if (j >= end || i < mid && OlympiadEntry.byResult.compare(array[i], array[j]) <= 0) {
+                buffer[k++] = array[i++];
+            } else {
+                buffer[k++] = array[j++];
+            }
+        }
+        if (end - begin >= 0) {
+            System.arraycopy(buffer, begin, array, begin, end - begin);
+        }
     }
 
     private static class FastScanner {
