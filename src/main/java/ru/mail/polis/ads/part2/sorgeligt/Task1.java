@@ -12,8 +12,8 @@ public class Task1 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        ArrayList<Participant> participants = new ArrayList<>();
         int n = in.nextInt();
+        ArrayList<Participant> participants = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
             final int id = in.nextInt();
             final int score = in.nextInt();

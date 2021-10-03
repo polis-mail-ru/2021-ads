@@ -11,7 +11,7 @@ public class Task4 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         final int n = in.nextInt();
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
             list.add(in.nextInt());
         }
