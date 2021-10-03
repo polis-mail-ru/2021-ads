@@ -13,8 +13,52 @@ public final class Week2Task2 {
         // Should not be instantiated
     }
 
+    final static int MAX_VALUE = 107 + 1;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int[] values = new int[in.nextInt()];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = in.nextInt();
+        }
+        int minValue = min(values);
+
+        // normalize
+        for (int i = 0; i < values.length; i++) {
+            values[i] -= minValue;
+        }
+
+        countingSort(values);
+
+        for (int value : values) {
+            out.print(minValue + value);
+            out.print(' ');
+        }
+    }
+
+    private static int min(int[] array) {
+        if (array.length == 0) {
+            return Integer.MAX_VALUE;
+        }
+        int result = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] < result) {
+                result = array[i];
+            }
+        }
+        return result;
+    }
+
+    private static void countingSort(int[] array) {
+        int[] counts = new int[MAX_VALUE];
+        for (int value : array) {
+            counts[value]++;
+        }
+        int j = 0;
+        for (int value = 0; value < counts.length; value++) {
+            for (int i = 0; i < counts[value]; i++) {
+                array[j++] = value;
+            }
+        }
     }
 
     private static class FastScanner {
