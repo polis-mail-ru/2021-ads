@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 /**
@@ -11,41 +10,22 @@ public final class TaskC {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        //Queue<Integer> queue = new Queue<>();
-        LinkedList<Integer> stack = new LinkedList<>();
-        while (true) {
-            String s = in.next();
-            if (s.startsWith("push")) {
-                System.out.println("ok");
-                stack.addLast(in.nextInt());
+        long input = in.nextInt();
+        long i = 1;
+        long j = 1;
+        long square = i * i;
+        long cube = j * j * j;
+        for (long k = 0; k < input; k++) {
+            square = i * i;
+            cube = j * j * j;
+            if (cube >= square) {
+                i++;
             }
-            if (s.startsWith("pop")) {
-                if (stack.size() == 0) {
-                    System.out.println("error");
-                    continue;
-                }
-                System.out.println(stack.pollLast());
-            }
-            if (s.startsWith("back")) {
-                if (stack.size() == 0) {
-                    System.out.println("error");
-                    continue;
-                }
-                System.out.println(stack.peekLast());
-            }
-            if (s.startsWith("size")) {
-                System.out.println(stack.size());
-            }
-            if (s.startsWith("clear")) {
-                System.out.println("ok");
-                stack.clear();
-            }
-            if (s.startsWith("exit")) {
-                System.out.println("bye");
-                break;
+            if (square >= cube) {
+                j++;
             }
         }
-
+        out.println(Math.min(square, cube));
     }
 
     private static class FastScanner {

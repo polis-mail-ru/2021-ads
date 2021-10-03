@@ -1,5 +1,6 @@
 import java.io.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /**
@@ -11,45 +12,28 @@ public final class TaskB {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        //Queue<Integer> queue = new Queue<>();
-        LinkedList<Integer> queue = new LinkedList<>();
-        while (true) {
-            String s = in.next();
-
-            if (s.startsWith("pu")) {
-                out.println("ok");
-                queue.add(in.nextInt());
-
-                //queue.push(in.nextInt());
+        try {
+            ArrayList<Integer> mass = new ArrayList<>(107 * 2 + 1);
+            for (int i = 0; i < (107 * 2 + 1); i++) {
+                mass.add(0);
             }
-            if (s.startsWith("po")) {
-                if (queue.size() == 0) {
-                    out.println("error");
-                    continue;
+            int n = in.nextInt() - 1;
+            int base = in.nextInt();
+            mass.set(107, 1);
+            for (int i = 0; i < n; i++) {
+                int x = in.nextInt();
+                mass.set(107 + x - base, (mass.get(107 + x - base) + 1));
+            }
+            for (int i = 0; i < mass.size(); i++) {
+                for (int j = 0; j < mass.get(i); j++) {
+                    out.print((base + i - 107) + " ");
                 }
-                out.println(queue.get(0));
-                queue.remove(0);
             }
-            if (s.startsWith("f")) {
-                if (queue.size() == 0) {
-                    out.println("error");
-                    continue;
-                }
-                out.println(queue.get(0));
-            }
-            if (s.startsWith("s")) {
-                out.println(queue.size());
-            }
-            if (s.startsWith("c")) {
-                out.println("ok");
-                queue.clear();
-            }
-            if (s.startsWith("e")) {
-                out.println("bye");
-                break;
-            }
+            //System.out.println(mass);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
+        
     }
 
     private static class FastScanner {
@@ -76,6 +60,9 @@ public final class TaskB {
         }
     }
 
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
+    }
 
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
