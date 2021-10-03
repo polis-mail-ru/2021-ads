@@ -5,21 +5,73 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Task4 {
+    private static class Derevo {
+        private Node head = null;
+        public int size = 0;
+
+        private static class Node {
+            int v;
+            Node left;
+            Node right;
+
+            public Node(int v, Node left, Node right) {
+                this.v = v;
+                this.left = left;
+                this.right = right;
+            }
+
+            public Node(int v) {
+                this(v, null, null);
+            }
+        }
+
+        public void add(int v) {
+            if (head == null) {
+                head = new Node(v);
+                size++;
+                return;
+            }
+
+            Node curr = head;
+            while (true) {
+                if (curr.v == v) {
+                    return;
+                }
+
+                if (curr.v < v) {
+                    if (curr.left == null) {
+                        curr.left = new Node(v, null, null);
+                        size++;
+                        return;
+                    } else {
+                        curr = curr.left;
+                    }
+                } else {
+                    if (curr.right == null) {
+                        curr.right = new Node(v, null, null);
+                        size++;
+                        return;
+                    } else {
+                        curr = curr.right;
+                    }
+                }
+            }
+        }
+    }
+
+    private static final Derevo derevo = new Derevo();
+
     private static void solve(final FastScanner in, final PrintWriter out) {
         int amount = in.nextInt();
 
-        Set<Integer> values = new HashSet<>();
-
         for (int i = 0; i < amount; i++) {
-            values.add(in.nextInt());
+            derevo.add(in.nextInt());
         }
 
-        out.println(values.size());
+        out.println(derevo.size);
     }
 
     private static int getIndex(int minValue, int currentValue) {
