@@ -16,7 +16,45 @@ public final class Week2Test2 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int[] array = new int[in.nextInt()];
+        
+        for (int i = 0; i < array.length; ++i) {
+            array[i] = in.nextInt();
+        }
+        
+        sort(array);
+        
+        for (int i = 0; i < array.length; ++i) {
+            out.print(array[i] + " ");
+        }
+    }
+
+    private static void sort(int[] array) {
+        int min;
+        int max;
+        max = min = array[0];
+        for (int i = 1; i < array.length; ++i) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+            if (array[i] > max) {
+                max = array[i];
+            }
+        }
+
+        int[] temp = new int[max - min + 1];
+
+        for (int i = 0; i < array.length; ++i) {
+            temp[array[i] - min]++;
+        }
+
+        int idx = 0;
+
+        for (int i = 0; i < temp.length; ++i) {
+            for (int j = 0; j < temp[i]; ++j) {
+                array[idx++] = i + min;
+            }
+        }
     }
 
     private static class FastScanner {
