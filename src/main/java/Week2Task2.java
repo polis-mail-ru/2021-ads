@@ -10,61 +10,38 @@ public final class Main {
     private Main() {
         // Should not be instantiated
     }
-
-    public static void merge(long[] a, int l, int mid, int r) {
-        long[] aLeft = new long[mid - l + 1];
-        long[] aRight = new long[r - mid];
-
-        for (int i = 0; i < aLeft.length; i++) {
-            aLeft[i] = a[l + i];
-        }
-
-        for (int i = 0; i < aRight.length; i++) {
-            aRight[i] = a[mid + i + 1];
-        }
-
-        int iLeft = 0, iRight = 0;
-
-        for (int i = l; i < r + 1; i++) {
-            if (iLeft < aLeft.length && iRight < aRight.length) {
-                if (aLeft[iLeft] < aRight[iRight]) {
-                    a[i] = aLeft[iLeft];
-                    iLeft++;
-                } else {
-                    a[i] = aRight[iRight];
-                    iRight++;
-                }
-            } else if (iLeft < aLeft.length) {
-                a[i] = aLeft[iLeft];
-                iLeft++;
-            } else if (iRight < aRight.length) {
-                a[i] = aRight[iRight];
-                iRight++;
-            }
-        }
-    }
-
-    public static void sort(long[] array, int left, int right) {
-        if (right <= left) return;
-
-        int mid = (left + right) / 2;
-        sort(array, left, mid);
-        sort(array, mid + 1, right);
-        merge(array, left, mid, right);
-    }
-
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
         long[] a = new long[n];
 
-        for (int i = 0; i < n; i++) {
+        long min = 2_000_000_000, max = -min;
+
+        for (int i = 0; i < a.length; i++) {
             a[i] = Long.parseLong(in.next());
+            if (a[i] < min) {
+                min = a[i];
+            }
+            if (a[i] > max) {
+                max = a[i];
+            }
         }
 
-        sort(a, 0, a.length - 1);
+        int[] b = new int[(int)(max - min + 1)];
+        for (int i = 0; i < a.length; i++) {
+            b[(int)(a[i] - min)] += 1;
+        }
 
-        for (long el : a) {
-            out.print(el + " ");
+        int j = 0;
+
+        for (int i = 0; i < b.length; i++) {
+            for (int l = 0; l < b[i]; l++) {
+                a[j] = i + min;
+                j++;
+            }
+        }
+
+        for (long l : a) {
+            System.out.print(l + " ");
         }
     }
 
