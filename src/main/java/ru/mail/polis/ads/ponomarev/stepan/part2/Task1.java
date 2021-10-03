@@ -12,7 +12,12 @@ import java.util.StringTokenizer;
  * Problem solution template.
  */
 public final class Task1 {
-    private static final Comparator<OlympChel> COMPARATOR = Comparator.comparingInt(l -> l.score);
+    private static final Comparator<OlympChel> COMPARATOR = (l, r) -> {
+        int compare = Integer.compare(r.score, l.score);
+
+        return compare == 0 ? Integer.compare(l.number, r.number) : compare;
+    };
+
     private static OlympChel[] aux;
 
     private static void solve(final FastScanner in, final PrintWriter out) {
@@ -55,17 +60,13 @@ public final class Task1 {
 
         for (int i = lb; i <= rb; i++) {
             if (l > mid) {
-                array[i] = aux[r];
-                r++;
+                array[i] = aux[r++];
             } else if (r > rb) {
-                array[i] = aux[l];
-                l++;
+                array[i] = aux[l++];
             } else if (COMPARATOR.compare(aux[r], aux[l]) < 0) {
-                array[i] = aux[r];
-                r++;
+                array[i] = aux[r++];
             } else {
-                array[i] = aux[l];
-                l++;
+                array[i] = aux[l++];
             }
         }
     }
@@ -88,11 +89,6 @@ public final class Task1 {
         public OlympChel(int number, int score) {
             this.number = number;
             this.score = score;
-        }
-
-        @Override
-        protected Object clone() throws CloneNotSupportedException {
-            return new OlympChel(number, score);
         }
 
         @Override
