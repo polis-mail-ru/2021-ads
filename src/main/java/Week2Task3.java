@@ -21,7 +21,7 @@ public final class Week2Task3 {
         long squareIndex = 0;
         long cubeIndex = 0;
         for (int i = 0; i < resultIndex; i++) {
-            int compare = Long.compare(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
+            long compare = squareIndex * squareIndex - cubeIndex * cubeIndex * cubeIndex;
             if (compare <= 0) {
                 squareIndex++;
             }
@@ -29,7 +29,7 @@ public final class Week2Task3 {
                 cubeIndex++;
             }
         }
-        return Long.min(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
+        return Math.min(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
     }
 
     private static class FastScanner {
