@@ -14,11 +14,7 @@ public final class Week2Task4 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        int n = in.nextInt();
-        IntArraySet set = new IntArraySet(n);
-        for (int i = 0; i < n; i++) {
-            set.add(in.nextInt());
-        }
+        IntArraySet set = new IntArraySet(in);
         out.println(set.length());
     }
 
@@ -29,6 +25,13 @@ public final class Week2Task4 {
         public IntArraySet(int capacity) {
             array = new int[capacity];
             length = 0;
+        }
+
+        public IntArraySet(FastScanner in) {
+            this(in.nextInt());
+            for (int i = 0; i < array.length; i++) {
+                add(in.nextInt());
+            }
         }
 
         public int length() {
