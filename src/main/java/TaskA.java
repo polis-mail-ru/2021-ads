@@ -56,13 +56,6 @@ public final class TaskA {
         return array;
     }
 
-//public class Quicksort {
-//    private void swap(Object[] array, int i, int j) {
-//        Object tmp = array[i];
-//        array[i] = array[j];
-//        array[j] = tmp;
-//    }
-//}
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
