@@ -7,6 +7,10 @@ import java.util.StringTokenizer;
 
 /**
  * Задача №1442. Объединение последовательностей
+ * <p>
+ * Memory O(1)
+ * <p>
+ * Time O(x)
  */
 public final class Week2Task3 {
     private Week2Task3() {

@@ -8,6 +8,10 @@ import java.util.StringTokenizer;
 
 /**
  * Задача №1446. Результаты олимпиады (1)
+ * <p>
+ * Memory O(N)
+ * <p>
+ * Time O(N log N)
  */
 public final class Week2Task1 {
     private Week2Task1() {

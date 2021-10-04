@@ -7,6 +7,10 @@ import java.util.StringTokenizer;
 
 /**
  * Задача №1418. Разные
+ * <p>
+ * Memory O(N)
+ * <p>
+ * Time O(N^2)
  */
 public final class Week2Task4 {
     private Week2Task4() {

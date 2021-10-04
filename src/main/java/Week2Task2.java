@@ -7,6 +7,10 @@ import java.util.StringTokenizer;
 
 /**
  * Задача №1425. Разброс
+ * <p>
+ * Memory O(1)
+ * <p>
+ * Time O(N)
  */
 public final class Week2Task2 {
     private Week2Task2() {

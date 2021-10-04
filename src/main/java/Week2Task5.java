@@ -8,6 +8,10 @@ import java.util.StringTokenizer;
 
 /**
  * Задача №767. Похожие массивы
+ * <p>
+ * Memory O(N + M)
+ * <p>
+ * Time O(N^2 + M^2)
  */
 public final class Week2Task5 {
     private Week2Task5() {
