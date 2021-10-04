@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.StringTokenizer;
 
 /**
@@ -20,28 +19,27 @@ public final class Task3 {
             out.print(1);
             return;
         }
-        double a = 1, b = 1;
-        double i = 1, j = 1;
-        double current = 1;
-        while (x > 0) {
+        long a = 1, b = 1;
+        int i = 1, j = 1;
+        long current = 1;
+        for (int k = 0; k < x; k++) {
             if (a == b) {
                 current = a;
                 ++i;
                 ++j;
-                a = i * i;
-                b = j * j * j;
+                a = (long) i * i;
+                b = (long) j * j * j;
             } else if (a < b) {
                 current = a;
                 ++i;
-                a = i * i;
+                a = (long) i * i;
             } else {
                 current = b;
                 ++j;
-                b = j * j * j;
+                b = (long) j * j * j;
             }
-            --x;
         }
-        out.print(BigDecimal.valueOf(current).toBigIntegerExact());
+        out.print(current);
     }
 
     private static class FastScanner {

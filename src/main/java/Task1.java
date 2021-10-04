@@ -1,10 +1,9 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /**
@@ -19,36 +18,37 @@ public final class Task1 {
             this.id = id;
             this.score = score;
         }
-
-        boolean lessThan(Pair rhs) {
-            if (score == rhs.score) {
-                return id > rhs.id;
-            }
-            return score < rhs.score;
-        }
     }
 
     private Task1() {
         // Should not be instantiated
     }
 
+    private static void sort(Pair[] array, Comparator<Pair> comparator) {
+        for (int i = 1; i < array.length; i++) {
+            Pair key = array[i];
+            int j = i - 1;
+            while (j >= 0 && comparator.compare(key, array[j]) >= 0) {
+                array[j + 1] = array[j];
+                --j;
+            }
+            array[j + 1] = key;
+        }
+    }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int count = in.nextInt();
-        ArrayList<Pair> array = new ArrayList<>();
+        Pair[] array = new Pair[count];
         for (int i = 0; i < count; i++) {
-            array.add(new Pair(in.nextInt(), in.nextInt()));
+            array[i] = new Pair(in.nextInt(), in.nextInt());
         }
 
-        for (int i = 1; i < count; i++) {
-            Pair key = array.get(i);
-            int j = i - 1;
-            while (j >= 0 && !key.lessThan(array.get(j))) {
-                array.set(j + 1, array.get(j));
-                --j;
+        sort(array, (o1, o2) -> {
+            if (o1.score == o2.score) {
+                return o2.id - o1.id;
             }
-            array.set(j + 1, key);
-        }
+            return o1.score - o2.score;
+        });
 
         for (Pair pair : array) {
             out.println(pair.id + " " + pair.score);
