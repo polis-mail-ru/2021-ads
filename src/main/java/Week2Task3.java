@@ -25,7 +25,7 @@ public final class Week2Task3 {
         long squareIndex = 0;
         long cubeIndex = 0;
         for (int i = 0; i < resultIndex; i++) {
-            long compare = squareIndex * squareIndex - cubeIndex * cubeIndex * cubeIndex;
+            long compare = Long.compare(squareIndex * squareIndex, cubeIndex * cubeIndex * cubeIndex);
             if (compare <= 0) {
                 squareIndex++;
             }
