@@ -32,14 +32,12 @@ public final class FirstTask {
 
         @Override
         public int compareTo(Participant o) {
-            if (mark > o.mark) {
-                return 1;
+            int cmp;
+            if ((cmp = mark - o.mark) != 0) {
+                return cmp;
             }
-            if (mark < o.mark) {
-                return -1;
-            }
-            if (id < o.id) {
-                return 1;
+            if ((cmp = id - o.id) != 0) {
+                return -cmp;
             }
             return 0;
         }
