@@ -11,46 +11,34 @@ public final class Main {
         // Should not be instantiated
     }
 
-    public static void merge(long[] a, int l, int mid, int r) {
-        long[] aLeft = new long[mid - l + 1];
-        long[] aRight = new long[r - mid];
+    private static int partition(long[] a, int l, int r) {
+        long pivot = a[r], temp;
+        int i = (l - 1);
 
-        for (int i = 0; i < aLeft.length; i++) {
-            aLeft[i] = a[l + i];
-        }
+        for (int j = l; j < r; j++) {
+            if (a[j] <= pivot) {
+                i++;
 
-        for (int i = 0; i < aRight.length; i++) {
-            aRight[i] = a[mid + i + 1];
-        }
-
-        int iLeft = 0, iRight = 0;
-
-        for (int i = l; i < r + 1; i++) {
-            if (iLeft < aLeft.length && iRight < aRight.length) {
-                if (aLeft[iLeft] < aRight[iRight]) {
-                    a[i] = aLeft[iLeft];
-                    iLeft++;
-                } else {
-                    a[i] = aRight[iRight];
-                    iRight++;
-                }
-            } else if (iLeft < aLeft.length) {
-                a[i] = aLeft[iLeft];
-                iLeft++;
-            } else if (iRight < aRight.length) {
-                a[i] = aRight[iRight];
-                iRight++;
+                temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
             }
         }
+
+        temp = a[i + 1];
+        a[i + 1] = a[r];
+        a[r] = temp;
+
+        return i + 1;
     }
 
-    public static void sort(long[] array, int left, int right) {
-        if (right <= left) return;
+    public static void sort(long[] a, int l, int r) {
+        if (l < r) {
+            int i = partition(a, l, r);
 
-        int mid = (left + right) / 2;
-        sort(array, left, mid);
-        sort(array, mid + 1, right);
-        merge(array, left, mid, right);
+            sort(a, l, i - 1);
+            sort(a, i + 1, r);
+        }
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
