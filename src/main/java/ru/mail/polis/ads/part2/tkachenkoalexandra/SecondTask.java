@@ -7,7 +7,6 @@ import java.util.stream.IntStream;
 
 public final class SecondTask {
 
-    private static final int DIFF = 107;
     private static final int MAX = 100000;
 
     private SecondTask() {
@@ -15,7 +14,7 @@ public final class SecondTask {
 
     public static void solve(final FastScanner in, final PrintWriter out) {
         int[] array = IntStream.range(0, checkCount(in.nextInt())).map(i -> in.nextInt()).toArray();
-        mergeSort(array, 0, array.length - 1);
+        countingSort(array, 0, array.length - 1);
         Arrays.stream(array).mapToObj(j -> j + " ").forEach(out::print);
     }
 
@@ -26,36 +25,18 @@ public final class SecondTask {
         return n;
     }
 
-    private static void mergeSort(int[] array, int from, int to) {
-        if (from == to) {
-            return;
-        }
-        int mid = from + ((to - from) >> 1);
-        mergeSort(array, from, mid);
-        mergeSort(array, mid + 1, to);
-        merge(array, from, mid, to);
-
-    }
-
-    private static void merge(int[] array, int from, int middle, int to) {
-        int p = from;
-        int q = middle + 1;
-        int k = 0;
-        int a[] = new int[to - from + 1];
-        for (int i = from; i < to + 1; i++) {
-            if (p > middle) {
-                a[k++] = array[q++];
-            } else if (q > to) {
-                a[k++] = array[p++];
-            } else if (array[p] < array[q]) {
-                a[k++] = array[p++];
-            } else {
-                a[k++] = array[q++];
-            }
-        }
-        for (int i = 0; i < k; i++) {
-            array[from++] = a[i];
-        }
+    static void countingSort(int[] array, int from, int to) {
+        int max = Arrays.stream(array).max().getAsInt();
+        int min = Arrays.stream(array).min().getAsInt();
+        int c[] = new int[max - min + 1];
+        int output[] = new int[array.length];
+        IntStream.range(0, array.length).forEach(i -> c[array[i] - min]++);
+        IntStream.range(1, c.length).forEach(i -> c[i] += c[i - 1]);
+        IntStream.iterate(array.length - 1, i -> i >= 0, i -> i - 1).forEach(i -> {
+            output[c[array[i] - min] - 1] = array[i];
+            c[array[i] - min]--;
+        });
+        IntStream.range(0, array.length).forEach(i -> array[i] = output[i]);
     }
 
     private static class FastScanner {
