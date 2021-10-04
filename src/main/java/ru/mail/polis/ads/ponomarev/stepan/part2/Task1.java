@@ -32,26 +32,26 @@ public final class Task1 {
         }
 
         aux = new OlympChel[olympChels.length];
-        sort(olympChels, 0, olympChels.length - 1);
+        sort(olympChels, COMPARATOR, 0, olympChels.length - 1);
 
         for (int i = 0; i < olympChels.length; i++) {
             out.println(olympChels[i].toString());
         }
     }
 
-    public static void sort(OlympChel[] array, int lb, int rb) {
+    public static void sort(OlympChel[] array, Comparator<OlympChel> comparator, int lb, int rb) {
         if (rb <= lb) {
             return;
         }
 
         int mid = lb + (rb - lb) / 2;
 
-        sort(array, lb, mid);
-        sort(array, mid + 1, rb);
-        merge(array, lb, mid, rb);
+        sort(array, comparator, lb, mid);
+        sort(array, comparator, mid + 1, rb);
+        merge(array, comparator, lb, mid, rb);
     }
 
-    public static void merge(OlympChel[] array, int lb, int mid, int rb) {
+    public static void merge(OlympChel[] array, Comparator<OlympChel> comparator, int lb, int mid, int rb) {
         int l = lb, r = mid + 1;
 
         for (int i = lb; i <= rb; i++) {
@@ -63,7 +63,7 @@ public final class Task1 {
                 array[i] = aux[r++];
             } else if (r > rb) {
                 array[i] = aux[l++];
-            } else if (COMPARATOR.compare(aux[r], aux[l]) < 0) {
+            } else if (comparator.compare(aux[r], aux[l]) < 0) {
                 array[i] = aux[r++];
             } else {
                 array[i] = aux[l++];
