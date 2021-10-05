@@ -53,8 +53,8 @@ public class TaskA {
     }
 
     private static class Participant implements Comparable<Participant> {
-        private int id;
-        private int score;
+        private final int id;
+        private final int score;
 
         public Participant(int id, int score) {
             this.id = id;
