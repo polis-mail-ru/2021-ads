@@ -29,18 +29,18 @@ public final class Week2Test1 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         Member[] array = new Member[in.nextInt()];
-        
+
         for (int i = 0; i < array.length; i++) {
             array[i] = new Member(in.nextInt(), in.nextInt());
         }
-        
+
         sort(array, new Member[array.length], 0, array.length - 1, (Member o1, Member o2) -> {
             if (o1.score != o2.score) {
                 return o2.score - o1.score;
             }
             return o1.id - o2.id;
         });
-        
+
         for (int i = 0; i < array.length; i++) {
             out.println(array[i].id + " " + array[i].score);
         }
@@ -52,10 +52,8 @@ public final class Week2Test1 {
             sort(array, tempArray, start, mid, comparator);
             sort(array, tempArray, mid + 1, end, comparator);
             
-            for (int i = start; i <= end; ++i) {
-                tempArray[i] = array[i];
-            }
-            
+            System.arraycopy(array, start, tempArray, start, end - start + 1);
+
             int leftBound = mid + 1;
             int rightBound = end + 1;
             int i = start;
