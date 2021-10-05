@@ -15,7 +15,7 @@ public final class Week2Task4 {
         for (int i = 0; i < countOfNumbers; i++) {
             data[i] = in.nextInt();
         }
-        sort(data, 0, countOfNumbers);
+       sort(data);
 
         int last = data[0];
         int countOfUniq = 1;
@@ -27,19 +27,23 @@ public final class Week2Task4 {
         }
         out.println(countOfUniq);
     }
+    
+    private static void sort(int[] array) {
+        int[] temp = new int[array.length];
+        mergeSort(array, temp, 0, array.length);
+    }
 
-    private static void sort(int[] array, int fromInclusive, int toExclusive) {
+    private static void mergeSort(int[] array, int[] temp, int fromInclusive, int toExclusive) {
         if (fromInclusive == toExclusive - 1) {
             return;
         }
         int mid = fromInclusive + ((toExclusive - fromInclusive) >> 1);
-        sort(array, fromInclusive, mid);
-        sort(array, mid, toExclusive);
-        merge(array, fromInclusive, mid, toExclusive);
+        mergeSort(array, temp, fromInclusive, mid);
+        mergeSort(array, temp, mid, toExclusive);
+        merge(array, temp, fromInclusive, mid, toExclusive);
     }
 
-    private static void merge(int[] array, int fromInclusive, int mid, int toExclusive) {
-        int[] temp = new int[toExclusive - fromInclusive];
+    private static void merge(int[] array, int[] temp, int fromInclusive, int mid, int toExclusive) {
         int i = 0;
         int i1 = fromInclusive;
         int i2 = mid;

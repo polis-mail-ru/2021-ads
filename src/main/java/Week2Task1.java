@@ -24,30 +24,30 @@ public final class Week2Task1 {
     }
 
     private static void mySort(ArrayList<MyEntry> array) {
-        mergeSort(array, 0, array.size());
+        ArrayList<MyEntry> temp = new ArrayList<>(array.size());
+        mergeSort(array, temp, 0, array.size());
     }
 
-    private static void mergeSort(ArrayList<MyEntry> array, int fromInclusive, int toExclusive) {
+    private static void mergeSort(ArrayList<MyEntry> array, ArrayList<MyEntry> temp, int fromInclusive, int toExclusive) {
         if (fromInclusive == toExclusive - 1) {
             return;
         }
         int mid = fromInclusive + ((toExclusive - fromInclusive) >> 1);
-        mergeSort(array, fromInclusive, mid);
-        mergeSort(array, mid, toExclusive);
-        merge(array, fromInclusive, mid, toExclusive);
+        mergeSort(array, temp, fromInclusive, mid);
+        mergeSort(array, temp, mid, toExclusive);
+        merge(array, temp, fromInclusive, mid, toExclusive);
     }
 
-    private static void merge(ArrayList<MyEntry> array, int fromInclusive, int mid, int toExclusive) {
-        ArrayList<MyEntry> temp = new ArrayList<>(toExclusive - fromInclusive);
+    private static void merge(ArrayList<MyEntry> array, ArrayList<MyEntry> temp, int fromInclusive, int mid, int toExclusive) {
         int i = 0;
         int i1 = fromInclusive;
         int i2 = mid;
         while (i1 < mid || i2 < toExclusive) {
             if (i1 < mid && (i2 == toExclusive || array.get(i1).compareTo(array.get(i2)) > 0)) {
-                temp.add(array.get(i1));
+                temp.add(i, array.get(i1));
                 i1++;
             } else {
-                temp.add(array.get(i2));
+                temp.add(i, array.get(i2));
                 i2++;
             }
             i++;
