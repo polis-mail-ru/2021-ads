@@ -16,42 +16,53 @@ public final class TaskD {
     }
 
     private static void mergeSort(int[] arr) {
-        if (arr.length == 1) {
+        if (arr.length <= 1) {
             return;
         }
+        int[] swap = new int[arr.length];
+
         int middle = arr.length / 2;
-
-        int[] l = new int[middle];
-        int[] r = new int[arr.length - middle];
-
-        System.arraycopy(arr, 0, l, 0, l.length);
-        System.arraycopy(arr, middle, r, 0, r.length);
-        mergeSort(l);
-        mergeSort(r);
-
-        merge(arr, l, r);
+        subMergeSort(arr, swap, 0, middle);
+        subMergeSort(arr, swap, middle, arr.length);
+        merge(arr, swap, 0, middle, arr.length);
     }
 
-    private static void merge(int[] arr, int[] l, int[] r) {
-        int lI = 0;
-        int rI = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (lI == l.length) {
-                for (int j = rI; j < r.length; j++) {
-                    arr[i++] = r[rI++];
+    private static void subMergeSort(int[] arr, int[] swap, int start, int end) {
+        if (end - start == 1) {
+            return;
+        }
+        int middle = start + ((end - start) / 2);
+
+        subMergeSort(arr, swap, start, middle);
+        subMergeSort(arr, swap, middle, end);
+
+        merge(arr, swap, start, middle, end);
+    }
+
+    private static void merge(int[] arr, int[] swap, int start, int middle, int end) {
+        int length = end - start;
+        int lI = start;
+        int rI = middle;
+        for (int i = 0; i < length; i++) {
+            if (lI == middle) {
+                for (int j = i; j < length; j++) {
+                    swap[j] = arr[rI++];
                 }
                 break;
-            } else if (rI == r.length) {
-                for (int j = lI; j < l.length; j++) {
-                    arr[i++] = l[lI++];
+            } else if (rI == end) {
+                for (int j = i; j < length; j++) {
+                    swap[j] = arr[lI++];
                 }
                 break;
             }
-            if (l[lI] > r[rI]) {
-                arr[i] = r[rI++];
+            if (arr[lI] < arr[rI]) {
+                swap[i] = arr[lI++];
             } else {
-                arr[i] = l[lI++];
+                swap[i] = arr[rI++];
             }
+        }
+        for (int i = start; i < end; i++) {
+            arr[i] = swap[i - start];
         }
     }
 

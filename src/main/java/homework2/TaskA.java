@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Problem solution template.
  */
@@ -15,21 +17,13 @@ public final class TaskA {
         // Should not be instantiated
     }
 
-    private static void bubbleSort(int[][] array) {
+    private static void ContestantBubbleSort(Contestant[] array) {
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array.length - 1 - i; j++) {
-                if (array[j][1] < array[j + 1][1]) {
-                    int[][] temp = new int[1][2];
-                    temp[0] = array[j];
+                if (array[j + 1].compareTo(array[j]) > 0) {
+                    Contestant temp = array[j];
                     array[j] = array[j + 1];
-                    array[j + 1] = temp[0];
-                } else if (array[j][1] == array[j + 1][1]) {
-                    if (array[j][0] > array[j + 1][0]) {
-                        int[][] temp = new int[1][2];
-                        temp[0] = array[j];
-                        array[j] = array[j + 1];
-                        array[j + 1] = temp[0];
-                    }
+                    array[j + 1] = temp;
                 }
             }
         }
@@ -37,16 +31,15 @@ public final class TaskA {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[][] participants = new int[n][2];
-        for (int[] participant : participants) {
-            participant[0] = in.nextInt();
-            participant[1] = in.nextInt();
+        Contestant[] contestants = new Contestant[n];
+        for (int i = 0; i < contestants.length; i++) {
+            contestants[i] = new Contestant(in.nextInt(), in.nextInt());
         }
 
-        bubbleSort(participants);
+        ContestantBubbleSort(contestants);
 
-        for (int[] participant : participants) {
-            out.println(participant[0] + " " + participant[1]);
+        for (Contestant contestant : contestants) {
+            out.println(contestant.getIdentityNumber() + " " + contestant.getScore());
         }
     }
 
@@ -58,6 +51,39 @@ public final class TaskA {
         final FastScanner in = new FastScanner(System.in);
         try (PrintWriter out = new PrintWriter(System.out)) {
             solve(in, out);
+        }
+    }
+
+    private static final class Contestant implements Comparable<Contestant> {
+        private final int identityNumber;
+        private final int score;
+
+        Contestant(int identityNumber, int score) {
+            this.identityNumber = identityNumber;
+            this.score = score;
+        }
+
+        public int getIdentityNumber() {
+            return identityNumber;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        @Override
+        public int compareTo(@NotNull TaskA.Contestant contestant) {
+            if (this.score > contestant.score) {
+                return 1;
+            } else if (this.score < contestant.score) {
+                return -1;
+            }
+            if (this.identityNumber < contestant.identityNumber) {
+                return 1;
+            } else if (this.identityNumber > contestant.identityNumber) {
+                return -1;
+            }
+            return 0;
         }
     }
 

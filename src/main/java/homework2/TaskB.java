@@ -16,7 +16,7 @@ public final class TaskB {
     }
 
     private static int[] sort(int[] array) {
-        int[] numbers = new int[216];
+        int[] numbers = new int[215];
         numbers[107] = 1;
         for (int i = 1; i < array.length; i++) {
             numbers[107 - (array[0] - array[i])] += 1;
