@@ -24,6 +24,7 @@ public final class Week2Test1 {
             this.id = id;
             this.score = score;
         }
+        
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
@@ -32,8 +33,8 @@ public final class Week2Test1 {
         for (int i = 0; i < array.length; i++) {
             array[i] = new Member(in.nextInt(), in.nextInt());
         }
-
-        sort(array, 0, array.length - 1, (Member o1, Member o2) -> {
+        
+        sort(array, new Member[array.length], 0, array.length - 1, (Member o1, Member o2) -> {
             if (o1.score != o2.score) {
                 return o2.score - o1.score;
             }
@@ -45,41 +46,38 @@ public final class Week2Test1 {
         }
     }
 
-    static void sort(Member[] array, int start, int end, Comparator<Member> comparator) {
+    static void sort(Member[] array, Member[] tempArray, int start, int end, Comparator<Member> comparator) {
         if (start < end) {
             int mid = start + ((end - start) >> 1);
-            sort(array, start, mid, comparator);
-            sort(array, mid + 1, end, comparator);
-            int l = mid - start + 1;
-            int r = end - mid;
-            Member[] larray = new Member[l];
-            Member[] rarray = new Member[r];
-            for (int i = 0; i < l; ++i) {
-                larray[i] = array[start + i];
+            sort(array, tempArray, start, mid, comparator);
+            sort(array, tempArray, mid + 1, end, comparator);
+            
+            for (int i = start; i <= end; ++i) {
+                tempArray[i] = array[i];
             }
-            for (int j = 0; j < r; ++j) {
-                rarray[j] = array[mid + 1 + j];
-            }
-            int i = 0;
-            int j = 0;
+            
+            int leftBound = mid + 1;
+            int rightBound = end + 1;
+            int i = start;
+            int j = mid + 1;
             int k = start;
-            while (i < l && j < r) {
-                if (comparator.compare(larray[i], rarray[j]) < 0) {
-                    array[k] = larray[i];
+            while (i < leftBound && j < rightBound) {
+                if (comparator.compare(tempArray[i], tempArray[j]) < 0) {
+                    array[k] = tempArray[i];
                     i++;
                 } else {
-                    array[k] = rarray[j];
+                    array[k] = tempArray[j];
                     j++;
                 }
                 k++;
             }
-            while (i < l) {
-                array[k] = larray[i];
+            while (i < leftBound) {
+                array[k] = tempArray[i];
                 i++;
                 k++;
             }
-            while (j < r) {
-                array[k] = rarray[j];
+            while (j < rightBound) {
+                array[k] = tempArray[j];
                 j++;
                 k++;
             }
