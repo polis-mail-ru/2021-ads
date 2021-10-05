@@ -9,45 +9,37 @@ public final class Week2Task2 {
         // Should not be instantiated
     }
 
+    private static final int MAX_MEMORY = 107;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
         int countOfNumbers = in.nextInt();
+        int minNum = 2_000_000_001;//max number by condition
         int[] data = new int[countOfNumbers];
         for (int i = 0; i < countOfNumbers; i++) {
             data[i] = in.nextInt();
+            if (data[i] < minNum) {
+                minNum = data[i];
+            }
         }
-        sort(data,0, data.length);
+        sort(data, minNum);
         for (int num : data) {
             out.print(num + " ");
         }
     }
 
-    private static void sort(int[] array, int fromInclusive, int toExclusive) {
-        if (fromInclusive == toExclusive - 1) {
-            return;
+    private static void sort(int[] array, int offset) {
+        int[] temp = new int[MAX_MEMORY];
+        for (int num : array) {
+            temp[num - offset]++;
         }
-        int mid = fromInclusive + ((toExclusive - fromInclusive) >> 1);
-        sort(array, fromInclusive, mid);
-        sort(array, mid, toExclusive);
-        merge(array, fromInclusive, mid, toExclusive);
-    }
-
-    private static void merge(int[] array, int fromInclusive, int mid, int toExclusive) {
-        int[] temp = new int[toExclusive - fromInclusive];
         int i = 0;
-        int i1 = fromInclusive;
-        int i2 = mid;
-        while (i1 < mid || i2 < toExclusive) {
-            if (i1 < mid && (i2 == toExclusive || array[i1] <= array[i2])) {
-                temp[i] = array[i1];
-                i1++;
-            } else {
-                temp[i] = array[i2];
-                i2++;
+        for (int j = 0; j < MAX_MEMORY; j++) {
+            if (temp[j] != 0) {
+                for (int k = 1; k <= temp[j]; k++) {
+                    array[i] = j + offset;
+                    i++;
+                }
             }
-            i++;
-        }
-        for (i = 0; i < toExclusive - fromInclusive; i++) {
-            array[i + fromInclusive] = temp[i];
         }
     }
 
