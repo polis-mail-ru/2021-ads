@@ -20,8 +20,10 @@ public final class Week2Task5 {
             secondArray[i] = in.nextInt();
         }
 
-        sort(firstArray, 0, firstArray.length);
-        sort(secondArray, 0, secondArray.length);
+        int[] firstBuffer = new int[firstArray.length];
+        sort(firstArray, firstBuffer, 0, firstArray.length);
+        int[] secondBuffer = new int[secondArray.length];
+        sort(secondArray, secondBuffer, 0, secondArray.length);
 
         int firstIndex = 0;
         int secondIndex = 0;
@@ -46,42 +48,41 @@ public final class Week2Task5 {
         out.println(firstIndex < firstArray.length || secondIndex < secondArray.length ? "NO" : "YES");
     }
 
-    private static void sort(int[] arr, int l, int r) {
+    private static void sort(int[] arr, int[] buffer, int l, int r) {
         if (l == r - 1) {
             return;
         }
 
         int mid = (r + l) / 2;
-        sort(arr, l, mid);
-        sort(arr, mid, r);
-        merge(arr, l, mid, r);
+        sort(arr, buffer, l, mid);
+        sort(arr, buffer, mid, r);
+        merge(arr, buffer, l, mid, r);
     }
 
-    private static void merge(int[] arr, int left, int mid, int right) {
+    private static void merge(int[] arr, int[] buffer, int left, int mid, int right) {
         int j = left;
         int k = mid;
 
-        int[] temp = new int[right - left];
-        for (int i = 0; i < right - left; ++i) {
+        for (int i = left; i < right; ++i) {
             if (j < mid && k < right) {
                 if (arr[j] < arr[k]) {
-                    temp[i] = arr[j];
+                    buffer[i] = arr[j];
                     ++j;
                 } else {
-                    temp[i] = arr[k];
+                    buffer[i] = arr[k];
                     ++k;
                 }
             } else if (j < mid) {
-                temp[i] = arr[j];
+                buffer[i] = arr[j];
                 ++j;
             } else if (k < right) {
-                temp[i] = arr[k];
+                buffer[i] = arr[k];
                 ++k;
             }
         }
 
-        for (int i = 0; i < right - left; ++i) {
-            arr[i + left] = temp[i];
+        for (int i = left; i < right; ++i) {
+            arr[i] = buffer[i];
         }
     }
 
