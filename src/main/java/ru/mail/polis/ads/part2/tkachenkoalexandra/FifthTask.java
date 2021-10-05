@@ -13,8 +13,8 @@ public final class FifthTask {
     public static void solve(final FastScanner in, final PrintWriter out) {
         int[] first = IntStream.range(0, checkCount(in.nextInt())).map(i -> in.nextInt()).toArray();
         int[] second = IntStream.range(0, checkCount(in.nextInt())).map(i -> in.nextInt()).toArray();
-        mergeSort(first, 0, first.length - 1);
-        mergeSort(second, 0, second.length - 1);
+        mergeSortRec(first, new int[first.length], 0, first.length - 1);
+        mergeSortRec(second, new int[second.length], 0, second.length - 1);
         int i = 0;
         int j = 0;
         while ((i < first.length) && (j < second.length)) {
@@ -43,22 +43,20 @@ public final class FifthTask {
         return n;
     }
 
-    private static void mergeSort(int[] array, int from, int to) {
+    private static void mergeSortRec(int[] array, int[] temp, int from, int to) {
         if (from == to) {
             return;
         }
         int mid = from + ((to - from) >> 1);
-        mergeSort(array, from, mid);
-        mergeSort(array, mid + 1, to);
-        merge(array, from, mid, to);
-
+        mergeSortRec(array, temp, from, mid);
+        mergeSortRec(array, temp, mid + 1, to);
+        merge(array, temp, from, mid, to);
     }
 
-    private static void merge(int[] array, int from, int middle, int to) {
+    private static void merge(int[] array, int[] a, int from, int middle, int to) {
         int p = from;
         int q = middle + 1;
         int k = 0;
-        int a[] = new int[to - from + 1];
         for (int i = from; i < to + 1; i++) {
             if (p > middle) {
                 a[k++] = array[q++];

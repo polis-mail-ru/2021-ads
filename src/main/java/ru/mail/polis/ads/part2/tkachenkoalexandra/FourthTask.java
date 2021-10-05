@@ -13,8 +13,11 @@ public final class FourthTask {
 
     public static void solve(final FastScanner in, final PrintWriter out) {
         int[] array = IntStream.range(0, checkCount(in.nextInt())).map(i -> in.nextInt()).toArray();
-        //if (array.length == 0) {return;}
-        mergeSort(array, 0, array.length - 1);
+        if (array.length == 0) {
+            return;
+        }
+        int[] temp = new int[array.length];
+        mergeSortRec(array, temp, 0, array.length - 1);
         int count = 1;
         for (int i = 0; i < array.length - 1; i++) {
             if (array[i] < array[i + 1]) {
@@ -31,22 +34,20 @@ public final class FourthTask {
         return n;
     }
 
-    private static void mergeSort(int[] array, int from, int to) {
+    private static void mergeSortRec(int[] array, int[] temp, int from, int to) {
         if (from == to) {
             return;
         }
         int mid = from + ((to - from) >> 1);
-        mergeSort(array, from, mid);
-        mergeSort(array, mid + 1, to);
-        merge(array, from, mid, to);
-
+        mergeSortRec(array, temp, from, mid);
+        mergeSortRec(array, temp, mid + 1, to);
+        merge(array, temp, from, mid, to);
     }
 
-    private static void merge(int[] array, int from, int middle, int to) {
+    private static void merge(int[] array, int[] a, int from, int middle, int to) {
         int p = from;
         int q = middle + 1;
         int k = 0;
-        int a[] = new int[to - from + 1];
         for (int i = from; i < to + 1; i++) {
             if (p > middle) {
                 a[k++] = array[q++];
@@ -62,7 +63,6 @@ public final class FourthTask {
             array[from++] = a[i];
         }
     }
-
 
     private static class FastScanner {
         private final BufferedReader reader;
