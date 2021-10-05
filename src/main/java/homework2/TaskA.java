@@ -1,4 +1,4 @@
-package homework2;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Problem solution template.
@@ -72,7 +70,7 @@ public final class TaskA {
         }
 
         @Override
-        public int compareTo(@NotNull TaskA.Contestant contestant) {
+        public int compareTo(TaskA.Contestant contestant) {
             if (this.score > contestant.score) {
                 return 1;
             } else if (this.score < contestant.score) {
