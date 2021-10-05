@@ -23,21 +23,24 @@ public final class SameArrays {
     readNumbers(B, in);
     quickSort(B, 0, B.length);
 
-    ArrayList<Integer> uniqueA = new ArrayList<>();
-    ArrayList<Integer> uniqueB = new ArrayList<>();
-    uniqueNumbers(A, uniqueA);
-    uniqueNumbers(B, uniqueB);
-    if (uniqueA.size() != uniqueB.size()) {
-      out.println("NO");
-      return;
-    }
-    for (int i = 0; i < uniqueA.size(); i++) {
-      if (!uniqueA.get(i).equals(uniqueB.get(i))) {
+    int i = 0;
+    int j = 0;
+    while (i < A.length && j < B.length) {
+      if (A[i] != B[j]) {
         out.println("NO");
         return;
       }
+      while (i < A.length - 1 && A[i] == A[i + 1]) {
+        ++i;
+      }
+      while (j < B.length - 1 && B[j] == B[j + 1]) {
+        ++j;
+      }
+      ++i;
+      ++j;
     }
-    out.println("YES");
+    boolean areAllElementsChecked = i == A.length && j == B.length;
+    out.println(areAllElementsChecked ? "YES" : "NO");
   }
 
   private static void readNumbers(int[] numbers, final FastScanner in) {

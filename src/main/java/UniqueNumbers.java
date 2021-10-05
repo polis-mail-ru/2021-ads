@@ -3,9 +3,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Problem solution template.
@@ -20,8 +18,8 @@ public final class UniqueNumbers {
     int[] numbers = new int[N];
     readNumbers(numbers, N, in);
     quickSort(numbers, 0, numbers.length);
-    int nUnique = uniqueNumbers(numbers);
-    out.println(nUnique);
+    int nUniqueNumbers = countUniqueNumbers(numbers);
+    out.println(nUniqueNumbers);
   }
 
   private static void readNumbers(int[] numbers, int N, final FastScanner in) {
@@ -58,7 +56,7 @@ public final class UniqueNumbers {
     numbers[indexB] = tmp;
   }
 
-  private static int uniqueNumbers(int[] numbers) {
+  private static int countUniqueNumbers(int[] numbers) {
     int countUnique = 1;
     for (int i = 1; i < numbers.length; i++) {
       if (numbers[i - 1] != numbers[i]) {

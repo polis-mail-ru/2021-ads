@@ -13,25 +13,30 @@ public final class OlympiadResult {
     // Should not be instantiated
   }
 
-  private static class Participant {
-    private int identificationNumber_;
-    private int result_;
+  private static class Participant implements Comparable<Participant> {
+    private final int identificationNumber;
+    private final int result;
 
     Participant(int identificationNumber, int result) {
-      identificationNumber_ = identificationNumber;
-      result_ = result;
+      this.identificationNumber = identificationNumber;
+      this.result = result;
     }
 
-    public boolean isMoreThan(Participant other) {
-      return result_ > other.result_ ||
-          (result_ == other.result_ && identificationNumber_ < other.identificationNumber_);
+    @Override
+    public int compareTo(Participant o) {
+      if (result > o.result || (result == o.result && identificationNumber < o.identificationNumber)) {
+        return 1;
+      } else if (result == o.result && identificationNumber == o.identificationNumber) {
+        return 0;
+      }
+      return -1;
     }
   }
 
   private static void solve(final FastScanner in, final PrintWriter out) {
     Participant[] participants = new Participant[in.nextInt()];
     readParticipants(participants, in);
-    sortParticipants(participants);
+    shakerSort(participants);
     printParticipants(participants, out);
   }
 
@@ -41,8 +46,7 @@ public final class OlympiadResult {
     }
   }
 
-  private static void sortParticipants(Participant[] participants) {
-    // Используем шейкерную сортировку
+  private static void shakerSort(Participant[] participants) {
     int high = 0;
     int low = participants.length - 1;
     int indexOfExchanging = participants.length - 1;
@@ -50,7 +54,7 @@ public final class OlympiadResult {
     {
       for (int i = high; i < low; ++i)
       {
-        if (participants[i + 1].isMoreThan(participants[i])) {
+        if (participants[i + 1].compareTo(participants[i]) == 1) {
           Participant tmp = participants[i];
           participants[i] = participants[i + 1];
           participants[i + 1] = tmp;
@@ -60,7 +64,7 @@ public final class OlympiadResult {
       low = indexOfExchanging;
       for (int i = low; i > high; --i)
       {
-        if (participants[i].isMoreThan(participants[i - 1]))
+        if (participants[i].compareTo(participants[i - 1]) == 1)
         {
           Participant tmp = participants[i - 1];
           participants[i - 1] = participants[i];
@@ -74,7 +78,7 @@ public final class OlympiadResult {
 
   private static void printParticipants(Participant[] participants, final PrintWriter out) {
     for (Participant p: participants) {
-      out.println(p.identificationNumber_ + " " + p.result_);
+      out.println(p.identificationNumber + " " + p.result);
     }
   }
 

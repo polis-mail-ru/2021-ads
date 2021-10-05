@@ -19,11 +19,11 @@ public final class SolveTemplate {
         // Write me
     }
 
-    private static class FastScanner {
+    public static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
 
-        FastScanner(final InputStream in) {
+        public FastScanner(final InputStream in) {
             reader = new BufferedReader(new InputStreamReader(in));
         }
 
@@ -38,7 +38,7 @@ public final class SolveTemplate {
             return tokenizer.nextToken();
         }
 
-        int nextInt() {
+        public int nextInt() {
             return Integer.parseInt(next());
         }
     }

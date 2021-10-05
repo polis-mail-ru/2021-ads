@@ -17,7 +17,7 @@ public final class Spread {
     int N = in.nextInt();
     ArrayList<Integer> numbers = new ArrayList<>(N);
     readNumbers(numbers, N, in);
-    sortNumbers(numbers);
+    countingSort(numbers);
     printNumbers(numbers, out);
   }
 
@@ -27,8 +27,7 @@ public final class Spread {
     }
   }
 
-  // Используем сортировку подсчётом
-  private static void sortNumbers(ArrayList<Integer> numbers) {
+  private static void countingSort(ArrayList<Integer> numbers) {
     if (numbers.size() <= 1) {
       return;
     }
