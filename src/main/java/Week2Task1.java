@@ -40,8 +40,8 @@ public final class Week2Task1 {
     }
 
     private static class OlympiadParticipant implements Comparable<OlympiadParticipant> {
-        private int id;
-        private int score;
+        private final int id;
+        private final int score;
 
         OlympiadParticipant(int id, int score) {
             this.id = id;
