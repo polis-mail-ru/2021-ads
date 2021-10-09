@@ -10,13 +10,42 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
+public final class MaxHeap {
+    private MaxHeap() {
         // Should not be instantiated
     }
 
+    private static int[] heap;
+    private static int size;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int n = in.nextInt();
+        heap = new int[n];
+        for (int i = 0; i < n; i++) {
+            insert(in.nextInt());
+        }
+
+        for (int i = 0; i < n; i++) {
+            out.printf("%d ", heap[i]);
+        }
+    }
+
+    private static void swap(int first, int second) {
+        int tmp = heap[first];
+        heap[first] = heap[second];
+        heap[second] = tmp;
+    }
+
+    private static void insert(int element) {
+        heap[size++] = element;
+        siftUp(size - 1);
+    }
+
+    private static void siftUp(int i) {
+        while (i >= 1 && heap[i] > heap[(i - 1) / 2]) {
+            swap(i, (i - 1) / 2);
+            i = (i - 1) / 2;
+        }
     }
 
     private static class FastScanner {
