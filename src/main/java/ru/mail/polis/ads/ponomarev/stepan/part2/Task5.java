@@ -63,6 +63,7 @@ public class Task5 {
     }
 
     private static final Derevo derevo = new Derevo();
+    private static final Derevo derevo2 = new Derevo();
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int amount = in.nextInt();
@@ -75,10 +76,12 @@ public class Task5 {
 
         amount = in.nextInt();
         for (int i = 0; i < amount; i++) {
-            derevo.add(in.nextInt());
+            int v = in.nextInt();
+            derevo.add(v);
+            derevo2.add(v);
         }
 
-        out.println(sizeBefore == derevo.size ? "YES" : "NO");
+        out.println(sizeBefore == derevo.size && sizeBefore == derevo2.size ? "YES" : "NO");
     }
 
     private static int getIndex(int minValue, int currentValue) {
