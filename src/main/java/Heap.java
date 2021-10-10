@@ -59,18 +59,18 @@ public class Heap {
     }
   }
 
-  public static void sink(int[] a, int fromInclusive, int toExclusive, HeapType ht) {
+  public static void sink(int[] a, int start, int end, HeapType ht) {
     switch (ht) {
-      case MIN_ORDERED: sinkMinOrdered(a, fromInclusive, toExclusive); break;
-      case MAX_ORDERED: sinkMaxOrdered(a, fromInclusive, toExclusive); break;
+      case MIN_ORDERED: sinkMinOrdered(a, start, end); break;
+      case MAX_ORDERED: sinkMaxOrdered(a, start, end); break;
     }
   }
 
-  private static void sinkMinOrdered(int[] a, int fromInclusive, int toExclusive) {
-    int k = fromInclusive;
-    while (2*k <= toExclusive) {
+  private static void sinkMinOrdered(int[] a, int start, int end) {
+    int k = start;
+    while (2*k < end) {
       int j = 2*k;
-      if (j < toExclusive && a[j] > a[j + 1])
+      if (j < end - 1 && a[j] > a[j + 1])
         ++j;
       if (a[k] <= a[j])
         break;
@@ -79,11 +79,11 @@ public class Heap {
     }
   }
 
-  private static void sinkMaxOrdered(int[] a, int fromInclusive, int toExclusive) {
-    int k = fromInclusive;
-    while (2*k <= toExclusive) {
+  private static void sinkMaxOrdered(int[] a, int start, int end) {
+    int k = start;
+    while (2*k < end) {
       int j = 2*k;
-      if (j < toExclusive && a[j] < a[j + 1])
+      if (j < end - 1 && a[j] < a[j + 1])
         ++j;
       if (a[k] >= a[j])
         break;
@@ -106,14 +106,14 @@ public class Heap {
     return size == 0;
   }
 
-  public static void heapSort(int[] a, int fromInclusive, int toExclusive, HeapType ht) {
-    int n = toExclusive;
-    for (int k = n/2; k >= fromInclusive; --k) {
+  public static void heapSort(int[] a, int start, int end, HeapType ht) {
+    int n = end;
+    for (int k = n/2; k >= start; --k) {
       Heap.sink(a, k, n, ht);
     }
-    while (n > fromInclusive) {
-      Heap.swap(a, fromInclusive, n--);
-      Heap.sink(a, fromInclusive, n, ht);
+    while (n > start) {
+      Heap.swap(a, start, --n);
+      Heap.sink(a, start, n, ht);
     }
   }
 }
