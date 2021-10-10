@@ -5,37 +5,84 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
 
-//TODO: Пока не работает
-
 public class Task5 {
-    private static final Map<Integer, Boolean> VALUE_TO_REPEAT_COUNT = new HashMap<>();
+    private static class Derevo {
+        private Node head = null;
+        public int size = 0;
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        int firstArraySize = in.nextInt();
-        int[] firstArray = new int[firstArraySize];
-        for (int i = 0; i < firstArraySize; i++) {
-            firstArray[i] = in.nextInt();
+        private static class Node {
+            int v;
+            Node left;
+            Node right;
 
-            VALUE_TO_REPEAT_COUNT.put(firstArray[i], true);
-        }
+            public Node(int v, Node left, Node right) {
+                this.v = v;
+                this.left = left;
+                this.right = right;
+            }
 
-        int secondArraySize = in.nextInt();
-        int targetRepeatCount = Math.min(firstArraySize, secondArraySize);
-        int repeatCount = 0;
-        int[] secondArray = new int[secondArraySize];
-        for (int i = 0; i < secondArraySize; i++) {
-            secondArray[i] = in.nextInt();
-
-            if (VALUE_TO_REPEAT_COUNT.get(secondArray[i]) != null) {
-                repeatCount++;
+            public Node(int v) {
+                this(v, null, null);
             }
         }
 
-        out.println(targetRepeatCount <= repeatCount ? "YES" : "NO");
+        public void add(int v) {
+            if (head == null) {
+                head = new Node(v);
+                size++;
+                return;
+            }
+
+            Node curr = head;
+            while (true) {
+                if (curr.v == v) {
+                    return;
+                }
+
+                if (curr.v < v) {
+                    if (curr.left == null) {
+                        curr.left = new Node(v, null, null);
+                        size++;
+                        return;
+                    } else {
+                        curr = curr.left;
+                    }
+                } else {
+                    if (curr.right == null) {
+                        curr.right = new Node(v, null, null);
+                        size++;
+                        return;
+                    } else {
+                        curr = curr.right;
+                    }
+                }
+            }
+        }
+    }
+
+    private static final Derevo derevo = new Derevo();
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        int amount = in.nextInt();
+
+        for (int i = 0; i < amount; i++) {
+            derevo.add(in.nextInt());
+        }
+
+        int sizeBefore = derevo.size;
+
+        amount = in.nextInt();
+        for (int i = 0; i < amount; i++) {
+            derevo.add(in.nextInt());
+        }
+
+        out.println(sizeBefore == derevo.size ? "YES" : "NO");
+    }
+
+    private static int getIndex(int minValue, int currentValue) {
+        return currentValue - minValue;
     }
 
     private static class FastScanner {
