@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+//https://www.e-olymp.com/ru/submissions/9495548
+
 public class Task2 {
     private static class Heap {
         private int N;
