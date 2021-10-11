@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
+ * https://www.e-olymp.com/ru/submissions/9508953
  */
 public class Main {
     private Main() {
@@ -97,7 +98,7 @@ public class Main {
         if (newIn.hasNextInt()) {
             median = newIn.nextInt();
             isSeparatedMedian = !isSeparatedMedian;
-            System.out.println(median);
+            out.println(median);
         }
         while (newIn.hasNextInt()) {
             n = newIn.nextInt();
@@ -128,7 +129,7 @@ public class Main {
                 minHeap.insert(a[2]);
             }
             isSeparatedMedian = !isSeparatedMedian;
-            System.out.println(median);
+            out.println(median);
         }
 
         /*int n = in.nextInt();
