@@ -5,18 +5,40 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
  * 3737. Куча ли?
+ * <p>
+ * https://www.e-olymp.com/ru/submissions/9513104
  */
 public final class Task1 {
     private Task1() {
         // Should not be instantiated
     }
 
+    private final static int FIRST_CHILD_INDEX = 2;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int[] inputs = new int[in.nextInt() + 1];
+        for (int i = 1; i < inputs.length; i++) {
+            inputs[i] = in.nextInt();
+        }
+        out.println(isHeap(inputs) ? "YES" : "NO");
+    }
+
+    private static boolean isHeap(int[] array) {
+        for (int i = FIRST_CHILD_INDEX; i < array.length; i++) {
+            if (!heapInvariantHolds(array, i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean heapInvariantHolds(int[] heap, int child_index) {
+        return heap[child_index / 2] <= heap[child_index];
     }
 
     private static class FastScanner {
