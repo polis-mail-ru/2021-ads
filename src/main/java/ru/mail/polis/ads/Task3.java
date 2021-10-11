@@ -19,26 +19,28 @@ public class Task3 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-//        Comparator<Integer> nativeComparator = Integer::compare;
-//        Comparator<Integer> reversedComparator = (o1, o2) -> Integer.compare(0, Integer.compare(o1, o2));
         Comparator<Long> nativeComparator = Long::compare;
         Comparator<Long> reversedComparator = (o1, o2) -> Long.compare(0, Long.compare(o1, o2));
-        Heap<Long> rightHeap = new Heap<>(reversedComparator, new Long[1000000 + 1]);//min куча
-        String line = in.next();
-        while (line != null) {
-            rightHeap.insert(Long.parseLong(line));
-            line = in.next();
-        }
-
-        Heap<Long> leftHeap = new Heap<>(nativeComparator, new Long[rightHeap.getActualSize() / 2 + 1]);//max куча
-        int part = rightHeap.getActualSize() / 2;
-        for (int i = 0; i < part; i++) {
-            leftHeap.insert(rightHeap.peek());
-        }
-        if (leftHeap.getActualSize() == rightHeap.getActualSize()) {
-            out.println((leftHeap.peek() + rightHeap.peek()) / 2);
-        } else {
-            out.println(rightHeap.peek());
+        Heap rightHeap = new Heap(reversedComparator, 1000000 / 2 + 1);//min heap
+        Heap leftHeap = new Heap(nativeComparator, 1000000 / 2); //max heap
+        String next = in.next();
+        out.println(next);
+        rightHeap.insert(Integer.parseInt(next));
+        next = in.next();
+        while (next != null) {
+            rightHeap.insert(Integer.parseInt(next));
+            if (rightHeap.getActualSize() > leftHeap.actualSize + 1 || rightHeap.getFirst() < leftHeap.getFirst()) {
+                leftHeap.insert(rightHeap.peek());
+            }
+            if (leftHeap.getActualSize() == rightHeap.getActualSize() + 2) {
+                rightHeap.insert(leftHeap.peek());
+            }
+            if (leftHeap.getActualSize() == rightHeap.getActualSize()) {
+                out.println(((long) leftHeap.getFirst() + (long) rightHeap.getFirst()) / 2);
+            } else {
+                out.println((leftHeap.getActualSize() > rightHeap.getActualSize()) ? leftHeap.getFirst() : rightHeap.getFirst());
+            }
+            next = in.next();
         }
     }
 
@@ -59,18 +61,18 @@ public class Task3 {
     }
 
 
-    private static class Heap<T> {
+    private static class Heap {
         private int actualSize;
-        private T[] heap;//куча будет иметь максимально возможный размер, но так как заполнится 0, то все ок.
-        private final Comparator<T> customComparator;
+        private int[] heap;//куча будет иметь максимально возможный размер, но так как заполнится 0, то все ок.
+        private final Comparator<Long> customComparator;
 
-        public Heap(Comparator<T> customComparator, T[] heap) {
-            this.heap = heap;
+        public Heap(Comparator<Long> customComparator, int n) {
+            this.heap = new int[n + 1];
             this.customComparator = customComparator;
             actualSize = 0;
         }
 
-        public void insert(T el) {
+        public void insert(int el) {
 //            if (actualSize + 1 == heap.length) {
 //                extendHeapSize();
 //            }
@@ -83,8 +85,9 @@ public class Task3 {
 //            heap = Arrays.copyOf(heap, newSize);
 //        }
 
-        private T peek() {
-            T el = heap[1];
+        private int peek() {
+            int el = heap[1];
+            heap[1] = 0;
             swap(1, actualSize--);
             sink(1);
             return el;
@@ -92,14 +95,14 @@ public class Task3 {
 
         private void swim() {
             int currentIndex = actualSize;
-            while (currentIndex != 1 && customComparator.compare(heap[currentIndex], heap[currentIndex / 2]) > 0) {
+            while (currentIndex != 1 && customComparator.compare((long) heap[currentIndex], (long) heap[currentIndex / 2]) > 0) {
                 swap(currentIndex, currentIndex / 2);
                 currentIndex /= 2;
             }
         }
 
         private void swap(int first, int second) {
-            T temp = heap[first];
+            int temp = heap[first];
             heap[first] = heap[second];
             heap[second] = temp;
         }
@@ -108,11 +111,16 @@ public class Task3 {
             int currentIndex = startIndex;
             while (2 * currentIndex <= actualSize) {
                 int j = 2 * currentIndex; // left child
-                if (j < actualSize && customComparator.compare(heap[j], heap[j + 1]) < 0) j++; //right child
-                if (customComparator.compare(heap[currentIndex], heap[j]) >= 0) break; // invariant holds
+                if (j < actualSize && customComparator.compare((long) heap[j], (long) heap[j + 1]) < 0)
+                    j++; //right child
+                if (customComparator.compare((long) heap[currentIndex], (long) heap[j]) >= 0) break; // invariant holds
                 swap(currentIndex, j);
                 currentIndex = j;
             }
+        }
+
+        public int getFirst() {
+            return heap[1];
         }
 
         public int getActualSize() {
