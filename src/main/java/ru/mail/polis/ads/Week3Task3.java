@@ -12,28 +12,26 @@ public final class Week3Task3 {
     private static void solve(final Scanner in, final PrintWriter out) {
         Heap maxHeap = new Heap();//left
         Heap minHeap = new Heap(false);//right
-
         int current = in.nextInt();
         int median = current;
-        int size = 1;
+        boolean sizeOdd = true;
+
         while (in.hasNextInt()) {
             out.println(median);
             current = in.nextInt();
-            if (size % 2 == 1) {//clear median
+            if (sizeOdd) {
                 if (current > median) {
                     minHeap.add(current);
                     maxHeap.add(median);
-                    median = (median + minHeap.peek()) / 2;
-
                 } else {
                     minHeap.add(median);
                     maxHeap.add(current);
-                    median = (median + maxHeap.peek()) / 2;
                 }
-                size++;
+                median = (maxHeap.peek() + minHeap.peek()) / 2;
+                sizeOdd = false;
                 continue;
             }
-            //implicit median
+            sizeOdd = true;
             int maxMin = maxHeap.peek();
             int minMax = minHeap.peek();
             if (current >= minMax) {
@@ -43,12 +41,10 @@ public final class Week3Task3 {
                     minHeap.add(current);
                     median = minHeap.pop();
                 }
-                size++;
-                continue;
+            } else {
+                maxHeap.add(current);
+                median = maxHeap.pop();
             }
-            maxHeap.add(current);
-            median = maxHeap.pop();
-            size++;
         }
         out.println(median);
     }
@@ -57,7 +53,7 @@ public final class Week3Task3 {
 
         private int[] data;
         private int count;
-        private boolean maxheap;
+        private final boolean maxheap;
 
         Heap(int size, boolean maxheap) {
             data = new int[size + 1];
@@ -88,10 +84,6 @@ public final class Week3Task3 {
             data[count--] = 0;
             siftDown(1);
             return max;
-        }
-
-        private int size() {
-            return count;
         }
 
         private void siftUp(int index) {
