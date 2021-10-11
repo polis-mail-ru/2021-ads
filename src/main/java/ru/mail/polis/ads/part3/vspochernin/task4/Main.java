@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
- * https://www.e-olymp.com/ru/submissions/9494559
+ * https://www.e-olymp.com/ru/submissions/9509102
  */
 public class Main {
     private Main() {
@@ -60,7 +60,7 @@ public class Main {
             System.out.print(a[i]);
             System.out.print(" ");
         }
-        System.out.println(a[n]);
+        out.println(a[n]);
     }
 
     private static class FastScanner {
