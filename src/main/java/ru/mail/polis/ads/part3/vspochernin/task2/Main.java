@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
- * https://www.e-olymp.com/ru/submissions/9493367
+ * https://www.e-olymp.com/ru/submissions/9509033
  */
 public class Main {
     private Main() {
@@ -19,11 +19,9 @@ public class Main {
     private static class Heap {
         private int[] heap;
         private int size;
-        private final int capacity;
 
         public Heap(int capacity) {
             heap = new int[capacity + 1];
-            this.capacity = capacity;
             this.size = 0;
         }
 
@@ -76,7 +74,7 @@ public class Main {
             if (command == 0) {
                 heap.insert(in.nextInt());
             } else if (command == 1) {
-                System.out.println(heap.extract());
+                out.println(heap.extract());
             }
         }
     }
