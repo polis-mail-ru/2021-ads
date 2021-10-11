@@ -1,4 +1,5 @@
 package ru.mail.polis.ads.part3.vspochernin.task1;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
- * https://www.e-olymp.com/ru/submissions/9492617
+ * https://www.e-olymp.com/ru/submissions/9508986
  */
 public class Main {
     private Main() {
@@ -33,7 +34,7 @@ public class Main {
                 break;
             }
         }
-        System.out.println((check) ? "YES" : "NO");
+        out.println((check) ? "YES" : "NO");
     }
 
     private static class FastScanner {
