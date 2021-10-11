@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
- * https://www.e-olymp.com/ru/submissions/9494369
+ * https://www.e-olymp.com/ru/submissions/9509125
  */
 public class Main {
     private Main() {
@@ -65,10 +65,10 @@ public class Main {
         Heap heap = new Heap(a);
         heap.sort();
         for (int i = 1; i < n; i++) {
-            System.out.print(a[i]);
-            System.out.print(" ");
+            out.print(a[i]);
+            out.print(" ");
         }
-        System.out.println(a[n]);
+        out.println(a[n]);
     }
 
     private static class FastScanner {
