@@ -37,49 +37,21 @@ public final class Part3Task4 {
 
         public void insert(int x) {
             array[++size] = x;
-            for (int i = size; i > 1; i--) {
-                if (array[i] > array[i / 2]) {
-                    swim(i);
-                }
-            }
-        }
-
-        public int exctract() {
-            int res = array[1];
-            array[1] = array[size];
-            array[size--] = 0;
-            for (int i = 1; i < size; i++) {
-                if (array[i] < array[i * 2] || array[i] < array[i * 2 + 1]) {
-                    sink(i);
-                }
-            }
-            return res;
+            swim(size);
         }
 
         private void swim(int i) {
-            int tmp = array[i];
-            array[i] = array[i / 2];
-            array[i / 2] = tmp;
-        }
-
-        private void sink(int i) {
-            int tmp = array[i];
-            if (tmp < array[i * 2]) {
-                array[i] = array[i * 2];
-                array[i * 2] = tmp;
-                return;
+            while (i > 1 && array[i] > array[i / 2]) {
+                int tmp = array[i];
+                array[i] = array[i / 2];
+                array[i / 2] = tmp;
+                i /= 2;
             }
-            array[i] = array[i * 2 + 1];
-            array[i * 2 + 1] = tmp;
         }
 
-        public int[] getArray() {
-            return array;
-        }
+        public int[] getArray() { return array; }
 
-        public int getSize() {
-            return size;
-        }
+        public int getSize() { return size; }
     }
 
     private static class FastScanner {
