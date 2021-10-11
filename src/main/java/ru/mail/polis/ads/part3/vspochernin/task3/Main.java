@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
- * https://www.e-olymp.com/ru/submissions/9508953
+ * https://www.e-olymp.com/ru/submissions/9509076
  */
 public class Main {
     private Main() {
@@ -21,11 +21,9 @@ public class Main {
         private int[] heap;
         private int size;
         private final boolean isMaxHeap;
-        private final int capacity;
 
         public Heap(int capacity, boolean isMaxHeap) {
             heap = new int[capacity + 1];
-            this.capacity = capacity;
             this.size = 0;
             this.isMaxHeap = isMaxHeap;
         }
@@ -75,10 +73,6 @@ public class Main {
             }
             return heap[1];
         }
-
-        public int getSize() {
-            return size;
-        }
     }
 
     private static void swap(int[] a, int i, int j) {
@@ -90,16 +84,12 @@ public class Main {
     private static void solve(final FastScanner in, final PrintWriter out) {
         Heap maxHeap = new Heap(500000, true);
         Heap minHeap = new Heap(500000, false);
-        boolean isSeparatedMedian = false;
-        int n;
-        int median = 0;
-        int[] a = new int[3];
         Scanner newIn = new Scanner(System.in);
-        if (newIn.hasNextInt()) {
-            median = newIn.nextInt();
-            isSeparatedMedian = !isSeparatedMedian;
-            out.println(median);
-        }
+        int n = newIn.nextInt();
+        int median = n;
+        out.println(median);
+        boolean isSeparatedMedian = true;
+        int[] a = new int[3];
         while (newIn.hasNextInt()) {
             n = newIn.nextInt();
             if (isSeparatedMedian) { // Медиана была отдельным элементом.
@@ -131,18 +121,6 @@ public class Main {
             isSeparatedMedian = !isSeparatedMedian;
             out.println(median);
         }
-
-        /*int n = in.nextInt();
-        Heap heap = new Heap(n);
-        int command;
-        for (int i = 0; i < n; i++) {
-            command = in.nextInt();
-            if (command == 0) {
-                heap.insert(in.nextInt());
-            } else if (command == 1) {
-                System.out.println(heap.extract());
-            }
-        }*/
     }
 
     private static class FastScanner {
