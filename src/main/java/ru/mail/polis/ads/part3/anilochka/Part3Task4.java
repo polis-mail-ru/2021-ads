@@ -49,9 +49,13 @@ public final class Part3Task4 {
             }
         }
 
-        public int[] getArray() { return array; }
+        public int[] getArray() {
+            return array;
+        }
 
-        public int getSize() { return size; }
+        public int getSize() {
+            return size;
+        }
     }
 
     private static class FastScanner {

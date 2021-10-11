@@ -37,7 +37,7 @@ public final class Part3Task5 {
             array[1] = array[n];
             array[n] = tmp;
             n--;
-            sink(array,1, n);
+            sink(array, 1, n);
         }
     }
 
