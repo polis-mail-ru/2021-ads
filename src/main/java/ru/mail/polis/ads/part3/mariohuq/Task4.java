@@ -9,6 +9,8 @@ import java.util.StringTokenizer;
 
 /**
  * 10166. Max куча
+ * <p>
+ * https://www.e-olymp.com/ru/submissions/9520498
  */
 public final class Task4 {
     private Task4() {
