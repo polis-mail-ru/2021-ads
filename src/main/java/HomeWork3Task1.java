@@ -2,31 +2,24 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 
-public final class HomeWork2Task2 {
-    private HomeWork2Task2() {
+public final class HomeWork3Task1 {
+
+    private HomeWork3Task1() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        final int MAX_NUMBERS_DISTANCE = 107;
         int n = in.nextInt();
-        int[] numbers = new int[n];
-        int minNumber = Integer.MAX_VALUE;
-        for (int i = 0; i < n; i++) {
-            numbers[i] = in.nextInt();
-            if (numbers[i] < minNumber) {
-                minNumber = numbers[i];
+        int[] array = new int[n + 1];
+        array[1] = in.nextInt();
+        for (int i = 2; i < n + 1; i++) {
+            array[i] = in.nextInt();
+            if (array[i / 2] > array[i]) {
+                out.println("NO");
+                return;
             }
         }
-        int[] numberCounters = new int[MAX_NUMBERS_DISTANCE];
-        for (int i = 0; i < n; i++) {
-            ++numberCounters[numbers[i] - minNumber];
-        }
-        for (int i = 0; i < MAX_NUMBERS_DISTANCE; i++) {
-            for (int j = 0; j < numberCounters[i]; j++) {
-                out.print(i + minNumber + " ");
-            }
-        }
+        out.println("YES");
     }
 
     private static class FastScanner {
