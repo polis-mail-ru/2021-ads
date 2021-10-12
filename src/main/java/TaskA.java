@@ -39,7 +39,8 @@ public final class TaskA {
         for (int i = 0; i < size; i++) {
             array[i] = new Entry(in.nextInt(), in.nextInt());
         }
-        sort(array, 0, array.length, (o1, o2) -> {
+        Entry[] arrayForMerge = new Entry[size];
+        sort(array,arrayForMerge, 0, array.length, (o1, o2) -> {
             if (o1.score < o2.score || (o1.score == o2.score && o1.id > o2.id)) {
                 return -1;
             } else if (o1.score > o2.score || o1.id < o2.id) {
@@ -52,30 +53,29 @@ public final class TaskA {
         }
     }
 
-    private static void sort(Entry[] in, int left, int right, Comparator<Entry> comp) {
+    private static void sort(Entry[] in, Entry[] arrayForMerge, int left, int right, Comparator<Entry> comp) {
         if (left == right - 1) {
             return;
         }
         int mid = left + ((right - left) >> 1);
-        sort(in, left, mid, comp);
-        sort(in, mid, right, comp);
-        merge(in, left, mid, right, comp);
+        sort(in, arrayForMerge, left, mid, comp);
+        sort(in, arrayForMerge, mid, right, comp);
+        merge(in, arrayForMerge, left, mid, right, comp);
     }
 
-    private static void merge(Entry[] in, int left, int mid, int right, Comparator<Entry> comp) {
+    private static void merge(Entry[] in, Entry[] arrayForMerge, int left, int mid, int right, Comparator<Entry> comp) {
         int firstPointer = left;
         int secondPointer = mid;
-        Entry[] startingArray = new Entry[right];
-        if (right - left >= 0) System.arraycopy(in, left, startingArray, left, right - left);
+        if (right - left >= 0) System.arraycopy(in, left, arrayForMerge, left, right - left);
         for (int i = left; i < right; i++) {
             if (firstPointer ==  mid) {
-                in[i] = startingArray[secondPointer++];
+                in[i] = arrayForMerge[secondPointer++];
             } else if (secondPointer == right) {
-                in[i] = startingArray[firstPointer++];
-            } else if (comp.compare(startingArray[firstPointer], startingArray[secondPointer]) < 0) {
-                in[i] = startingArray[secondPointer++];
+                in[i] = arrayForMerge[firstPointer++];
+            } else if (comp.compare(arrayForMerge[firstPointer], arrayForMerge[secondPointer]) < 0) {
+                in[i] = arrayForMerge[secondPointer++];
             } else {
-                in[i] = startingArray[firstPointer++];
+                in[i] = arrayForMerge[firstPointer++];
             }
         }
     }
