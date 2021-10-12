@@ -30,11 +30,11 @@ public final class Task3 {
 
     private static class DynamicMedian {
         // all elements <= median
-        final Heap smaller = new Heap(MAX_SIZE / 2, (parent, child) -> parent >= child);
+        private final Heap smaller = new Heap(MAX_SIZE / 2, (parent, child) -> parent >= child);
         // all elements > median
-        final Heap greater = new Heap(MAX_SIZE / 2, (parent, child) -> parent <= child);
+        private final Heap greater = new Heap(MAX_SIZE / 2, (parent, child) -> parent <= child);
 
-        void consume(int x) {
+        public void consume(int x) {
             final int byLength = Integer.compare(smaller.length(), greater.length());
             final int fromMedian = Integer.compare(x, get());
             if (byLength < 0) {
@@ -56,7 +56,7 @@ public final class Task3 {
             smaller.insert(x);
         }
 
-        int get() {
+        public int get() {
             final int byLength = Integer.compare(smaller.length(), greater.length());
             if (byLength > 0) {
                 return smaller.root();
