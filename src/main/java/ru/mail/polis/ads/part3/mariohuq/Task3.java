@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * 4074. Найти медиану 2
- *
+ * <p>
  * https://www.e-olymp.com/ru/submissions/9520363
  */
 public final class Task3 {
@@ -37,8 +37,7 @@ public final class Task3 {
         void consume(int x) {
             final int byLength = Integer.compare(smaller.length(), greater.length());
             final int fromMedian = Integer.compare(x, get());
-            if (byLength < 0)
-            {
+            if (byLength < 0) {
                 if (fromMedian <= 0) {
                     smaller.insert(x);
                     return;
@@ -56,6 +55,7 @@ public final class Task3 {
             }
             smaller.insert(x);
         }
+
         int get() {
             final int byLength = Integer.compare(smaller.length(), greater.length());
             if (byLength > 0) {
@@ -144,6 +144,7 @@ public final class Task3 {
                 parent_index = max_child_index;
             }
         }
+
         public interface Invariant {
             boolean holds(int parent_value, int child_value);
         }
