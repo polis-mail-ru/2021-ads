@@ -73,3 +73,12 @@ $ git checkout -b part1
   * https://www.e-olymp.com/ru/problems/4074 - Найти медиану 2
   * https://www.e-olymp.com/ru/problems/10166 - Max куча
   * https://www.e-olymp.com/ru/problems/3738 - Простая сортирока - реализовать HeapSort
+
+## ДЗ 4. Динамическое программирование
+Задачки с e-olymp.
+
+* https://www.e-olymp.com/ru/problems/1087 - Скобочная последовательность
+* https://www.e-olymp.com/ru/problems/15 - Мышки и зернышки
+* https://www.e-olymp.com/ru/problems/1618 - Наибольшая общая подпоследовательность
+* https://www.e-olymp.com/ru/problems/262 - Лесенка
+* https://www.e-olymp.com/ru/problems/4261 - Количество инверсий
