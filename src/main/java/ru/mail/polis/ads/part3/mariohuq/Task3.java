@@ -69,11 +69,11 @@ public final class Task3 {
     }
 
     private static class Heap {
-        final int[] array;
-        int last_index;
-        final Invariant invariant;
+        private final int[] array;
+        private int last_index;
+        private final Invariant invariant;
 
-        final static int ROOT_INDEX = 1;
+        private final static int ROOT_INDEX = 1;
 
         /**
          * @param size maximum size of the heap
