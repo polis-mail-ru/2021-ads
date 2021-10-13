@@ -9,23 +9,27 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
+ * https://www.e-olymp.com/ru/submissions/9531835
  */
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
+    private static int countInv = 0;
+
     public static void merge(int[] a, int from, int mid, int to, int[] buffer) {
         int i = 0;
         int j = 0;
 
         while (from + i < mid && mid + j < to) {
-            if (a[from + i] < a[mid + j]) {
+            if (a[from + i] <= a[mid + j]) {
                 buffer[i + j] = a[from + i];
                 i++;
             } else {
                 buffer[i + j] = a[mid + j];
                 j++;
+                countInv += mid - (from + i);
             }
         }
         while (from + i < mid) {
@@ -52,22 +56,16 @@ public final class Main {
         merge(a, from, mid, to, buffer);
     }
 
-    int countInv(int[] a, int i, int j) {
-        if (j - i <= 1) {
-            return 0;
-        }
-        int mid = (i + j) / 2;
-        return countInv(a, i, mid) +
-                countInv(a, mid + 1, j) +
-                countInv(a, i, j, mid);
-    }
-
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = in.nextInt();
         }
+        countInv = 0;
+        int[] buffer = new int[n];
+        mergeSort(a, 0, n, buffer);
+        out.println(countInv);
     }
 
     private static class FastScanner {
