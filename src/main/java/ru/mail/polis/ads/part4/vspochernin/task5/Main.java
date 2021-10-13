@@ -15,6 +15,43 @@ public final class Main {
         // Should not be instantiated
     }
 
+    public static void merge(int[] a, int from, int mid, int to, int[] buffer) {
+        int i = 0;
+        int j = 0;
+
+        while (from + i < mid && mid + j < to) {
+            if (a[from + i] < a[mid + j]) {
+                buffer[i + j] = a[from + i];
+                i++;
+            } else {
+                buffer[i + j] = a[mid + j];
+                j++;
+            }
+        }
+        while (from + i < mid) {
+            buffer[i + j] = a[from + i];
+            i++;
+        }
+        while (mid + j < to) {
+            buffer[i + j] = a[mid + j];
+            j++;
+        }
+
+        for (i = 0; i < to - from; i++) {
+            a[from + i] = buffer[i];
+        }
+    }
+
+    private static void mergeSort(int[] a, int from, int to, int[] buffer) {
+        if (from == to - 1) {
+            return;
+        }
+        int mid = from + ((to - from) >> 1);
+        mergeSort(a, from, mid, buffer);
+        mergeSort(a, mid, to, buffer);
+        merge(a, from, mid, to, buffer);
+    }
+
     int countInv(int[] a, int i, int j) {
         if (j - i <= 1) {
             return 0;
