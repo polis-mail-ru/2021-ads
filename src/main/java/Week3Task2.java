@@ -5,62 +5,76 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
-// D. Разные
+// Хипуй!
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
-    private static int partition(long[] a, int l, int r) {
-        long pivot = a[r], temp;
-        int i = (l - 1);
+    private static class Heap {
+        private int[] a;
+        private int n;
 
-        for (int j = l; j < r; j++) {
-            if (a[j] <= pivot) {
-                i++;
+        public Heap() {
+            this.n = 1;
+            a = new int[9];
+        }
 
-                temp = a[i];
-                a[i] = a[j];
-                a[j] = temp;
+        private void doubleArray() {
+            a = Arrays.copyOf(a, a.length * 2);
+        }
+
+        public void insert(int value) {
+            if (n + 1 >= a.length) {
+                doubleArray();
+            }
+            a[++n] = value;
+            swim(n);
+        }
+
+        public int delMax() {
+            int max = a[1];
+            swap(1, n--);
+            sink(1);
+            return max;
+        }
+
+        private void swap(int i, int j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+
+        private void swim(int k) {
+            while (k > 1 && a[k] > a[k / 2]) {
+                swap(k, k / 2);
+                k /= 2;
             }
         }
 
-        temp = a[i + 1];
-        a[i + 1] = a[r];
-        a[r] = temp;
-
-        return i + 1;
-    }
-
-    public static void sort(long[] a, int l, int r) {
-        if (l < r) {
-            int i = partition(a, l, r);
-
-            sort(a, l, i - 1);
-            sort(a, i + 1, r);
+        private void sink(int k) {
+            while (2 * k <= n) {
+                int j = 2 * k;
+                if (j < n && a[j] < a[j + 1]) j++;
+                if (a[k] >= a[j]) break;
+                swap(k, j);
+                k = j;
+            }
         }
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
+        Heap heap = new Heap();
         int n = in.nextInt();
-        long[] a = new long[n];
-
+        String s;
         for (int i = 0; i < n; i++) {
-            a[i] = Long.parseLong(in.next());
-        }
-
-        sort(a, 0, a.length - 1);
-
-        long b = a[0] - 1;
-        int c = 0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b) {
-                c++;
-                b = a[i];
+            s = in.next();
+            if (s.equals("0")) {
+                heap.insert(in.nextInt());
+            } else {
+                out.println(heap.delMax());
             }
         }
-
-        out.println(c);
     }
 
     private static class FastScanner {

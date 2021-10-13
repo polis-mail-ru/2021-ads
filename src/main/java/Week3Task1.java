@@ -5,44 +5,38 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
-// B. Разброс
+// Куча ли?
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
+
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        long[] a = new long[n];
-
-        long min = 2_000_000_000, max = -min;
-
-        for (int i = 0; i < a.length; i++) {
-            a[i] = Long.parseLong(in.next());
-            if (a[i] < min) {
-                min = a[i];
-            }
-            if (a[i] > max) {
-                max = a[i];
-            }
+        int[] a = new int[n + 1];
+        for (int i = 1; i < n + 1; i++) {
+            a[i] = in.nextInt();
         }
+        for (int i = 1; i <= n; i++) {
+            if (2 * i <= n) {
+                if (a[i] > a[i * 2]) {
+                    System.out.println("NO");
+                    return;
+                }
+            } else {
+                break;
+            }
 
-        int[] b = new int[(int)(max - min + 1)];
-        for (int i = 0; i < a.length; i++) {
-            b[(int)(a[i] - min)] += 1;
-        }
-
-        int j = 0;
-
-        for (int i = 0; i < b.length; i++) {
-            for (int l = 0; l < b[i]; l++) {
-                a[j] = i + min;
-                j++;
+            if (2 * i + 1 <= n) {
+                if (a[i] > a[i * 2 + 1]) {
+                    System.out.println("NO");
+                    return;
+                }
+            } else {
+                break;
             }
         }
-
-        for (long l : a) {
-            System.out.print(l + " ");
-        }
+        System.out.println("YES");
     }
 
     private static class FastScanner {

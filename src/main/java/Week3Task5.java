@@ -4,38 +4,55 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.LinkedList;
 
-// C. Объединение последовательностей
+// Простая сортировка
 public final class Main {
     private Main() {
         // Should not be instantiated
     }
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        int x = in.nextInt();
+    private static void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
 
-        int i2 = 2, i3 = 2, i6 = 2, c = 1;
-
-        long a, b, n = 1;
-        while (c < x) {
-            a = (long) i2 * i2;
-            b = (long) i3 * i3 * i3;
-            if (a < b) {
-                n = a;
-                i2++;
-                if (n == Math.pow(i6, 6)) {
-                    i6++;
-                    continue;
-                }
-            } else {
-                n = b;
-                i3++;
-            }
-            c++;
+    private static void sink(int[] a, int k, int n) {
+        while (2 * k <= n) {
+            int j = 2 * k;
+            if (j < n && a[j] < a[j + 1]) j++;
+            if (a[k] >= a[j]) break;
+            swap(a, k, j);
+            k = j;
         }
+    }
 
-        out.println(n);
+    private static void makeHeap(int[] a) {
+        int n = a.length;
+        for (int k = n / 2; k >= 1; k--) {
+            sink(a, k, n - 1);
+        }
+    }
+
+    private static void heapSort(int[] a) {
+        makeHeap(a);
+        int n = a.length - 1;
+        while (n > 1) {
+            swap(a, 1, n--);
+            sink(a, 1, n);
+        }
+    }
+
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        int n = in.nextInt();
+        int[] a = new int[n + 1];
+        for (int i = 1; i < n + 1; i++) {
+            a[i] = in.nextInt();
+        }
+        heapSort(a);
+        for (int i = 1; i < a.length; i++) {
+            out.print(a[i] + " ");
+        }
     }
 
     private static class FastScanner {
