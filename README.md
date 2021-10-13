@@ -76,6 +76,7 @@ $ git checkout -b part1
 
 ## ДЗ 4. Динамическое программирование
 Задачки с e-olymp.
+Дэдлайн - 22.10
 
 * https://www.e-olymp.com/ru/problems/1087 - Скобочная последовательность
 * https://www.e-olymp.com/ru/problems/15 - Мышки и зернышки
