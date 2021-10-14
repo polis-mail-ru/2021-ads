@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
+ * https://www.e-olymp.com/ru/submissions/9539859
  */
 public final class Main {
     private Main() {
@@ -17,9 +18,9 @@ public final class Main {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[] c = new int [n + 2]; // Стоимость каждой ступеньки.
+        int[] c = new int[n + 2]; // Стоимость каждой ступеньки.
         int[] d = new int[n + 2]; // Максимальная стоимость пути для каждой ступеньки.
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             c[i + 1] = in.nextInt();
         }
         int k = in.nextInt();
@@ -39,7 +40,7 @@ public final class Main {
                 maxD = Math.max(maxD, d[i - j]);
             }
         }
-        System.out.println(d[n+1]);
+        System.out.println(d[n + 1]);
     }
 
     private static class FastScanner {
