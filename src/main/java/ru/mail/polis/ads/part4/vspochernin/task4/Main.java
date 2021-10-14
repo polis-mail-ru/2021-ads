@@ -25,15 +25,21 @@ public final class Main {
         int k = in.nextInt();
 
         d[0] = 0; // База.
-        // d(i) = max(d(i - 1), d(i - 2), ..., d(i - i)) + c(i).
+        // d(i) = max(d(i - 1), d(i - 2), ..., d(0)) + c(i).
         int maxD = 0;
-        for (int i = 1; i <= k; i++) {
-
+        for (int i = 1; i < k; i++) {
+            d[i] = maxD + c[i];
+            maxD = Math.max(maxD, d[i]);
         }
         // d(i) = max(d(i - 1), d(i - 2), ..., d(i - k)) + c(i).
-        for (int i = k + 1; i < n + 2; i++) {
-
+        for (int i = k; i < n + 2; i++) {
+            d[i] = maxD + c[i];
+            maxD = d[i];
+            for (int j = 1; j < k; j++) {
+                maxD = Math.max(maxD, d[i - j]);
+            }
         }
+        System.out.println(d[n+1]);
     }
 
     private static class FastScanner {
