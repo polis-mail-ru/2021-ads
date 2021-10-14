@@ -1,33 +1,47 @@
-package ru.mail.polis.ads.part2.sorgeligt;
+package ru.mail.polis.ads.part3.sorgeligt;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class Task2 {
-    private Task2() {
-        // Should not be instantiated
-    }
-
-    final static int DIFFERENCE = 107;
-
+// https://www.e-olymp.com/ru/submissions/9543408
+public class Task4 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         final int n = in.nextInt();
-        int[] numCounts = new int[DIFFERENCE * 2];
-        int firstNum = in.nextInt();
-        int shift = firstNum - DIFFERENCE;
-        numCounts[firstNum - shift]++;
-        for (int i = 0; i < n - 1; i++) {
-            numCounts[in.nextInt() - shift]++;
+        int[] barelyHeap = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            barelyHeap[i] = in.nextInt();
         }
-        for (int i = 0; i < 214; i++) {
-            if (numCounts[i] > 0) {
-                for (int j = 0; j < numCounts[i]; j++) {
-                    out.print(i + shift + " ");
-                }
-            }
+        makeHeap(barelyHeap);
+        for (int i = 1; i <= n; i++) {
+            out.print(barelyHeap[i] + " ");
         }
     }
 
+    private static void makeHeap(int[] array) {
+        for (int i = array.length / 2; i >= 1; i--) {
+            sink(array, i, array.length - 1);
+        }
+    }
+
+    private static void sink(int[] heap, int k, int topElem) {
+        while (2 * k <= topElem) {
+            int j = 2 * k;
+            if (j < topElem && heap[j + 1] > heap[j]) {
+                j++;
+            }
+            if (heap[k] >= heap[j]) {
+                break;
+            }
+            swap(heap, k, j);
+            k = j;
+        }
+    }
+
+    private static void swap(int[] array, int firstIndex, int secondIndex) {
+        final int tmp = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = tmp;
+    }
 
     private static class FastScanner {
         private final BufferedReader reader;

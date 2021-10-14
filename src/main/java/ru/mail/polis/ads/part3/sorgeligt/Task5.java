@@ -1,30 +1,51 @@
-package ru.mail.polis.ads.part2.sorgeligt;
+package ru.mail.polis.ads.part3.sorgeligt;
 
 import java.io.*;
 import java.util.StringTokenizer;
 
-public class Task3 {
-    private Task3() {
-        // Should not be instantiated
+// https://www.e-olymp.com/ru/submissions/9543409
+public class Task5 {
+    private static void solve(final FastScanner in, final PrintWriter out) {
+        final int n = in.nextInt();
+        int[] array = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            array[i] = in.nextInt();
+        }
+        heapSort(array);
+        for (int i = 1; i <= n; i++) {
+            out.print(array[i] + " ");
+        }
     }
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        final int x = in.nextInt();
-        int i = 1;
-        int j = 1;
-        long square = i * i;
-        long cube = j * j * j;
-        for (int k = 0; k < x; k++) {
-            square = (long) i * i;
-            cube = (long) j * j * j;
-            if (square >= cube) {
+    private static void heapSort(int[] array) {
+        int n = array.length - 1;
+        for (int i = n / 2; i >= 1; i--) {
+            sink(array, i, n);
+        }
+        for (int i = 0; i < array.length - 2; i++) {
+            swap(array, 1, n);
+            sink(array, 1, --n);
+        }
+    }
+
+    private static void sink(int[] heap, int k, int topElem) {
+        while (2 * k <= topElem) {
+            int j = 2 * k;
+            if (j < topElem && heap[j + 1] > heap[j]) {
                 j++;
             }
-            if (cube >= square) {
-                i++;
+            if (heap[k] >= heap[j]) {
+                break;
             }
+            swap(heap, k, j);
+            k = j;
         }
-        System.out.println(Math.min(square, cube));
+    }
+
+    private static void swap(int[] array, int firstIndex, int secondIndex) {
+        final int tmp = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = tmp;
     }
 
     private static class FastScanner {
