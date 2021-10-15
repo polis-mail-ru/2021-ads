@@ -18,14 +18,8 @@ public final class Part4Task2 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int m = in.nextInt();
         int n = in.nextInt();
-        int[][] floor = new int[m + 1][n + 1];
-        for (int i = 1; i < m + 1; i++) {
-            for (int j = 0; j < n; j++) {
-                floor[i][j] = in.nextInt();
-            }
-        }
         Pair[][] way = new Pair[m + 1][n + 1];
-        //проинициализируем дополнительую верхнюю строку и дополнительный правый столбец как -1 зернышко
+        //проинициализируем дополнительую верхнюю строку и дополнительный правый столбец -1 зернышком
         for (int i = 0; i <= m; i++) {
             way[i][n] = new Pair(-1, "");
         }
@@ -33,10 +27,15 @@ public final class Part4Task2 {
             way[0][i] = new Pair(-1, "");
         }
         for (int i = 1; i < m + 1; i++) {
+            for (int j = 0; j < n; j++) {
+                way[i][j] = new Pair(in.nextInt(), "");
+            }
+        }
+        for (int i = 1; i < m + 1; i++) {
             for (int j = n - 1; j >= 0; j--) {
-                int cost = Math.max(way[i - 1][j].getCost(), way[i][j + 1].getCost()) + floor[i][j];
-                if (cost == floor[i][j] - 1) { // будет выполняться для первой строчки и последнего столбца искомого поля (без доп. полей)
-                    way[i][j] = new Pair(floor[i][j], "");
+                int cost = Math.max(way[i - 1][j].getCost(), way[i][j + 1].getCost()) + way[i][j].getCost();
+                if (cost == way[i][j].getCost() - 1) { // будет выполняться для первой строчки и последнего столбца искомого поля (без доп. полей)
+                    way[i][j] = new Pair(way[i][j].getCost(), "");
                     continue;
                 }
                 String directions = way[i - 1][j].getCost() > way[i][j + 1].getCost() ? way[i - 1][j].getDirectionsSequence() + "F"
