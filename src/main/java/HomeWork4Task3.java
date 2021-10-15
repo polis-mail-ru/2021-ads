@@ -2,24 +2,36 @@ import java.io.*;
 import java.util.StringTokenizer;
 
 
-public final class HomeWork3Task1 {
+public final class HomeWork4Task3 {
 
-    private HomeWork3Task1() {
+    private HomeWork4Task3() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[] array = new int[n + 1];
-        array[1] = in.nextInt();
-        for (int i = 2; i < n + 1; i++) {
-            array[i] = in.nextInt();
-            if (array[i / 2] > array[i]) {
-                out.println("NO");
-                return;
+        int[] a = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            a[i] = in.nextInt();
+        }
+        int m = in.nextInt();
+        int[] b = new int[m + 1];
+        for (int i = 1; i <= m; i++) {
+            b[i] = in.nextInt();
+        }
+        int[] pred;
+        int[] current = new int[m + 1];
+        for (int i = 1; i <= n; i++) {
+            pred = current;
+            for (int j = 1; j <= m; j++) {
+                if (a[i] == b[j]) {
+                    current[j] = pred[j - 1] + 1;
+                } else {
+                    current[j] = Math.max(current[j - 1], pred[j]);
+                }
             }
         }
-        out.println("YES");
+        out.println(current[m]);
     }
 
     private static class FastScanner {

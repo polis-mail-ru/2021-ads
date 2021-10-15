@@ -1,52 +1,49 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public final class HomeWork3Task5 {
+public final class HomeWork4Task4 {
 
-    private HomeWork3Task5() {
+    private HomeWork4Task4() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[] a = new int[n + 1];
-        for (int i = 1; i < a.length; i++) {
-            a[i] = in.nextInt();
+        int m = in.nextInt();
+        int[][] floorCost = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < m; j++) {
+                floorCost[i][j] = in.nextInt();
+            }
         }
-        heapSort(a);
-        for (int i = 1; i < a.length; i++) {
-            out.print(a[i] + " ");
+        for (int i = 1; i <= n; i++) {
+            for (int j = m - 1; j >= 0; j--) {
+                floorCost[i][j] += Math.max(floorCost[i - 1][j], floorCost[i][j + 1]);
+            }
+        }
+        int i = n;
+        int j = 0;
+        while (i != 1 && j != m) {
+            if (floorCost[i][j + 1] > floorCost[i - 1][j]) {
+                out.print("R");
+                j++;
+            } else {
+                out.print("F");
+                i--;
+            }
+        }
+        if (j != m) {
+            for (int k = 1; k < m - j; k++) {
+                out.print("R");
+            }
+        } else {
+            for (int k = 1; k < n - i; k++) {
+                out.print("F");
+            }
         }
     }
-
-    static void heapSort(int[] a) {
-        int n = a.length - 1;
-        for (int k = n / 2; k >= 1; k--) {
-            sink(a, k, n);
-        }
-        while (n > 1) {
-            swap(a, 1, n--);
-            sink(a, 1, n);
-        }
-    }
-
-    private static void sink(int[] a, int k, int n) {
-        while (2 * k <= n) {
-            int j = 2 * k;
-            if (j < n && a[j] < a[j + 1]) j++;
-            if (a[k] >= a[j]) break;
-            swap(a, k, j);
-            k = j;
-        }
-    }
-
-    private static void swap(int[] a, int k, int j) {
-        int temp = a[k];
-        a[k] = a[j];
-        a[j] = temp;
-    }
-
 
     private static class FastScanner {
         private final BufferedReader reader;

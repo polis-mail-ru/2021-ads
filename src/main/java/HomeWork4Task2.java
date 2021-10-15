@@ -1,68 +1,52 @@
 import java.io.*;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import static java.util.Collections.swap;
 
+public final class HomeWork4Task2 {
 
-public final class HomeWork3Task2 {
-
-    private HomeWork3Task2() {
+    private HomeWork4Task2() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        Heap heap = new Heap();
         int n = in.nextInt();
+        int[] array = new int[n];
+        int[] maxCost = new int[n];
         for (int i = 0; i < n; i++) {
-            int command = in.nextInt();
-            if (command == 0) {
-                heap.insert(in.nextInt());
-            } else {
-                out.println(heap.removeMax());
-            }
+            array[i] = in.nextInt();
         }
-    }
-
-    private static class Heap {
-        private final ArrayList<Integer> list = new ArrayList<>();
-
-        {
-            list.add(null);
-        }
-
-        public void insert(int x) {
-            list.add(x);
-            swim(list.size() - 1);
-        }
-
-        public int removeMax() {
-            swap(list, 1, list.size() - 1);
-            int max = list.remove(list.size() - 1);
-            sink(1);
-            return max;
-        }
-
-        private void swim(int i) {
-            while (i > 1 && list.get(i) > list.get(i / 2)) {
-                swap(list, i, i / 2);
-                i = i / 2;
-            }
-        }
-
-        private void sink(int i) {
-            while (2 * i <= list.size() - 1) {
-                int j = 2 * i;
-                if (j < list.size() - 1 && list.get(j) < list.get(j + 1)) {
-                    j++;
+        int k = in.nextInt();
+        maxCost[0] = array[0];
+        int currentMax = maxCost[0];
+        int currentMaxIndex = 0;
+        for (int i = 1; i < k; i++) {
+            for (int j = currentMaxIndex + 1; j < i; j++) {
+                if (maxCost[j] > currentMax) {
+                    currentMax = maxCost[j];
+                    currentMaxIndex = j;
                 }
-                if (list.get(i) >= list.get(j)) {
-                    break;
-                }
-                swap(list, i, j);
-                i = j;
+            }
+            maxCost[i] = array[i];
+            if (currentMax > 0) {
+                maxCost[i] += currentMax;
             }
         }
+        for (int i = k; i < n; i++) {
+            currentMax = maxCost[i - k];
+            for (int j = i - k + 1; j < i; j++) {
+                if (maxCost[j] > currentMax) {
+                    currentMax = maxCost[j];
+                }
+            }
+            maxCost[i] = currentMax + array[i];
+        }
+        int totalMaxCost = maxCost[n - k];
+        for (int i = n - k + 1; i < n; i++) {
+            if (maxCost[i] > totalMaxCost) {
+                totalMaxCost = maxCost[i];
+            }
+        }
+        out.println(totalMaxCost);
     }
 
     private static class FastScanner {
