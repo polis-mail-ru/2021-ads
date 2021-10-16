@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+// https://www.e-olymp.com/ru/submissions/9557337
+
 public class Task1 {
     private static final int PARTITION_STUB = -1;
     private static int[][] costTable;
