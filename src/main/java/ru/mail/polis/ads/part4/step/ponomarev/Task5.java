@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-//https://www.e-olymp.com/ru/submissions/9554540
+// https://www.e-olymp.com/ru/submissions/9554540
 
 /**
  * Problem solution template.
