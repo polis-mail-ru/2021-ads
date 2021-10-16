@@ -13,11 +13,11 @@ import java.util.StringTokenizer;
  * Problem solution template.
  */
 public class Task5 {
-    static int[] tmpArr;
+    static int[] helperArray;
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         final int size = in.nextInt();
-        tmpArr = new int[size];
+        helperArray = new int[size];
 
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
@@ -35,8 +35,8 @@ public class Task5 {
 
         int mid = startPos + (endPos - startPos) / 2;
 
-        return countInversionAmount(array, startPos, mid) +
-                countInversionAmount(array, mid + 1, endPos) +
+        return countInversionAmount(array, startPos, mid)
+                + countInversionAmount(array, mid + 1, endPos)
                 + merge(array, startPos, mid, endPos);
     }
 
@@ -45,26 +45,26 @@ public class Task5 {
         int r = mid + 1;
         int inversionAmount = 0;
 
-        for (int i = start; i <= end ; i++) {
-            tmpArr[i] = arr[i];
+        for (int i = start; i <= end; i++) {
+            helperArray[i] = arr[i];
         }
 
         for (int i = start; i <= end; i++) {
             if (l > mid) {
-                arr[i] = tmpArr[r++];
+                arr[i] = helperArray[r++];
                 continue;
             }
 
             if (r > end) {
-                arr[i] = tmpArr[l++];
+                arr[i] = helperArray[l++];
                 continue;
             }
 
-            if (tmpArr[l] < tmpArr[r]) {
-                arr[i] = tmpArr[l++];
+            if (helperArray[l] < helperArray[r]) {
+                arr[i] = helperArray[l++];
             } else {
                 inversionAmount += mid + 1 - l;
-                arr[i] = tmpArr[r++];
+                arr[i] = helperArray[r++];
             }
         }
 
