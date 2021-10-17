@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+// TODO: Как решить эту жесть кто это придумал а?А/А/А/А/
+
 public class Task3 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int size = in.nextInt();
