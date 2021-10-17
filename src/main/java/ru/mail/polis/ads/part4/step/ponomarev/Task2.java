@@ -49,11 +49,7 @@ public class Task2 {
             return 0;
         }
 
-        if (m > maxM) {
-            return -1;
-        }
-
-        if (n < 0) {
+        if (m > maxM || n < 0) {
             return -1;
         }
 
