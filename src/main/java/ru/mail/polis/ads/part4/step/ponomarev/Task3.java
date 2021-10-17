@@ -7,23 +7,42 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-// TODO: Как решить эту жесть кто это придумал а?А/А/А/А/
+// https://www.e-olymp.com/ru/submissions/9561626
 
 public class Task3 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int size = in.nextInt();
-        final int[] seq1 = new int[size];
+        int[] firstSequence = new int[size];
+
         for (int i = 0; i < size; i++) {
-            seq1[i] = in.nextInt();
+            firstSequence[i] = in.nextInt();
         }
 
         size = in.nextInt();
-        final int[] seq2 = new int[size];
+        int[] secondSequence = new int[size];
+
         for (int i = 0; i < size; i++) {
-            seq2[i] = in.nextInt();
+            secondSequence[i] = in.nextInt();
         }
-        
-        
+
+        int[][] story = new int[firstSequence.length][secondSequence.length];
+        for (int i = 0; i < firstSequence.length; i++) {
+            for (int j = 0; j < secondSequence.length; j++) {
+                if (i > 0) {
+                    story[i][j] = story[i - 1][j];
+                }
+
+                if (j > 0 && story[i][j] < story[i][j - 1]) {
+                    story[i][j] = story[i][j - 1];
+                }
+
+                if (firstSequence[i] == secondSequence[j]) {
+                    story[i][j]++;
+                }
+            }
+        }
+
+        out.println(story[firstSequence.length - 1][secondSequence.length - 1]);
     }
 
     private static class FastScanner {
