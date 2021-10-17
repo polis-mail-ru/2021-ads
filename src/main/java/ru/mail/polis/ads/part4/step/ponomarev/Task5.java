@@ -9,9 +9,6 @@ import java.util.StringTokenizer;
 
 // https://www.e-olymp.com/ru/submissions/9554540
 
-/**
- * Problem solution template.
- */
 public class Task5 {
     static int[] helperArray;
 
@@ -69,10 +66,6 @@ public class Task5 {
         }
 
         return inversionAmount;
-    }
-
-    public static PrintWriter createPrintWriterForLocalTests() {
-        return new PrintWriter(System.out, true);
     }
 
     public static void main(final String[] arg) {
