@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 public class Task4 {
     private static void solve(final FastScanner in, final PrintWriter out) {
-         int k = in.nextInt() + 2;
+        int k = in.nextInt() + 2;
         int[] cost = new int[k];
         int[] story = new int[k];
 
@@ -42,6 +42,13 @@ public class Task4 {
         out.println(story[k - 1]);
     }
 
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
+    }
+
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
@@ -63,13 +70,6 @@ public class Task4 {
 
         int nextInt() {
             return Integer.parseInt(next());
-        }
-    }
-
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
         }
     }
 }

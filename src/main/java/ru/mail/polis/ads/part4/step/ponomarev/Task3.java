@@ -45,6 +45,13 @@ public class Task3 {
         out.println(story[firstSequence.length - 1][secondSequence.length - 1]);
     }
 
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
+    }
+
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
@@ -66,13 +73,6 @@ public class Task3 {
 
         int nextInt() {
             return Integer.parseInt(next());
-        }
-    }
-
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
         }
     }
 }

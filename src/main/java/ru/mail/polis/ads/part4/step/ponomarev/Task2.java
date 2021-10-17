@@ -25,14 +25,14 @@ public class Task2 {
 
         final int finishM = 0;
         final int finishN = n - 1;
-        
-        out.print(getPath("", m - 1,  finishM, finishN, board, costStory));
+
+        out.print(getPath("", m - 1, finishM, finishN, board, costStory));
     }
 
-    private static String getPath(String path, final int maxM, final int m, final int n, final int[][] board, final int[][] costStory) {        
+    private static String getPath(String path, final int maxM, final int m, final int n, final int[][] board, final int[][] costStory) {
         int costFromDown = getCost(maxM, m + 1, n, board, costStory);
         int costFromLeft = getCost(maxM, m, n - 1, board, costStory);
-        
+
         if (m == maxM && n == 0) {
             return path;
         }
@@ -71,6 +71,13 @@ public class Task2 {
         return costStory[m][n];
     }
 
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
+    }
+
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
@@ -92,13 +99,6 @@ public class Task2 {
 
         int nextInt() {
             return Integer.parseInt(next());
-        }
-    }
-
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
         }
     }
 }
