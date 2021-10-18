@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -20,7 +19,8 @@ public final class Task5 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int[] input = new int[in.nextInt()];
-        Arrays.setAll(input, i -> in.nextInt());
+        for (int i = 0; i < input.length; i++)
+            input[i] = in.nextInt();
         out.println(countInversions(input));
     }
 
