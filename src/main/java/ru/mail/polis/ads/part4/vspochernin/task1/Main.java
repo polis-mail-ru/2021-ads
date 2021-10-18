@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 /**
@@ -16,7 +17,11 @@ public final class Main {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        String s = in.next();
+        String s = new Scanner(System.in).nextLine();
+        if (s == null || s.length() == 0) {
+            out.println("");
+            return;
+        }
         int n = s.length();
         int[][] d = new int[n][n];
         for (int i = 0; i < n; i++) {
@@ -37,6 +42,38 @@ public final class Main {
                 }
             }
         }
+
+        // Восстановление ответа
+        if (d[n - 1][n - 1] == 0) {
+            out.println(s);
+        } else {
+            out.println(generateString(s, d, 0, n - 1));
+        }
+    }
+
+    private static String generateString(String s, int[][] d, int i, int j) {
+        if (i > j) {
+            return "";
+        } else if (i == j) {
+            if (s.charAt(i) == '(' || s.charAt(i) == ')') {
+                return "()";
+            } else if (s.charAt(i) == '[' || s.charAt(i) == ']') {
+                return "[]";
+            }
+        } else {
+            if (s.charAt(i) == '(' && s.charAt(j) == ')') {
+                return "(" + generateString(s, d, i + 1, j - 1) + ")";
+            } else if (s.charAt(i) == '[' && s.charAt(j) == ']') {
+                return "[" + generateString(s, d, i + 1, j - 1) + "]";
+            } else {
+                for (int k = i; k < j; k++) {
+                    if (d[i][k] + d[k + 1][j] == d[i][j]) {
+                        return generateString(s, d, i, k) + generateString(s, d, k + 1, j);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private static class FastScanner {
