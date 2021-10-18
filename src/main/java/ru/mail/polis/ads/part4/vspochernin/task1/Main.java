@@ -37,7 +37,6 @@ public final class Main {
                 }
             }
         }
-        int b = 5;
     }
 
     private static class FastScanner {
