@@ -35,32 +35,26 @@ public final class Week4Task2 {
         }
         int n1 = n - 1;
         int m1 = m - 1;
+        StringBuilder result = new StringBuilder();
         while (n1 != 0 || m1 != 0) {
             field[m1][n1] = -1;
             if (m1 > 0 && n1 > 0) {
                 if (field[m1 - 1][n1] > field[m1][n1 - 1]) {
                     m1--;
-                } else {
+                    result.append("F");
+;                } else {
                     n1--;
+                    result.append("R");
                 }
             } else if (m1 == 0) {
                 n1--;
+                result.append("R");
             } else {
                 m1--;
+                result.append("F");
             }
         }
-        field[0][0] = -1;
-        n1 = 0;
-        m1 = 0;
-        while (n1 != n - 1 || m1 != m - 1) {
-            if (m1 < m - 1 && field[m1 + 1][n1] == -1) {
-                out.print("F");
-                m1++;
-            } else {
-                out.print("R");
-                n1++;
-            }
-        }
+        out.println(result.reverse());
     }
 
     private static class FastScanner {

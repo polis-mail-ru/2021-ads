@@ -15,45 +15,43 @@ public final class Week4Task5 {
         for (int i = 0; i < n; i++) {
             A[i] = in.nextInt();
         }
-        out.println(countInv(A));
+        out.println(countInv(A, 0, n - 1));
     }
 
-    private static int countSplitInv(int[] arr, int[] left, int[] right) {
+    private static int countSplitInv(int[] arr, int l, int m, int r) {
+        int length = r - l + 1;
+        int[] buffer = new int[length];
         int i = 0;
-        int j = 0;
+        int j = l;
+        int k = m;
         int count = 0;
-        while (i < left.length || j < right.length) {
-            if (i == left.length) {
-                arr[i + j] = right[j];
-                j++;
-            } else if (j == right.length) {
-                arr[i + j] = left[i];
-                i++;
-            } else if (left[i] <= right[j]) {
-                arr[i + j] = left[i];
-                i++;
+        while (j <= m - 1 && k <= r) {
+            if (arr[j] <= arr[k]) {
+                buffer[i++] = arr[j++];
             } else {
-                arr[i + j] = right[j];
-                count += left.length - i;
-                j++;
+                buffer[i++] = arr[k++];
+                count += m - j;
             }
+        }
+        while (j <= m - 1) {
+            buffer[i++] = arr[j++];
+        }
+        while (k <= r) {
+            buffer[i++] = arr[k++];
+        }
+        i = 0;
+        while (l <= r) {
+            arr[l++] = buffer[i++];
         }
         return count;
     }
 
-    private static int countInv(int[] arr) {
-        if (arr.length < 2)
+    private static int countInv(int[] arr, int l, int r) {
+        if (r - l <= 0) {
             return 0;
-        int m = (arr.length + 1) / 2;
-        int[] left = new int[m];
-        for (int i = 0; i < m; i++) {
-            left[i] = arr[i];
         }
-        int[] right = new int[arr.length - m];
-        for (int i = 0; i < arr.length - m; i++) {
-            right[i] = arr[m + i];
-        }
-        return countInv(left) + countInv(right) + countSplitInv(arr, left, right);
+        int m = (l + r) / 2;
+        return countInv(arr, l, m) + countInv(arr, m + 1, r) + countSplitInv(arr, l, m + 1, r);
     }
 
     private static class FastScanner {

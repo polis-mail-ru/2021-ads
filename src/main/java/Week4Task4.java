@@ -19,12 +19,10 @@ public final class Week4Task4 {
         int[] d = new int[n + 2];
         d[0] = 0;
         d[1] = c[1];
+        int localMax = Math.max(d[0], d[1]);
         for (int i = 2; i <= k; i++) {
-            int[] step = new int[i];
-            for (int j = 0; j < i; j++) {
-                step[j] = d[i - j - 1];
-            }
-            d[i] = FindMax(step) + c[i];
+            d[i] = localMax + c[i];
+            localMax = Math.max(d[i], localMax);
         }
         for (int i = k + 1; i <= n + 1; i++) {
             int[] step = new int[k];
@@ -33,8 +31,7 @@ public final class Week4Task4 {
             }
             if (i <= n) {
                 d[i] = FindMax(step) + c[i];
-            }
-            else {
+            } else {
                 d[i] = FindMax(step);
             }
         }

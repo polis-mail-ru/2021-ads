@@ -47,31 +47,31 @@ public final class Week4Task1 {
         out.println(RightBrackets(0, length - 1));
     }
 
-    private static String RightBrackets(int l, int r) {
+    private static StringBuilder RightBrackets(int l, int r) {
         if (l > r) {
-            return "";
+            return new StringBuilder();
         }
         if (l == r) {
             switch (input.charAt(l)) {
                 case '(':
                 case ')':
-                    return "()";
+                    return new StringBuilder("()");
                 case '[':
                 case ']':
-                    return "[]";
+                    return new StringBuilder("[]");
             }
         }
         int separator = input.charAt(l) == '(' && input.charAt(r) == ')'
                 || input.charAt(l) == '[' && input.charAt(r) == ']' ? d[l + 1][r - 1] : Integer.MAX_VALUE;
         if (separator == d[l][r]) {
-            return input.charAt(l) + RightBrackets(l + 1, r - 1) + input.charAt(r);
+            return new StringBuilder(String.valueOf(input.charAt(l))).append(RightBrackets(l + 1, r - 1)).append(input.charAt(r));
         }
         for (int m = l; m < r; m++) {
             if (d[l][m] + d[m + 1][r] == d[l][r]) {
-                return RightBrackets(l, m) + RightBrackets(m + 1, r);
+                return new StringBuilder(RightBrackets(l, m)).append(RightBrackets(m + 1, r));
             }
         }
-        return "";
+        return new StringBuilder();
     }
 
     private static class FastScanner {
