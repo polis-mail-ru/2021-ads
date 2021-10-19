@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-//https://www.e-olymp.com/ru/problems/264
+//https://www.e-olymp.com/ru/problems/991
 public final class Week5Test4 {
     private Week5Test4() {
         // Should not be instantiated

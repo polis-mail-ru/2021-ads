@@ -14,7 +14,25 @@ public final class Week5Test3 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        //
+        int[] input1 = new int[in.nextInt()];
+        for (int i = 0; i < input1.length; ++i) {
+            input1[i] = in.nextInt();
+        }
+        
+        int[][] matrix = new int[input1.length + 1][input1.length + 1];
+        for (int i = 1; i <= input1.length; ++i) {
+            for (int j = 1; j <= i; ++j) {
+                if (input1[i - 1] % input1[j - 1] == 0) {
+                    matrix[i][j] = matrix[i - 1][j - 1] + 1;
+                } else if (matrix[i - 1][j] < matrix[i][j - 1]) {
+                    matrix[i][j] = matrix[i][j - 1];
+                } else {
+                    matrix[i][j] = matrix[i - 1][j];
+                }
+            }
+        }
+
+        out.println(matrix[input1.length][input1.length]);
     }
     
 

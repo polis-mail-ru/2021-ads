@@ -20,7 +20,7 @@ public final class Week5Test2 {
         int min = Math.max(w, h);
         int max = Math.max(w, h) * n;
         int middle = (min + max) / 2;
-        while(min < max) {
+        while(min + 1 < max) {
             System.out.println(max + " "+ middle + " " + min);
             if(middle/w * middle/h >= n) {
                 max = middle;
