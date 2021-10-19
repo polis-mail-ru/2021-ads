@@ -1,4 +1,4 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part4.nikita17th;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,16 +7,38 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
-public final class SolveTemplate {
-    private SolveTemplate() {
+
+public final class /**/LongestSubsequence {
+    private LongestSubsequence() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int n = in.nextInt() + 1;
+        int[] firstSequence = new int[n];
+
+        for (int i = 1; i < n; i++) {
+            firstSequence[i] = in.nextInt();
+        }
+
+        int m = in.nextInt() + 1;
+        int[] secondSequence = new int[m];
+        for (int i = 1; i < m; i++) {
+            secondSequence[i] = in.nextInt();
+        }
+
+        int[][] d = new int[n][m];
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < m; j++) {
+                if (firstSequence[i] == secondSequence[j]) {
+                    d[i][j] = d[i - 1][j - 1] + 1;
+                } else {
+                    d[i][j] = Math.max(d[i - 1][j], d[i][j - 1]);
+                }
+            }
+        }
+
+        out.println(d[n - 1][m - 1]);
     }
 
     private static class FastScanner {
