@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
+ * https://www.e-olymp.com/ru/submissions/9601920
  */
 public final class Main {
     private Main() {
@@ -29,22 +30,25 @@ public final class Main {
         }
 
         // Заполнение матрицы.
-        for (int j = 1; j < n; j++) {
-            for (int i = j - 1; i >= 0; i--) {
+        for (int t = 1; t < n; t++) {
+            int i = 0;
+            int j = t;
+            while (j < n) {
+                int min = Integer.MAX_VALUE;
                 if ((s.charAt(i) == '(' && s.charAt(j) == ')') || (s.charAt(i) == '[' && s.charAt(j) == ']')) {
-                    d[i][j] = d[i + 1][j - 1];
-                } else {
-                    int min = d[i][i] + d[i + 1][j];
-                    for (int k = i + 1; k < j; k++) {
-                        min = Math.min(min, d[i][k] + d[k + 1][j]);
-                    }
-                    d[i][j] = min;
+                    min = d[i][j] = d[i + 1][j - 1];
                 }
+                for (int k = i; k < j; k++) {
+                    min = Math.min(min, d[i][k] + d[k + 1][j]);
+                }
+                d[i][j] = min;
+                i++;
+                j++;
             }
         }
 
         // Восстановление ответа
-        if (d[n - 1][n - 1] == 0) {
+        if (d[0][n - 1] == 0) {
             out.println(s);
         } else {
             out.println(generateString(s, d, 0, n - 1));
@@ -61,9 +65,9 @@ public final class Main {
                 return "[]";
             }
         } else {
-            if (s.charAt(i) == '(' && s.charAt(j) == ')') {
+            if (s.charAt(i) == '(' && s.charAt(j) == ')' && d[i][j] == d[i + 1][j - 1]) {
                 return "(" + generateString(s, d, i + 1, j - 1) + ")";
-            } else if (s.charAt(i) == '[' && s.charAt(j) == ']') {
+            } else if (s.charAt(i) == '[' && s.charAt(j) == ']' && d[i][j] == d[i + 1][j - 1]) {
                 return "[" + generateString(s, d, i + 1, j - 1) + "]";
             } else {
                 for (int k = i; k < j; k++) {
