@@ -22,7 +22,7 @@ public class Task1 {
         for (int i = 0; i < size; i++) {
             arr[i] = in.nextInt();
         }
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size / 2; i++) {
             if (2 * i + 1 < size && arr[i] > arr[2 * i + 1]
                     || 2 * i + 2 < size && arr[i] > arr[2 * i + 2]) {
                 out.println("NO");

@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
 public class Task3 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
     }
 
     private static class FastScanner {

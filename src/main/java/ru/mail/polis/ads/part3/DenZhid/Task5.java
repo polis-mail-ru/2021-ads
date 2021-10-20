@@ -12,8 +12,53 @@ import java.util.StringTokenizer;
  */
 public class Task5 {
 
+    private static void heapSort(int[] a) {
+        int size = a.length - 1;
+        makeHeap(a, size);
+        while (size > 1) {
+            swap(a, 1, size--);
+            sink(a, 1, size);
+        }
+    }
+
+    private static void makeHeap(int[] a, int size) {
+        for (int i = size / 2; i >= 1; i--) {
+            sink(a, i, size);
+        }
+    }
+
+    private static void sink(int[] arr, int index, int size) {
+        int k = index;
+        while (2 * k <= size) {
+            int j = 2 * k;
+            if (j < size && arr[j] < arr[j + 1]) {
+                j++;
+            }
+            if (arr[k] >= arr[j]) {
+                break;
+            }
+            swap(arr, k, j);
+            k = j;
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int size = in.nextInt();
+        int[] a = new int[size + 1];
+        for (int i = 1; i < size + 1; i++) {
+            a[i] = in.nextInt();
+        }
+        heapSort(a);
+        for (int i = 1; i < size; i++) {
+            out.print(a[i] + " ");
+        }
+        out.print(a[size]);
     }
 
     private static class FastScanner {

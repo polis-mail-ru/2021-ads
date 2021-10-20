@@ -14,7 +14,7 @@ public class Task2 {
 
     private static class Heap {
         private final int[] arr;
-        private int size;
+        private int size = 0;
 
         private Heap(int size) {
             arr = new int[size + 1];
@@ -27,33 +27,35 @@ public class Task2 {
 
         private int extract() {
             int max = arr[1];
-            swap(arr, 1, size--);
+            swap(1, size--);
             sink(1);
             return max;
         }
 
-        private void swim(int k) {
+        private void swim(int index) {
+            int k = index;
             while (k > 1 && arr[k] > arr[k / 2]) {
-                swap(arr, k, k / 2);
-                k = k / 2;
+                swap(k, k / 2);
+                k /= 2;
             }
         }
 
-        private void sink(int k) {
+        private void sink(int index) {
+            int k = index;
             while (2 * k <= size) {
                 int j = 2 * k;
                 if (j < size && arr[j] < arr[j + 1]) {
                     j++;
                 }
-                if (arr[k] <= arr[j]) {
+                if (arr[k] >= arr[j]) {
                     break;
                 }
-                swap(arr, k, j);
+                swap(k, j);
                 k = j;
             }
         }
 
-        private void swap(int[] arr, int i, int j) {
+        private void swap(int i, int j) {
             int tmp = arr[i];
             arr[i] = arr[j];
             arr[j] = tmp;
