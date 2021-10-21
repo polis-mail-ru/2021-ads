@@ -5,15 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Objects;
-import java.util.StringTokenizer;
 
 /**
  * Problem solution template.
  */
 public class Task3 {
-
-    private static int NOTHING = -1;
 
     private static class Heap {
         private int[] arr = new int[2];
@@ -47,7 +43,7 @@ public class Task3 {
 
         private void swim(int index) {
             int k = index;
-            while (k > 1 && (isMax && arr[index] > arr[index / 2] || !isMax && arr[index] < arr[index / 2])) {
+            while (k > 1 && ((isMax && arr[index] > arr[index / 2]) || (!isMax && arr[index] < arr[index / 2]))) {
                 swap(k, k / 2);
                 k /= 2;
             }
@@ -57,10 +53,10 @@ public class Task3 {
             int k = index;
             while (2 * k <= size) {
                 int j = 2 * k;
-                if (j < size && (isMax && arr[index] < arr[index + 1] || !isMax && arr[index] > arr[index + 1])) {
+                if (j < size && ((isMax && arr[index] < arr[index + 1]) || (!isMax && arr[index] > arr[index + 1]))) {
                     j++;
                 }
-                if (isMax && arr[k] >= arr[j] || !isMax && arr[k] <= arr[j]) {
+                if ((isMax && arr[k] >= arr[j]) || (!isMax && arr[k] <= arr[j])) {
                     break;
                 }
                 swap(k, j);
@@ -78,29 +74,39 @@ public class Task3 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         Heap maxHeap = new Heap(true);
         Heap minHeap = new Heap(false);
-        maxHeap.insert(in.nextInt());
-        out.println(maxHeap.top());
-        String str = in.next();
-        while (str != null) {
-            int newNumber = Integer.parseInt(str);
-            minHeap.insert(newNumber);
-            if (minHeap.size - maxHeap.size > 0 || minHeap.top() < maxHeap.top()) {
-                maxHeap.insert(minHeap.extract());
-            }
-            if (minHeap.size - maxHeap.size < 0) {
-                minHeap.insert(maxHeap.extract());
-            }
-            if (minHeap.size == maxHeap.size) {
-                out.println(maxHeap.top() + minHeap.top() / 2);
-            } else {
-                if (maxHeap.size > minHeap.size) {
-                    out.println(maxHeap.top());
+        String input;
+        int newNumber = Integer.parseInt(in.next());
+        int currentMedian = newNumber;
+        int currentSize = 1;
+        while (!(input = in.next()).equals("")) {
+            out.println(currentMedian);
+            newNumber = Integer.parseInt(input);
+            if (currentSize % 2 != 0) {
+                if (newNumber > currentMedian) {
+                    minHeap.insert(newNumber);
+                    maxHeap.insert(currentMedian);
                 } else {
-                    out.println(minHeap.top());
+                    minHeap.insert(currentMedian);
+                    maxHeap.insert(newNumber);
                 }
+                currentSize++;
+                currentMedian = (minHeap.top() + maxHeap.top()) / 2;
+                continue;
             }
-            str = in.next();
+            if (newNumber >= minHeap.top()) {
+                if (newNumber == maxHeap.top()) {
+                    currentMedian = newNumber;
+                } else {
+                    minHeap.insert(newNumber);
+                    currentMedian = minHeap.extract();
+                }
+            } else {
+                maxHeap.insert(newNumber);
+                currentMedian = maxHeap.extract();
+            }
+            currentSize++;
         }
+        out.println(currentMedian);
     }
 
     private static class FastScanner {
@@ -112,14 +118,16 @@ public class Task3 {
 
         String next() {
             try {
-                return reader.readLine();
+                String nextLine = reader.readLine();
+                if (nextLine != null) {
+                    return nextLine;
+                } else {
+                    return "";
+                }
             } catch (IOException e) {
-                return "";
+                e.printStackTrace();
             }
-        }
-
-        int nextInt() {
-            return Integer.parseInt(next());
+            return "";
         }
     }
 
