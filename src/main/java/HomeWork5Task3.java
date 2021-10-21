@@ -1,52 +1,33 @@
 import java.io.*;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public final class HomeWork4Task2 {
+public final class HomeWork5Task3 {
 
-    private HomeWork4Task2() {
+    private HomeWork5Task3() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[] array = new int[n];
-        int[] maxCost = new int[n];
+        int[] sequence = new int[n];
+        int[] d = new int[n];
         for (int i = 0; i < n; i++) {
-            array[i] = in.nextInt();
+            sequence[i] = in.nextInt();
         }
-        int k = in.nextInt();
-        maxCost[0] = array[0];
-        int currentMax = maxCost[0];
-        int currentMaxIndex = 0;
-        for (int i = 1; i < k; i++) {
-            for (int j = currentMaxIndex + 1; j < i; j++) {
-                if (maxCost[j] > currentMax) {
-                    currentMax = maxCost[j];
-                    currentMaxIndex = j;
+        d[0] = 1;
+        int dMax;
+        for (int i = 1; i < n; i++) {
+            dMax = 0;
+            for (int j = 0; j < i; j++) {
+                if (d[j] > dMax && sequence[j] != 0 && sequence[i] % sequence[j] == 0) {
+                    dMax = d[j];
                 }
             }
-            maxCost[i] = array[i];
-            if (currentMax > 0) {
-                maxCost[i] += currentMax;
-            }
+            d[i] = dMax + 1;
         }
-        for (int i = k; i < n; i++) {
-            currentMax = maxCost[i - k];
-            for (int j = i - k + 1; j < i; j++) {
-                if (maxCost[j] > currentMax) {
-                    currentMax = maxCost[j];
-                }
-            }
-            maxCost[i] = currentMax + array[i];
-        }
-        int totalMaxCost = maxCost[n - k];
-        for (int i = n - k + 1; i < n; i++) {
-            if (maxCost[i] > totalMaxCost) {
-                totalMaxCost = maxCost[i];
-            }
-        }
-        out.println(totalMaxCost);
+        out.println(Arrays.stream(d).max().getAsInt());
     }
 
     private static class FastScanner {

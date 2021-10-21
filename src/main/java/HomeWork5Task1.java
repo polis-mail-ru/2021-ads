@@ -1,48 +1,33 @@
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 
-public final class HomeWork4Task4 {
+public final class HomeWork5Task1 {
 
-    private HomeWork4Task4() {
+    private static final double EPS = 1e-6;
+
+    private HomeWork5Task1() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        int n = in.nextInt();
-        int m = in.nextInt();
-        int[][] floorCost = new int[n + 1][m + 1];
-        for (int i = 1; i <= n; i++) {
-            for (int j = 0; j < m; j++) {
-                floorCost[i][j] = in.nextInt();
-            }
-        }
-        for (int i = 1; i <= n; i++) {
-            for (int j = m - 1; j >= 0; j--) {
-                floorCost[i][j] += Math.max(floorCost[i - 1][j], floorCost[i][j + 1]);
-            }
-        }
-        int i = n;
-        int j = 0;
-        while (i != 1 && j != m) {
-            if (floorCost[i][j + 1] > floorCost[i - 1][j]) {
-                out.print("R");
-                j++;
+        double c = in.nextDouble();
+        double x1 = 1;
+        double x2 = c;
+        double mid = (x1 + x2) / 2.0;
+        while (Math.abs(x1 - x2) > EPS) {
+            if (f(mid) > c) {
+                x2 = mid;
             } else {
-                out.print("F");
-                i--;
+                x1 = mid;
             }
+            mid = (x1 + x2) / 2.0;
         }
-        if (j != m) {
-            for (int k = 1; k < m - j; k++) {
-                out.print("R");
-            }
-        } else {
-            for (int k = 1; k < n - i; k++) {
-                out.print("F");
-            }
-        }
+        out.println(mid);
+    }
+
+    static double f(double x) {
+        return x * x + Math.sqrt(x);
     }
 
     private static class FastScanner {
@@ -64,8 +49,8 @@ public final class HomeWork4Task4 {
             return tokenizer.nextToken();
         }
 
-        int nextInt() {
-            return Integer.parseInt(next());
+        double nextDouble() {
+            return Double.parseDouble(next());
         }
     }
 
