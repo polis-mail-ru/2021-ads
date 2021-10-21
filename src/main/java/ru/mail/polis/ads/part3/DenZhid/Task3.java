@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
@@ -12,17 +13,23 @@ import java.util.StringTokenizer;
  */
 public class Task3 {
 
+    private static int NOTHING = -1;
+
     private static class Heap {
-        private final int[] arr;
+        private int[] arr = new int[2];
         private int size = 0;
         private final boolean isMax;
 
-        public Heap(int size, boolean isMax) {
-            arr = new int[size + 1];
+        public Heap(boolean isMax) {
             this.isMax = isMax;
         }
 
         private void insert(int x) {
+            if (size >= arr.length - 1) {
+                int[] newArray = new int[arr.length * 2];
+                System.arraycopy(arr, 0, newArray, 0, arr.length);
+                arr = newArray;
+            }
             arr[++size] = x;
             swim(size);
         }
@@ -32,6 +39,10 @@ public class Task3 {
             swap(1, size--);
             sink(1);
             return max;
+        }
+
+        public int top() {
+            return arr[1];
         }
 
         private void swim(int index) {
@@ -65,26 +76,46 @@ public class Task3 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        
+        Heap maxHeap = new Heap(true);
+        Heap minHeap = new Heap(false);
+        maxHeap.insert(in.nextInt());
+        out.println(maxHeap.top());
+        String str = in.next();
+        while (str != null) {
+            int newNumber = Integer.parseInt(str);
+            minHeap.insert(newNumber);
+            if (minHeap.size - maxHeap.size > 0 || minHeap.top() < maxHeap.top()) {
+                maxHeap.insert(minHeap.extract());
+            }
+            if (minHeap.size - maxHeap.size < 0) {
+                minHeap.insert(maxHeap.extract());
+            }
+            if (minHeap.size == maxHeap.size) {
+                out.println(maxHeap.top() + minHeap.top() / 2);
+            } else {
+                if (maxHeap.size > minHeap.size) {
+                    out.println(maxHeap.top());
+                } else {
+                    out.println(minHeap.top());
+                }
+            }
+            str = in.next();
+        }
     }
 
     private static class FastScanner {
         private final BufferedReader reader;
-        private StringTokenizer tokenizer;
 
         FastScanner(final InputStream in) {
             reader = new BufferedReader(new InputStreamReader(in));
         }
 
         String next() {
-            while (tokenizer == null || !tokenizer.hasMoreTokens()) {
-                try {
-                    tokenizer = new StringTokenizer(reader.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                return reader.readLine();
+            } catch (IOException e) {
+                return "";
             }
-            return tokenizer.nextToken();
         }
 
         int nextInt() {
