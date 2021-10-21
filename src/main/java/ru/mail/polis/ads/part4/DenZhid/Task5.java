@@ -16,7 +16,7 @@ public class Task5 {
         if (left == right - 1) {
             return 0;
         }
-         int mid = left + ((right - left) >> 1);
+        int mid = left + ((right - left) >> 1);
         return countInv(in, arrayForMerge, left, mid)
                 + countInv(in, arrayForMerge, mid, right)
                 + countSplitInv(in, arrayForMerge, left, mid, right);
@@ -36,7 +36,7 @@ public class Task5 {
                 in[i] = arrayForMerge[firstPointer++];
             } else {
                 in[i] = arrayForMerge[secondPointer++];
-                invCounter += mid - i;
+                invCounter += mid - firstPointer;
             }
         }
         return invCounter;
