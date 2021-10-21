@@ -1,4 +1,4 @@
-    # Алгоритмы и структуры данных
+# Алгоритмы и структуры данных
 Задачи для курса "Алгоритмы и структуры данных" 2021 года
 [курса](https://polis.mail.ru/curriculum/program/discipline/836/) в [Технополис](https://polis.mail.ru).
 [слайды с лекций](https://cloud.mail.ru/public/UZs7/cF19rRFNW)
