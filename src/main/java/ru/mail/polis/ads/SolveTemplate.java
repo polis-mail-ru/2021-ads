@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
@@ -16,7 +17,8 @@ public final class SolveTemplate {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        ArrayList<Integer> data = new ArrayList<>();
+        while(in.nextInt())
     }
 
     private static class FastScanner {
