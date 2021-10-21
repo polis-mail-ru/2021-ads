@@ -12,7 +12,60 @@ import java.util.StringTokenizer;
  */
 public class Task3 {
 
+    private static class Heap {
+        private final int[] arr;
+        private int size = 0;
+        private final boolean isMax;
+
+        public Heap(int size, boolean isMax) {
+            arr = new int[size + 1];
+            this.isMax = isMax;
+        }
+
+        private void insert(int x) {
+            arr[++size] = x;
+            swim(size);
+        }
+
+        public int extract() {
+            int max = arr[1];
+            swap(1, size--);
+            sink(1);
+            return max;
+        }
+
+        private void swim(int index) {
+            int k = index;
+            while (k > 1 && (isMax && arr[index] > arr[index / 2] || !isMax && arr[index] < arr[index / 2])) {
+                swap(k, k / 2);
+                k /= 2;
+            }
+        }
+
+        private void sink(int index) {
+            int k = index;
+            while (2 * k <= size) {
+                int j = 2 * k;
+                if (j < size && (isMax && arr[index] < arr[index + 1] || !isMax && arr[index] > arr[index + 1])) {
+                    j++;
+                }
+                if (isMax && arr[k] >= arr[j] || !isMax && arr[k] <= arr[j]) {
+                    break;
+                }
+                swap(k, j);
+                k = j;
+            }
+        }
+
+        private void swap(int i, int j) {
+            int tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
+    }
+
     private static void solve(final FastScanner in, final PrintWriter out) {
+        
     }
 
     private static class FastScanner {
