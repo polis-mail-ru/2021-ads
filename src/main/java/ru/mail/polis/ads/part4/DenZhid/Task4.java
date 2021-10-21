@@ -1,4 +1,4 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part4.DenZhid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +10,29 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
-        // Should not be instantiated
-    }
+public class Task4 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int size = in.nextInt() + 2;
+        int[] c = new int[size];
+        c[0] = 0;
+        c[size - 1] = 0;
+        for (int i = 1; i < size - 1; i++) {
+            c[i] = in.nextInt();
+        }
+        int k = in.nextInt();
+        int[] d = new int[size];
+        d[0] = c[0];
+        d[1] = d[0] + c[1];
+        for (int i = 2; i < size; i++) {
+            int max = Integer.MIN_VALUE;
+            int border = Math.max(i - k, 0);
+            for (int j = i - 1; j >= border; j--) {
+                max = Math.max(max, d[j]);
+            }
+            d[i] = max + c[i];
+        }
+        out.println(d[size - 1]);
     }
 
     private static class FastScanner {

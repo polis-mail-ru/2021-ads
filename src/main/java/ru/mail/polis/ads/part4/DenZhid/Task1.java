@@ -1,4 +1,4 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part4.DenZhid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +10,7 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
-        // Should not be instantiated
-    }
+public class Task1 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         // Write me

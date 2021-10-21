@@ -1,4 +1,4 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part4.DenZhid;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,13 +10,46 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
-        // Should not be instantiated
+public class Task5 {
+
+    private static int countInv(int[] in, int[] arrayForMerge, int left, int right) {
+        if (left == right - 1) {
+            return 0;
+        }
+         int mid = left + ((right - left) >> 1);
+        return countInv(in, arrayForMerge, left, mid)
+                + countInv(in, arrayForMerge, mid, right)
+                + countSplitInv(in, arrayForMerge, left, mid, right);
+    }
+
+    private static int countSplitInv(int[] in, int[] arrayForMerge, int left, int mid, int right) {
+        int invCounter = 0;
+        int firstPointer = left;
+        int secondPointer = mid;
+        if (right - left >= 0) System.arraycopy(in, left, arrayForMerge, left, right - left);
+        for (int i = left; i < right; i++) {
+            if (firstPointer ==  mid) {
+                in[i] = arrayForMerge[secondPointer++];
+            } else if (secondPointer == right) {
+                in[i] = arrayForMerge[firstPointer++];
+            } else if (arrayForMerge[firstPointer] < arrayForMerge[secondPointer]) {
+                in[i] = arrayForMerge[firstPointer++];
+            } else {
+                in[i] = arrayForMerge[secondPointer++];
+                invCounter += mid - i;
+            }
+        }
+        return invCounter;
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int size = in.nextInt();
+        int[] a = new int[size];
+        for (int i = 0; i < size; i++) {
+            a[i] = in.nextInt();
+        }
+        int[] tmp = new int[size];
+        out.println(countInv(a, tmp, 0, size));
     }
 
     private static class FastScanner {
