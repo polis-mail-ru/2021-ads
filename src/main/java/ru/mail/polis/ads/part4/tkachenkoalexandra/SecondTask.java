@@ -37,13 +37,11 @@ public final class SecondTask {
                 j--;
             }
         }
-        while (j > 1) {
+        for (; j > 1; j--) {
             path.append('R');
-            j--;
         }
-        while (i < rows - 1) {
+        for (; i < rows - 1; i++) {
             path.append('F');
-            i++;
         }
         out.println(path.reverse());
 
