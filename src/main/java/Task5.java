@@ -8,31 +8,51 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class Task4 {
-    private Task4() {
+public final class Task5 {
+    private Task5() {
         // Should not be instantiated
     }
 
+    public static int counter = 0;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
         final int n = in.nextInt();
-        int[] array = new int[n + 2];
-        for (int i = 1; i <= n; i++) {
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
             array[i] = in.nextInt();
         }
-        int k = in.nextInt();
+        int[] temp = new int[n];
+        sort(array, temp, 0, array.length - 1);
+        System.out.println(counter);
+    }
 
-        int temp[] = new int[n + 2];
-        int max = 0;
-        for (int i = 1; i <= n + 1; i++) {
-            for (int j = 1; j <= k; j++) {
-                if(i - j >= 0) {
-                    max = Math.max(temp[i - j], max);
-                }
-            }
-            temp[i] = array[i] + max;
-            max = temp[i];
+    private static void sort(int[] array, int[] buffer, int i, int k) {
+        if (i < k) {
+            int mid = (i + k) / 2;
+            sort(array, buffer, i, mid);
+            sort(array, buffer, mid + 1, k);
+            merge(array, buffer, i, mid, k);
         }
-        out.println(temp[n + 1]);
+    }
+
+    private static void merge(int[] array, int[] buffer, int i, int mid, int k) {
+        int first = i;
+        int second = mid + 1;
+        System.arraycopy(array, i, buffer, i, k - i + 1);
+
+        for (int j = i; j <= k; j++) {
+            if (first > mid) {
+                array[j] = buffer[second++];
+            } else if (second > k) {
+                array[j] = buffer[first++];
+            }
+            else if (buffer[first] <= buffer[second]) {
+                array[j] = buffer[first++];
+            } else {
+                array[j] = buffer[second++];
+                counter += mid + 1 - first;
+            }
+        }
     }
 
     private static class FastScanner {
