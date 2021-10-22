@@ -20,14 +20,16 @@ public class BracketsTask {
         for (int count = 1; count < n; count++) {//diagonal traversal
             for (int i = 0; i < n - count; i++) {
                 int j = i + count;
-                if (isClosed(data.charAt(i), data.charAt(j))) {
-                    dynamicMagic[i][j] = dynamicMagic[i + 1][j - 1];
-                    continue;
-                }
-                int min = Integer.MAX_VALUE;
+                int min = dynamicMagic[i][i] + dynamicMagic[i + 1][j];
                 for (int k = i; k < j; k++) {
                     if (dynamicMagic[i][k] + dynamicMagic[k + 1][j] < min) {
                         min = dynamicMagic[i][k] + dynamicMagic[k + 1][j];
+                    }
+                }
+                if (isClosed(data.charAt(i), data.charAt(j))) {
+                    if (dynamicMagic[i + 1][j - 1] < min) {
+                        dynamicMagic[i][j] = dynamicMagic[i + 1][j - 1];
+                        continue;
                     }
                 }
                 dynamicMagic[i][j] = min;
@@ -50,8 +52,8 @@ public class BracketsTask {
             }
             return "[]";
         }
-        int min = Integer.MAX_VALUE;
         int kOfMin = i;
+        int min = dynamic[i][i] + dynamic[i + 1][j];
         for (int k = i; k < j; k++) {
             if (dynamic[i][k] + dynamic[k + 1][j] < min) {
                 min = dynamic[i][k] + dynamic[k + 1][j];
