@@ -11,14 +11,31 @@ import java.util.StringTokenizer;
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
+public final class Task1 {
+    private Task1() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        ArrayList<Integer> data = new ArrayList<>();
-        while(in.nextInt())
+        int inputCount = in.nextInt();
+        ArrayList<Integer> data = new ArrayList<>(inputCount + 1);
+        data.add(0);
+        for (int i = 0; i < inputCount; i++) {
+            data.add(in.nextInt());
+        }
+        for (int i = 1; (2 * i + 1) <= data.size() - 1; i++) {
+            if (data.get(i) > data.get(2 * i + 1)) {
+                out.print("NO");
+                return;
+            }
+        }
+        for (int i = 1; (2 * i) <= data.size() - 1; i++) {
+            if (data.get(i) > data.get(2 * i)) {
+                out.print("NO");
+                return;
+            }
+        }
+        out.print("YES");
     }
 
     private static class FastScanner {
