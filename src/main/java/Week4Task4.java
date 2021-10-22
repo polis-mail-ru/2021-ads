@@ -11,41 +11,26 @@ public final class Week4Task4 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int n = in.nextInt();
-        int[] c = new int[n + 1];
+        int[] c = new int[n + 2];
         for (int i = 1; i <= n; i++) {
             c[i] = in.nextInt();
         }
         int k = in.nextInt();
         int[] d = new int[n + 2];
         d[0] = 0;
-        d[1] = c[1];
-        int localMax = Math.max(d[0], d[1]);
-        for (int i = 2; i <= k; i++) {
+        int localMax = 0;
+        for (int i = 1; i < k; i++) {
             d[i] = localMax + c[i];
             localMax = Math.max(d[i], localMax);
         }
-        for (int i = k + 1; i <= n + 1; i++) {
-            int[] step = new int[k];
-            for (int j = 0; j < k; j++) {
-                step[j] = d[i - j - 1];
-            }
-            if (i <= n) {
-                d[i] = FindMax(step) + c[i];
-            } else {
-                d[i] = FindMax(step);
+        for (int i = k; i <= n + 1; i++) {
+            d[i] = localMax + c[i];
+            localMax = d[i];
+            for (int j = 1; j < k; j++) {
+                localMax = Math.max(localMax, d[i - j]);
             }
         }
         out.println(d[n + 1]);
-    }
-
-    private static int FindMax(int[] step) {
-        int max = step[0];
-        for (int i = 1; i < step.length; i++) {
-            if (step[i] > max) {
-                max = step[i];
-            }
-        }
-        return max;
     }
 
     private static class FastScanner {
