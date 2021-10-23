@@ -1,4 +1,4 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part5.nikita17th;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,16 +7,35 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
-public final class SolveTemplate {
-    private SolveTemplate() {
+
+public final class Sqrt {
+    private Sqrt() {
         // Should not be instantiated
     }
 
+    private static final double EPS = 1e-7;
+
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        double c = in.nextDouble();
+        double left = 0;
+        double right = c;
+        double median;
+        double functionValue;
+        while (Math.abs(left - right) > EPS) {
+            median = (left + right) / 2;
+            functionValue = Math.pow(median, 2) + Math.sqrt(median);
+            if (functionValue == c) {
+                left = median;
+                break;
+            }
+            if (functionValue > c) {
+                right = median;
+            } else {
+                left = median;
+            }
+        }
+
+        out.println(left);
     }
 
     private static class FastScanner {
@@ -40,6 +59,10 @@ public final class SolveTemplate {
 
         int nextInt() {
             return Integer.parseInt(next());
+        }
+
+        double nextDouble() {
+            return Double.parseDouble(next());
         }
     }
 
