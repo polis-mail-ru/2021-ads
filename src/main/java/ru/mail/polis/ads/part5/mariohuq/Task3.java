@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 /**
  * 264. Наибольшая последовательнократная подпоследовательность
  * <p>
- * https://www.e-olymp.com/ru/submissions/XXXXXXX
+ * https://www.e-olymp.com/ru/submissions/9636029
  */
 public final class Task3 {
     private Task3() {
@@ -18,7 +18,27 @@ public final class Task3 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write meTa
+        int[] sequence = new int[in.nextInt()];
+        for (int i = 0; i < sequence.length; i++) {
+            sequence[i] = in.nextInt();
+        }
+        int[] maxLengths = new int[sequence.length];
+        int answer = 0;
+        for (int i = 0; i < maxLengths.length; i++) {
+            maxLengths[i] = 1 + maxLengthBefore(maxLengths, sequence, i);
+            answer = Math.max(answer, maxLengths[i]);
+        }
+        out.println(answer);
+    }
+
+    private static int maxLengthBefore(int[] maxLengths, int[] sequence, int end) {
+        int maxLengthBefore = 0;
+        for (int i = 0; i < end; i++) {
+            if (sequence[end] == 0 || sequence[i] != 0 && sequence[end] % sequence[i] == 0) {
+                maxLengthBefore = Math.max(maxLengthBefore, maxLengths[i]);
+            }
+        }
+        return maxLengthBefore;
     }
 
     private static class FastScanner {
