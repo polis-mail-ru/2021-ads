@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
+//https://www.e-olymp.com/ru/submissions/9630320
 public final class Week4Test2 {
     private Week4Test2() {
         // Should not be instantiated
@@ -17,27 +15,42 @@ public final class Week4Test2 {
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         int[][] field = new int[in.nextInt()][in.nextInt()];
-        for(int i = 0; i < field.length; ++i) {
-            for(int j = 0; j < field[0].length; ++j) {
+        for (int i = 0; i < field.length; ++i) {
+            for (int j = 0; j < field[0].length; ++j) {
                 field[i][j] = in.nextInt();
             }
         }
-        int[][] matrix = new int[field.length][field[0].length];
-        for (int i = field.length - 1; i >= 0; i--) {
-            for (int j = 0; j < field[0].length; j++) {
-                if (i == field.length - 1 && j == 0) {
-                }
-                else if (i == field.length - 1)
-                    field[i][j] += field[i][j - 1];
-                else if (j == 0)
-                    field[i][j] += field[i + 1][j];
-                else
-                    field[i][j] += Math.max(field[i + 1][j], field[i][j - 1]);
+        int i = 0;
+        int j = 0;
+        for (i = field.length - 1; i >= 0; --i) {
+            for (j = 0; j < field[0].length; ++j) {
+                field[i][j] += Math.max(i == field.length - 1 ? 0 : field[i + 1][j], j == 0 ? 0 : field[i][j - 1]);
             }
         }
-        out.println(field[field.length - 1][field[0].length - 1]);
-    }
+        StringBuilder answer = new StringBuilder();
+        i = 0;
+        j = field[0].length - 1;
+        while (i < field.length - 1 && j > 0) {
+            if (field[i + 1][j] > field[i][j - 1]) {
+                answer.append("F");
+                ++i;
+            } else {
+                answer.append("R");
+                --j;
+            }
+        }
 
+        while (i < field.length - 1) {
+            answer.append("F");
+            ++i;
+        }
+        while (j > 0) {
+            answer.append("R");
+            --j;
+        }
+        out.println(answer.reverse().toString());
+    } 
+    
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;

@@ -18,12 +18,12 @@ public final class Week4Test3 {
         for (int i = 0; i < input1.length; ++i) {
             input1[i] = in.nextInt();
         }
-        
+
         int[] input2 = new int[in.nextInt()];
         for (int i = 0; i < input2.length; ++i) {
             input2[i] = in.nextInt();
         }
-        
+
         int[][] matrix = new int[input1.length + 1][input2.length + 1];
         for (int i = 1; i <= input1.length; ++i) {
             for (int j = 1; j <= input2.length; ++j) {
