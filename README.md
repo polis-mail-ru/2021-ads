@@ -1,6 +1,7 @@
 # Алгоритмы и структуры данных
 Задачи для курса "Алгоритмы и структуры данных" 2021 года
 [курса](https://polis.mail.ru/curriculum/program/discipline/836/) в [Технополис](https://polis.mail.ru).
+[слайды с лекций](https://cloud.mail.ru/public/UZs7/cF19rRFNW)
 
 ## Fork
 [Форкните проект](https://help.github.com/articles/fork-a-repo/), склонируйте и добавьте `upstream`:
@@ -55,3 +56,39 @@ $ git checkout -b part1
 В "олимпиадных" задачах можно использовать стандартные реализации java.util.Queue какие найдете, java.util.Stack использовать нельзя.
 
 За каждое полностью рабочее решение дается 2 балла (да, даже за первую задачу).
+
+## ДЗ 2.
+Задачи с informatics-msk: https://informatics.msk.ru/mod/statements/view.php?id=65194#1
+
+Во всех задачах запрещается использовать готовые реализации алгоритмов из JDK. В задаче A необходимо написать функцию сортировки, которая либо принимает в качестве аргумента `Comparator` помимо массива, либо принимает массив элементов, реализующих интерфейс `Comparable`.
+
+За каждое полностью рабочее и отвечающее вышеизложенным требованиям решение дается 2 балла
+
+## ДЗ 3.
+Задачки с e-olymp.
+
+Дэдлайн - 22.10
+  * https://www.e-olymp.com/ru/problems/3737 - Куча ли?
+  * https://www.e-olymp.com/ru/problems/4039 - Хипуй
+  * https://www.e-olymp.com/ru/problems/4074 - Найти медиану 2
+  * https://www.e-olymp.com/ru/problems/10166 - Max куча
+  * https://www.e-olymp.com/ru/problems/3738 - Простая сортирока - реализовать HeapSort
+
+## ДЗ 4. Динамическое программирование
+Задачки с e-olymp.
+Дэдлайн - 22.10
+
+* https://www.e-olymp.com/ru/problems/1087 - Скобочная последовательность
+* https://www.e-olymp.com/ru/problems/15 - Мышки и зернышки
+* https://www.e-olymp.com/ru/problems/1618 - Наибольшая общая подпоследовательность
+* https://www.e-olymp.com/ru/problems/262 - Лесенка
+* https://www.e-olymp.com/ru/problems/4261 - Количество инверсий
+
+## ДЗ 5. Семинар
+Дэдлайн - 2.11
+
+  * https://www.e-olymp.com/ru/problems/3968 - Квадратный корень
+  * https://www.e-olymp.com/ru/problems/3969 - Дипломы
+  * https://www.e-olymp.com/ru/problems/264 - Наибольшая последовательнократная подпоследовательность
+  * https://www.e-olymp.com/ru/problems/991 - Шаблон и слово
+  * https://www.e-olymp.com/ru/problems/2169 - Перестановки
