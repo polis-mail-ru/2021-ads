@@ -43,7 +43,7 @@ public class Task3 {
 
         private void swim(int index) {
             int k = index;
-            while (k > 1 && ((isMax && arr[index] > arr[index / 2]) || (!isMax && arr[index] < arr[index / 2]))) {
+            while (k > 1 && ((isMax && arr[k] > arr[k / 2]) || (!isMax && arr[k] < arr[k / 2]))) {
                 swap(k, k / 2);
                 k /= 2;
             }
@@ -53,7 +53,7 @@ public class Task3 {
             int k = index;
             while (2 * k <= size) {
                 int j = 2 * k;
-                if (j < size && ((isMax && arr[index] < arr[index + 1]) || (!isMax && arr[index] > arr[index + 1]))) {
+                if (j < size && ((isMax && arr[j] < arr[j + 1]) || (!isMax && arr[j] > arr[j + 1]))) {
                     j++;
                 }
                 if ((isMax && arr[k] >= arr[j]) || (!isMax && arr[k] <= arr[j])) {
