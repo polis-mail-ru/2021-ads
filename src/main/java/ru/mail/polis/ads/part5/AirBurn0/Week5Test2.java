@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-//https://www.e-olymp.com/ru/problems/3969
+//https://www.e-olymp.com/ru/submissions/9639379
 public final class Week5Test2 {
     private Week5Test2() {
         // Should not be instantiated
@@ -16,21 +16,19 @@ public final class Week5Test2 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int w = in.nextInt();
         int h = in.nextInt();
-        int n = in.nextInt();
-        int min = Math.max(w, h);
-        int max = Math.max(w, h) * n;
-        int middle = (min + max) / 2;
-        while(min + 1 < max) {
-            System.out.println(max + " "+ middle + " " + min);
-            if(middle/w * middle/h >= n) {
-                max = middle;
+        long n = in.nextInt();
+        long min = Math.max(w, h);
+        long max = Math.max(w, h) * n;
+        long mid;
+        while(min < max) {
+            mid = (min + max) / 2;
+            if((mid/w) * (mid/h) >= n) {
+                max = mid;
             } else {
-                min = middle + 1;
+                min = mid + 1;
             }
-            
-            middle = (min + max) / 2;
         }
-        out.println(max);
+        out.println(min);
     }
     
 

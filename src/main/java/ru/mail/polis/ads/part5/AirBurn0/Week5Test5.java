@@ -5,34 +5,57 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.StringTokenizer;
 
-//https://www.e-olymp.com/ru/submissions/9638825
-public final class Week5Test1 {
-    private Week5Test1() {
+//https://www.e-olymp.com/ru/submissions/9639772
+public final class Week5Test5 {
+    private Week5Test5() {
         // Should not be instantiated
     }
-    
-    private final static float DELTA = 1 + 1.0e-6f;
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        final float c = in.nextFloat();
-        float min = 0.5248886f;
-        float max = (float) Math.sqrt(c);
-        float x;
-
-        float sq;
-        while(max / min > DELTA) {
-            x = (min + max) / 2.0f;
-            sq = c - x * x; 
-            if(sq * sq < x) {
-                max = x;
-            } else {
-                min = x;
-            }
+        int n = in.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; ++i) {
+            array[i] = i + 1;
         }
-        out.println(max);
+
+        do {
+            for (int i = 0; i < n; ++i) {
+                out.print(array[i] + " ");
+            }
+            out.println();
+        } while (sortNext(array, n));
+    }
+
+    private static final void swap(final int[] array, final int pos1, final int pos2) {
+        if (array[pos1] == array[pos2]) {
+            return;
+        }
+        array[pos1] ^= array[pos2];
+        array[pos2] ^= array[pos1];
+        array[pos1] ^= array[pos2];
+
+    }
+
+    private static boolean sortNext(final int[] a, final int n) {
+        int i = n - 2;
+        while (i >= 0 && a[i] >= a[i + 1]) {
+            --i;
+        }
+        if (i < 0) {
+            return false;
+        }
+        int k = n - 1;
+        while (a[i] >= a[k]) {
+            --k;
+        }
+        swap(a, i, k);
+        int l = i + 1, r = n - 1;
+        while (l < r) {
+            swap(a, l++, r--);
+        }
+        return true;
     }
 
     private static class FastScanner {
@@ -54,8 +77,8 @@ public final class Week5Test1 {
             return tokenizer.nextToken();
         }
 
-        float nextFloat() {
-            return Float.parseFloat(next());
+        int nextInt() {
+            return Integer.parseInt(next());
         }
     }
 
