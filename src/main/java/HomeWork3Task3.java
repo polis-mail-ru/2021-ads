@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 
@@ -11,23 +12,20 @@ public final class HomeWork3Task3 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         HeapMax heapMax = new HeapMax();
         HeapMin heapMin = new HeapMin();
-        while (true) {
-            try {
-                int number = in.nextInt();
-                if (number < heapMax.getMax()) {
-                    heapMin.insert(heapMax.removeMax());
-                    heapMax.insert(number);
-                } else {
-                    heapMin.insert(number);
-                }
-                if (heapMin.size() - 1 > heapMax.size()) {
-                    heapMax.insert(heapMin.removeMin());
-                    out.println((heapMax.getMax() + heapMin.getMin()) / 2);
-                } else {
-                    out.println(heapMin.getMin());
-                }
-            } catch (NullPointerException | NumberFormatException exception) {
-                break;
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            int number = scanner.nextInt();
+            if (number < heapMax.getMax()) {
+                heapMin.insert(heapMax.removeMax());
+                heapMax.insert(number);
+            } else {
+                heapMin.insert(number);
+            }
+            if (heapMin.size() - 1 > heapMax.size()) {
+                heapMax.insert(heapMin.removeMin());
+                out.println((heapMax.getMax() + heapMin.getMin()) / 2);
+            } else {
+                out.println(heapMin.getMin());
             }
         }
     }
@@ -152,6 +150,10 @@ public final class HomeWork3Task3 {
 
         int nextInt() {
             return Integer.parseInt(next());
+        }
+
+        boolean hasNext() {
+            return tokenizer == null || tokenizer.hasMoreElements();
         }
     }
 

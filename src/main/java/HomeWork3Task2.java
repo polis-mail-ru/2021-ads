@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import static java.util.Collections.swap;
@@ -28,7 +29,7 @@ public final class HomeWork3Task2 {
         private final ArrayList<Integer> list = new ArrayList<>();
 
         {
-            list.add(null);
+            list.add(0);
         }
 
         public void insert(int x) {
