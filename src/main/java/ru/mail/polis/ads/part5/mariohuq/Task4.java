@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
+import java.util.function.Predicate;
 
 /**
  * 991. Шаблон и слово
  * <p>
- * https://www.e-olymp.com/ru/submissions/XXXXXXX
+ * https://www.e-olymp.com/ru/submissions/9644612
  */
 public final class Task4 {
     private Task4() {
@@ -18,7 +20,54 @@ public final class Task4 {
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        final String a = in.next();
+        final String b = in.next();
+        out.println((isWord(a) ? new Template(b).test(a) : new Template(a).test(b)) ? "YES" : "NO");
+    }
+
+    private static class Template implements Predicate<String> {
+        public static final char ANY_STRING = '*';
+        public static final char ANY_CHAR = '?';
+
+        private final char[] template;
+        private final boolean[][] subMatches;
+        private char[] word;
+
+        private Template(char[] template) {
+            this.template = template;
+            subMatches = new boolean[template.length][];
+        }
+
+        public Template(String template) {
+            this(template.toCharArray());
+        }
+
+        @Override
+        public boolean test(String s) {
+            this.word = s.toCharArray();
+            Arrays.setAll(subMatches, i -> new boolean[word.length]);
+            for (int i = 0; i < template.length; i++) {
+                for (int j = 0; j < word.length; j++) {
+                    subMatches[i][j] = subMatch(i, j, template[i]);
+                }
+            }
+            return subMatches[template.length - 1][word.length - 1];
+        }
+
+        private boolean subMatch(int i, int j, char templateChar) {
+            switch (templateChar) {
+                case ANY_STRING:
+                    return i == 0 || subMatches[i - 1][j] || j != 0 && subMatches[i][j - 1];
+                case ANY_CHAR:
+                    return i == 0 && j == 0 || i != 0 && j != 0 && subMatches[i - 1][j - 1];
+                default:
+                    return word[j] == templateChar && subMatch(i, j, ANY_CHAR);
+            }
+        }
+    }
+
+    private static boolean isWord(String s) {
+        return s.chars().allMatch(Character::isLetter);
     }
 
     private static class FastScanner {
