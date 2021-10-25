@@ -151,10 +151,6 @@ public final class HomeWork3Task3 {
         int nextInt() {
             return Integer.parseInt(next());
         }
-
-        boolean hasNext() {
-            return tokenizer == null || tokenizer.hasMoreElements();
-        }
     }
 
     public static PrintWriter createPrintWriterForLocalTests() {

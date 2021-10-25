@@ -27,6 +27,7 @@ public final class HomeWork3Task2 {
 
     private static class Heap {
         private final ArrayList<Integer> list = new ArrayList<>();
+        private int n = 0;
 
         {
             list.add(0);
@@ -34,12 +35,12 @@ public final class HomeWork3Task2 {
 
         public void insert(int x) {
             list.add(x);
-            swim(list.size() - 1);
+            swim(++n);
         }
 
         public int removeMax() {
-            swap(list, 1, list.size() - 1);
-            int max = list.remove(list.size() - 1);
+            swap(list, 1, n);
+            int max = list.remove(n--);
             sink(1);
             return max;
         }
@@ -52,9 +53,9 @@ public final class HomeWork3Task2 {
         }
 
         private void sink(int i) {
-            while (2 * i <= list.size() - 1) {
+            while (2 * i <= n) {
                 int j = 2 * i;
-                if (j < list.size() - 1 && list.get(j) < list.get(j + 1)) {
+                if (j < n && list.get(j) < list.get(j + 1)) {
                     j++;
                 }
                 if (list.get(i) >= list.get(j)) {
