@@ -1,3 +1,4 @@
+//https://www.e-olymp.com/ru/submissions/9642956
 package tkachenkoalexandra;
 
 import java.io.*;
@@ -27,14 +28,14 @@ public final class FirstTask {
     }
 
     static class Sequence {
-        private final int[][] d;
         private final String s;
         private final int length;
+        private final int[][] d;
 
         public Sequence(String s) {
             this.s = s;
             this.length = s.length();
-            d = new int[length][length];
+            this.d = new int[length][length];
         }
 
         private void fill() {
@@ -55,30 +56,29 @@ public final class FirstTask {
                     }
                 }
             }
-            //System.out.println(Arrays.deepToString(d));
         }
 
         private boolean isSimilarBrackets(int i, int j) {
             return (s.charAt(j) == '(' && s.charAt(i) == ')') || (s.charAt(j) == '[' && s.charAt(i) == ']');
         }
 
-        public String restore(int i, int j) {
+        public StringBuilder restore(int i, int j) {
             fill();
             if (d[0][length - 1] == 0) {
-                return s;
+                return new StringBuilder(s);
             }
             if (i > j) {
-                return "";
+                return new StringBuilder("");
             }
             if (i == j) {
-                return s.charAt(i) == '(' || s.charAt(i) == ')' ? "()" : "[]";
+                return new StringBuilder(s.charAt(i) == '(' || s.charAt(i) == ')' ? "()" : "[]");
             } else {
                 if (isSimilarBrackets(j, i) && d[i + 1][j - 1] == d[i][j]) {
-                    return s.charAt(i) + restore(i + 1, j - 1) + s.charAt(j);
+                    return new StringBuilder().append(s.charAt(i)).append(restore(i + 1, j - 1)).append(s.charAt(j));
                 }
                 for (int k = i; k < j; k++) {
                     if (d[i][k] + d[k + 1][j] == d[i][j]) {
-                        return restore(i, k) + restore(k + 1, j);
+                        return restore(i, k).append(restore(k + 1, j));
                     }
                 }
             }
