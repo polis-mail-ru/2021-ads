@@ -10,30 +10,27 @@ import java.util.StringTokenizer;
  * Problem solution template.
  */
 public class Task4 {
+    //https://www.e-olymp.com/ru/submissions/9659001
     private static void solve(final FastScanner in, final PrintWriter out) {
-        char[] pattern = in.next().toCharArray();
-        char[] str = in.next().toCharArray();
+        String str1 = in.next();
+        String pattern1 = in.next();
+        char[] pattern;
+        char[] str;
 
-        boolean hasQuantifier = false;
-        for (int i = 0; i < pattern.length; i++) {
-            if (pattern[i] == '*' || pattern[i] == '?') {
-                hasQuantifier = true;
-                break;
-            }
-        }
-        if (!hasQuantifier) {
-            if (pattern.length != str.length) {
-                out.println("NO");
-            } else {
-                for (int i = 0; i < pattern.length; i++) {
-                    if (pattern[i] != str[i]) {
-                        out.println("NO");
-                        return;
-                    }
+        if (!str1.chars().allMatch(Character::isLetter)) {
+            pattern = str1.toCharArray();
+            str = pattern1.toCharArray();
+        } else {
+            if (pattern1.chars().allMatch(Character::isLetter)) {
+                if (str1.equals(pattern1)) {
+                    out.println("YES");
+                } else {
+                    out.println("NO");
                 }
+                return;
             }
-            out.println("YES");
-            return;
+            pattern = pattern1.toCharArray();
+            str = str1.toCharArray();
         }
 
         boolean[][] d = new boolean[str.length][pattern.length];
@@ -55,7 +52,8 @@ public class Task4 {
                 } else if (pattern[j] == '?') {
                     d[i][j] = i - 1 >= 0 && j - 1 >= 0 && d[i - 1][j - 1];
                 } else if (str[i] == pattern[j]) {
-                    d[i][j] = i - 1 >= 0 && j - 1 >= 0 && d[i - 1][j - 1];
+                    d[i][j] = i - 1 >= 0 && j - 1 >= 0 && d[i - 1][j - 1]
+                            || i - 1 < 0 && j - 1 >= 0 && d[i][j - 1];
                 } else {
                     d[i][j] = false;
                 }
