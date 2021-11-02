@@ -45,11 +45,6 @@ public final class FourthTask {
         out.println(d[template.length()][string.length()] ? "YES" : "NO");
     }
 
-    private static int max(int[] array) {
-        Arrays.sort(array);
-        return array[array.length - 1];
-    }
-
     private static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
