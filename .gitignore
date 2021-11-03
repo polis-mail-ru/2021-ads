@@ -20,6 +20,7 @@
 !.codeclimate.yml
 !checkstyle.xml
 !.lgtm.yml
+!.github/
 
 # ...even if they are in subdirectories
 !*/
