@@ -7,6 +7,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class AvlBst<Key extends Comparable<Key>, Value>
         implements Bst<Key, Value> {
+    private Node root;
+    private int size;
 
     private class Node {
         Key key;
@@ -14,60 +16,273 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         Node left;
         Node right;
         int height;
+
+        Node(Key key, Value value, int height) {
+            this.key = key;
+            this.value = value;
+            this.height = height;
+        }
     }
 
     @Override
     public Value get(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        Node tmp = get(root, key);
+        return tmp == null ? null : tmp.value;
+    }
+
+    Node get(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) < 0) {
+            return get(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            return get(x.right, key);
+        }
+        return x;
     }
 
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-        throw new UnsupportedOperationException("Implement me");
+        root = put(root, key, value);
+        size++;
+    }
+
+    Node put(Node x, Key key, Value value) {
+        if (x == null) {
+            return new Node(key, value, 1);
+        }
+        if (key.compareTo(x.key) < 0) {
+            x.left = put(x.left, key, value);
+        } else if (key.compareTo(x.key) > 0) {
+            x.right = put(x.right, key, value);
+        } else {
+            x.value = value;
+            size--;
+        }
+        fixHeight(x);
+        x = balance(x);
+        return x;
     }
 
     @Override
     public Value remove(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0 || !containsKey(key)) {
+            return null;
+        }
+        Node tmp = get(root, key);
+        root = delete(root, key);
+        return tmp.value;
+    }
+
+    Node deleteMin(Node x) {
+        if (x.left == null) {
+            return x.right;
+        }
+        x.left = deleteMin(x.left);
+        return x;
+    }
+
+    Node delete(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) < 0) {
+            x.left = delete(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            x.right = delete(x.right, key);
+        }
+        if (key == x.key) {
+            x = innerDelete(x);
+            size--;
+        }
+        fixHeight(x);
+        x = balance(x);
+        return x;
+    }
+
+    Node innerDelete(Node x) {
+        if (x.right == null) {
+            return x.left;
+        }
+        if (x.left == null) {
+            return x.right;
+        }
+        Node t = x;
+        x = min(t.right);
+        x.right = deleteMin(t.right);
+        x.left = t.left;
+        return x;
     }
 
     @Override
     public Key min() {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0) {
+            return null;
+        }
+        Node tmp = min(root);
+        return tmp == null ? null : tmp.key;
     }
 
     @Override
     public Value minValue() {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0) {
+            return null;
+        }
+        Node tmp = min(root);
+        return tmp == null ? null : tmp.value;
+    }
+
+    Node min(Node x) {
+        if (x.left == null) {
+            return x;
+        }
+        return min(x.left);
     }
 
     @Override
     public Key max() {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0) {
+            return null;
+        }
+        Node tmp = max(root);
+        return tmp == null ? null : tmp.key;
     }
 
     @Override
     public Value maxValue() {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0) {
+            return null;
+        }
+        Node tmp = max(root);
+        return tmp == null ? null : tmp.value;
+    }
+
+    Node max(Node x) {
+        if (x.right == null) {
+            return x;
+        }
+        return max(x.right);
     }
 
     @Override
     public Key floor(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0 || key.compareTo(min()) < 0) {
+            return null;
+        }
+        if (containsKey(key)) {
+            return key;
+        }
+        return floor(root, key).key;
+    }
+
+    Node floor(Node x, Key key) {
+        if (key.compareTo(x.key) < 0) {
+            if (key.compareTo(x.left.key) > 0) {
+                return x.left;
+            }
+            return floor(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            if (x.right == null || key.compareTo(x.right.key) < 0) {
+                return x;
+            }
+            return floor(x.right, key);
+        }
+        return x;
     }
 
     @Override
     public Key ceil(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0 || key.compareTo(max()) > 0) {
+            return null;
+        }
+        if (containsKey(key)) {
+            return key;
+        }
+        return ceil(root, key).key;
+    }
+
+    Node ceil(Node x, Key key) {
+        if (key.compareTo(x.key) < 0) {
+            if (x.left == null || key.compareTo(x.left.key) > 0) {
+                return x;
+            }
+            return ceil(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            if (key.compareTo(x.right.key) < 0) {
+                return x.right;
+            }
+            return ceil(x.right, key);
+        }
+        return x;
     }
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Implement me");
+        return size;
     }
 
     @Override
     public int height() {
-        throw new UnsupportedOperationException("Implement me");
+        if (size == 0) {
+            return 0;
+        }
+        return height(root);
+    }
+
+    public int height(Node x) {
+        return x == null ? 0 : x.height;
+    }
+
+    void fixHeight(Node x) {
+        if (x == null) {
+            return;
+        }
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+    }
+
+    Node rotateRight(Node y) {
+        Node x = y.left;
+        y.left = x.right;
+        x.right = y;
+        fixHeight(y);
+        fixHeight(x);
+        return x;
+    }
+
+    Node rotateLeft(Node x) {
+        Node y = x.right;
+        x.right = y.left;
+        y.left = x;
+        fixHeight(x);
+        fixHeight(y);
+        return y;
+    }
+
+    int factor(Node x) {
+        return height(x.left) - height(x.right);
+    }
+
+    Node balance(Node x) {
+        if (x == null) {
+            return null;
+        }
+        if (factor(x) == 2) {
+            if (factor(x.left) < 0) {
+                x.left = rotateLeft(x.left);
+            }
+            return rotateRight(x);
+        }
+        if (factor(x) == -2) {
+            if (factor(x.right) > 0) {
+                x.right = rotateRight(x.right);
+            }
+            return rotateLeft(x);
+        }
+        return x;
     }
 }
