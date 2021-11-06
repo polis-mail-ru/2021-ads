@@ -51,7 +51,8 @@ public class AvlBst<Key extends Comparable<Key>, Value> implements Bst<Key, Valu
         if (isEmpty()) {
             root = new Node(key, value);
             size++;
-            setNewMinOrMaxIfTrue(root);
+            
+            setNewMinOrMaxIfNeed(root);
         } else {
             root = put(root, key, value);
         }
@@ -72,7 +73,7 @@ public class AvlBst<Key extends Comparable<Key>, Value> implements Bst<Key, Valu
         if (lessThanCurrent) {
             if (node.left == null) {
                 node.left = new Node(key, value);
-                setNewMinOrMaxIfTrue(node.left);
+                setNewMinOrMaxIfNeed(node.left);
                 size++;
             } else {
                 node.left = put(node.left, key, value);
@@ -83,7 +84,7 @@ public class AvlBst<Key extends Comparable<Key>, Value> implements Bst<Key, Valu
         if (biggerThanCurrent) {
             if (node.right == null) {
                 node.right = new Node(key, value);
-                setNewMinOrMaxIfTrue(node.right);
+                setNewMinOrMaxIfNeed(node.right);
                 size++;
             } else {
                 node.right = put(node.right, key, value);
@@ -385,7 +386,7 @@ public class AvlBst<Key extends Comparable<Key>, Value> implements Bst<Key, Valu
         min = curr;
     }
 
-    private void setNewMinOrMaxIfTrue(Node addedNode) {
+    private void setNewMinOrMaxIfNeed(Node addedNode) {
         setMinIfLess(addedNode);
         setMaxIfBigger(addedNode);
     }
