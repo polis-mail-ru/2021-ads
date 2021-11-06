@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 public class AvlBst<Key extends Comparable<Key>, Value>
         implements Bst<Key, Value> {
 
-    private Node root;
+    private Node root = null;
 
     private class Node {
         Key key;
@@ -18,7 +18,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         int height;
     }
 
-    Value get(Node x, Key key) {
+    private Value get(Node x, Key key) {
         if (x == null) {
             return null;
         }
