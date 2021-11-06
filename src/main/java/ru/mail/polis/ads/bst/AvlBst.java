@@ -16,6 +16,12 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         Node left;
         Node right;
         int height;
+
+        public Node(Key key, Value value, int height) {
+            this.key = key;
+            this.value = value;
+            this.height = height;
+        }
     }
 
     private Value get(Node x, Key key) {
@@ -35,9 +41,22 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return get(root, key);
     }
 
+    private Node put(Node x, Key key, Value value) {
+        if (x == null) {
+            return new Node(key, value, 1);
+        }
+        if (key.compareTo(x.key) < 0) {
+            x.left = put(x.left, key, value);
+        } else if (key.compareTo(x.key) > 0) {
+            x.right = put(x.right, key, value);
+        } else {
+            x.value = value;
+        }
+        return x;
+    }
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-        throw new UnsupportedOperationException("Implement me");
+        root = put(root, key, value);
     }
 
     @Override
