@@ -73,40 +73,40 @@ class BstBaseTest {
 
         bst.put("testStringKey1", "testStringValue1");
 
-        assertEquals(bst.size(), ++size);
-        assertEquals(bst.min(), "testStringKey1");
-        assertEquals(bst.max(), "testStringKey1");
-        assertEquals(bst.get("testStringKey1"), "testStringValue1");
+        assertEquals(++size, bst.size());
+        assertEquals("testStringKey1", bst.min());
+        assertEquals("testStringKey1", bst.max());
+        assertEquals("testStringValue1", bst.get("testStringKey1"));
 
         bst.put("testStringKey2", "testStringValue2");
 
-        assertEquals(bst.size(), ++size);
-        assertEquals(bst.min(), "testStringKey1");
-        assertEquals(bst.max(), "testStringKey2");
-        assertEquals(bst.maxValue(), "testStringValue2");
-        assertEquals(bst.get("testStringKey2"), "testStringValue2");
+        assertEquals(++size, bst.size());
+        assertEquals("testStringKey1", bst.min());
+        assertEquals("testStringKey2", bst.max());
+        assertEquals("testStringValue2", bst.maxValue());
+        assertEquals("testStringValue2", bst.get("testStringKey2"));
 
         bst.put("testStringKey2", "case with same value");
 
-        assertEquals(bst.size(), size);
-        assertEquals(bst.min(), "testStringKey1");
-        assertEquals(bst.max(), "testStringKey2");
-        assertEquals(bst.maxValue(), "case with same value");
-        assertEquals(bst.get("testStringKey2"), "case with same value");
+        assertEquals(size, bst.size());
+        assertEquals("testStringKey1", bst.min());
+        assertEquals("testStringKey2", bst.max());
+        assertEquals("case with same value", bst.maxValue());
+        assertEquals("case with same value", bst.get("testStringKey2"));
 
         bst.put("testStringKey3", "testStringValue3");
 
-        assertEquals(bst.size(), ++size);
-        assertEquals(bst.min(), "testStringKey1");
-        assertEquals(bst.max(), "testStringKey3");
-        assertEquals(bst.get("testStringKey3"), "testStringValue3");
+        assertEquals(++size, bst.size());
+        assertEquals("testStringKey1", bst.min());
+        assertEquals("testStringKey3", bst.max());
+        assertEquals("testStringValue3", bst.get("testStringKey3"));
 
         bst.put("testStringKey", "testStringValue");
 
-        assertEquals(bst.size(), ++size);
-        assertEquals(bst.min(), "testStringKey");
-        assertEquals(bst.max(), "testStringKey3");
-        assertEquals(bst.get("testStringKey"), "testStringValue");
+        assertEquals(++size, bst.size());
+        assertEquals("testStringKey", bst.min());
+        assertEquals("testStringKey3", bst.max());
+        assertEquals("testStringValue", bst.get("testStringKey"));
     }
 
     @Test
@@ -125,33 +125,33 @@ class BstBaseTest {
         assertFalse(bst.isEmpty());
         int size = bst.size();
 
-        assertEquals(bst.remove("testStringKey4"), "testStringValue4");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue4", bst.remove("testStringKey4"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey4"));
 
-        assertEquals(bst.remove("testStringKey1"), "testStringValue1");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue1", bst.remove("testStringKey1"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey1"));
 
-        assertNull(bst.remove("testStringKey1"), "testStringValue1");
-        assertEquals(bst.size(), size);
+        assertNull("testStringValue1", bst.remove("testStringKey1"));
+        assertEquals(size, bst.size());
         assertFalse(bst.isEmpty());
         assertFalse(bst.containsKey("testStringKey1"));
 
-        assertEquals(bst.remove("testStringKey3"), "testStringValue3");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue3", bst.remove("testStringKey3"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey3"));
 
-        assertEquals(bst.remove("testStringKey0"), "testStringValue0");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue0", bst.remove("testStringKey0"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey0"));
 
-        assertEquals(bst.remove("testStringKey2"), "testStringValue2");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue2", bst.remove("testStringKey2"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey2"));
 
-        assertEquals(bst.remove("testStringKey5"), "testStringValue5");
-        assertEquals(bst.size(), --size);
+        assertEquals("testStringValue5", bst.remove("testStringKey5"));
+        assertEquals(--size, bst.size());
         assertFalse(bst.containsKey("testStringKey5"));
 
         assertTrue(bst.isEmpty());
@@ -166,38 +166,38 @@ class BstBaseTest {
 
         bst.put("testStringKey2", "testStringValue2");
 
-        assertEquals(bst.max(), "testStringKey2");
-        assertEquals(bst.maxValue(), "testStringValue2");
+        assertEquals("testStringKey2", bst.max());
+        assertEquals("testStringValue2", bst.maxValue());
 
         bst.put("testStringKey5", "testStringValue5");
 
-        assertEquals(bst.max(), "testStringKey5");
-        assertEquals(bst.maxValue(), "testStringValue5");
+        assertEquals("testStringKey5", bst.max());
+        assertEquals("testStringValue5", bst.maxValue());
 
         bst.put("testStringKey0", "testStringValue0");
 
-        assertEquals(bst.max(), "testStringKey5");
-        assertEquals(bst.maxValue(), "testStringValue5");
+        assertEquals("testStringKey5", bst.max());
+        assertEquals("testStringValue5", bst.maxValue());
 
         bst.put("testStringKey7", "testStringValue7");
 
-        assertEquals(bst.max(), "testStringKey7");
-        assertEquals(bst.maxValue(), "testStringValue7");
+        assertEquals("testStringKey7", bst.max());
+        assertEquals("testStringValue7", bst.maxValue());
 
         bst.remove("testStringKey5");
 
-        assertEquals(bst.max(), "testStringKey7");
-        assertEquals(bst.maxValue(), "testStringValue7");
+        assertEquals("testStringKey7", bst.max());
+        assertEquals("testStringValue7", bst.maxValue());
 
         bst.remove("testStringKey7");
 
-        assertEquals(bst.max(), "testStringKey2");
-        assertEquals(bst.maxValue(), "testStringValue2");
+        assertEquals("testStringKey2", bst.max());
+        assertEquals("testStringValue2", bst.maxValue());
 
         bst.remove("testStringKey0");
 
-        assertEquals(bst.max(), "testStringKey2");
-        assertEquals(bst.maxValue(), "testStringValue2");
+        assertEquals("testStringKey2", bst.max());
+        assertEquals("testStringValue2", bst.maxValue());
 
         bst.remove("testStringKey2");
 
@@ -214,38 +214,38 @@ class BstBaseTest {
 
         bst.put("testStringKey5", "testStringValue5");
 
-        assertEquals(bst.min(), "testStringKey5");
-        assertEquals(bst.minValue(), "testStringValue5");
+        assertEquals("testStringKey5", bst.min());
+        assertEquals("testStringValue5", bst.minValue());
 
         bst.put("testStringKey3", "testStringValue3");
 
-        assertEquals(bst.min(), "testStringKey3");
-        assertEquals(bst.minValue(), "testStringValue3");
+        assertEquals("testStringKey3", bst.min());
+        assertEquals("testStringValue3", bst.minValue());
 
         bst.put("testStringKey9", "testStringValue9");
 
-        assertEquals(bst.min(), "testStringKey3");
-        assertEquals(bst.minValue(), "testStringValue3");
+        assertEquals("testStringKey3", bst.min());
+        assertEquals("testStringValue3", bst.minValue());
 
         bst.put("testStringKey0", "testStringValue0");
 
-        assertEquals(bst.min(), "testStringKey0");
-        assertEquals(bst.minValue(), "testStringValue0");
+        assertEquals("testStringKey0", bst.min());
+        assertEquals("testStringValue0", bst.minValue());
 
         bst.remove("testStringKey5");
 
-        assertEquals(bst.min(), "testStringKey0");
-        assertEquals(bst.minValue(), "testStringValue0");
+        assertEquals("testStringKey0", bst.min());
+        assertEquals("testStringValue0", bst.minValue());
 
         bst.remove("testStringKey0");
 
-        assertEquals(bst.min(), "testStringKey3");
-        assertEquals(bst.minValue(), "testStringValue3");
+        assertEquals("testStringKey3", bst.min());
+        assertEquals("testStringValue3", bst.minValue());
 
         bst.remove("testStringKey9");
 
-        assertEquals(bst.min(), "testStringKey3");
-        assertEquals(bst.minValue(), "testStringValue3");
+        assertEquals("testStringKey3", bst.min());
+        assertEquals("testStringValue3", bst.minValue());
 
         bst.remove("testStringKey3");
 
@@ -308,13 +308,13 @@ class BstBaseTest {
         bst.put("9", "testStringValue0");
         bst.put("2", "testStringValue0");
 
-        assertEquals(bst.min(), "1");
-        assertEquals(bst.max(), "9");
-        assertEquals(bst.ceil("5"), "5");
-        assertEquals(bst.ceil("2"), "2");
-        assertEquals(bst.ceil("8"), "8");
-        assertEquals(bst.ceil("0"), "1");
-        assertEquals(bst.ceil("9"), "9");
+        assertEquals("1", bst.min());
+        assertEquals("9", bst.max());
+        assertEquals("5", bst.ceil("5"));
+        assertEquals("2", bst.ceil("2"));
+        assertEquals("8", bst.ceil("8"));
+        assertEquals("1", bst.ceil("0"));
+        assertEquals("9", bst.ceil("9"));
         assertNull(bst.ceil("99"));
     }
 
@@ -330,13 +330,13 @@ class BstBaseTest {
         bst.put("9", "testStringValue0");
         bst.put("2", "testStringValue0");
 
-        assertEquals(bst.min(), "1");
-        assertEquals(bst.max(), "9");
-        assertEquals(bst.floor("5"), "5");
-        assertEquals(bst.floor("4"), "3");
-        assertEquals(bst.floor("8"), "8");
-        assertEquals(bst.floor("1"), "1");
-        assertEquals(bst.floor("99"), "9");
+        assertEquals("1", bst.min());
+        assertEquals("9", bst.max());
+        assertEquals("5", bst.floor("5"));
+        assertEquals("3", bst.floor("4"));
+        assertEquals("8", bst.floor("8"));
+        assertEquals("1", bst.floor("1"));
+        assertEquals("9", bst.floor("99"));
         assertNull(bst.floor(""));
     }
 
@@ -347,16 +347,16 @@ class BstBaseTest {
         assertNull(bst.get("1"));
 
         bst.put("1", "testStringValue3");
-        assertEquals(bst.get("1"), "testStringValue3");
+        assertEquals("testStringValue3", bst.get("1"));
 
         bst.put("1", "testStringValue4");
-        assertEquals(bst.get("1"), "testStringValue4");
+        assertEquals("testStringValue4", bst.get("1"));
 
         bst.put("1", "testStringValue2");
-        assertEquals(bst.get("1"), "testStringValue2");
+        assertEquals("testStringValue2", bst.get("1"));
 
         bst.put("7", "testStringValue5");
-        assertEquals(bst.get("7"), "testStringValue5");
-        assertEquals(bst.get("1"), "testStringValue2");
+        assertEquals("testStringValue5", bst.get("7"));
+        assertEquals("testStringValue2", bst.get("1"));
     }
 }
