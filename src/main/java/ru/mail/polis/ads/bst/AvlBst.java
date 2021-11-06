@@ -9,8 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 // У АВЛ дерева есть баланс высоты
 // Разница высот поддеревьев не должна отличаться более, чем на единицу
-public class AvlBst<Key extends Comparable<Key>, Value>
-        implements Bst<Key, Value> {
+public class AvlBst<Key extends Comparable<Key>, Value> implements Bst<Key, Value> {
 
     private static final int LEFT_DISBALANCE = 2;
     private static final int RIGHT_DISBALANCE = -2;
