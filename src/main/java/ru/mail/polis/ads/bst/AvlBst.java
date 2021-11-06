@@ -164,7 +164,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (x == null) {
             return null;
         }
-        if (key == root.key) {
+        if (key.compareTo(root.key) == 0) {
             Value deleted = root.value;
             root = innerDelete(root);
             return deleted;
@@ -182,7 +182,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
                 current = current.right;
                 continue;
             }
-            if (key == current.key) {
+            if (key.compareTo(current.key) == 0) {
                 Value deleted = current.value;
                 if (parent.left != null && parent.left.key == current.key) {
                     parent.left = innerDelete(current);
@@ -243,7 +243,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (x == null) {
             return null;
         }
-        if (x.key == key) {
+        if (x.key.compareTo(key) == 0) {
             return x.key;
         }
         Key left = null;
@@ -254,7 +254,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (x.key.compareTo(key) < 0) {
             right = floor(x.right, key);
         }
-        if (left == key || right == key) {
+        if ((left != null && left.compareTo(key) == 0) || (right != null && right.compareTo(key) == 0)) {
             return key;
         }
         if (right == null) {
@@ -284,7 +284,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (x == null) {
             return null;
         }
-        if (x.key == key) {
+        if (x.key.compareTo(key) == 0) {
             return x.key;
         }
         Key left = null;
@@ -295,7 +295,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (x.key.compareTo(key) < 0) {
             right = ceil(x.right, key);
         }
-        if (left == key || right == key) {
+        if ((left != null && left.compareTo(key) == 0) || (right != null && right.compareTo(key) == 0)) {
             return key;
         }
         if (right == null) {
