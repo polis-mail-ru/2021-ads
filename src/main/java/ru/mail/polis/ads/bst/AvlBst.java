@@ -1,6 +1,7 @@
 package ru.mail.polis.ads.bst;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * AVL implementation of binary search tree.
@@ -10,33 +11,22 @@ import org.jetbrains.annotations.NotNull;
 // Разница высот поддеревьев не должна отличаться более, чем на единицу
 public class AvlBst<Key extends Comparable<Key>, Value>
         implements Bst<Key, Value> {
-    
+
+    private static final int LEFT_DISBALANCE = 2;
+    private static final int RIGHT_DISBALANCE = -2;
     private int size = 0;
     private Node root = null;
-    
     private Node min = null;
     private Node max = null;
 
-    private class Node {
-        Key key;
-        Value value;
-        Node left;
-        Node right;
-        int height;
-
-        public Node(Key key, Value value) {
-            this.key = key;
-            this.value = value;
-            this.height = 1;
-        }
-    }
+    private Node deletedNode = null;
 
     @Override
     public Value get(@NotNull Key key) {
         if (isEmpty()) {
             return null;
         }
-        
+
         return get(root, key);
     }
 
@@ -52,7 +42,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return node.value;
         }
 
-        boolean lessThanCurrent = comparisonResult < 0;
+        boolean lessThanCurrent = comparisonResult > 0;
 
         return lessThanCurrent ? get(node.left, key) : get(node.right, key);
     }
@@ -66,6 +56,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         } else {
             root = put(root, key, value);
         }
+
+        root = balanceNode(root);
     }
 
     private Node put(@NotNull Node node, @NotNull Key key, @NotNull Value value) {
@@ -84,7 +76,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
                 setNewMinOrMaxIfTrue(node.left);
                 size++;
             } else {
-                put(node.left, key, value);
+                node.left = put(node.left, key, value);
             }
         }
 
@@ -95,7 +87,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
                 setNewMinOrMaxIfTrue(node.right);
                 size++;
             } else {
-                put(node.right, key, value);
+                node.right = put(node.right, key, value);
             }
         }
 
@@ -104,9 +96,6 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
         return node;
     }
-
-    private static final int LEFT_DISBALANCE = 2;
-    private static final int RIGHT_DISBALANCE = -2;
 
     private Node balanceNode(Node node) {
         int factor = getFactor(node);
@@ -130,7 +119,6 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return node;
     }
 
-
     private Node rotateLeft(@NotNull Node node) {
         Node rightOfCurrent = node.right;
         node.right = rightOfCurrent.left;
@@ -152,7 +140,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
         return leftOrCurrent;
     }
-    
+
     private int getFactor(Node node) {
         return height(node.left) - height(node.right);
     }
@@ -170,8 +158,63 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (isEmpty()) {
             return null;
         }
-        
-        throw new UnsupportedOperationException("Implement me");
+
+        root = delete(root, key);
+
+        Value v = null;
+        if (deletedNode != null) {
+            v = deletedNode.value;
+
+            if (min != null && deletedNode.key.equals(min.key)) {
+                min = null;
+            }
+
+            if (min != null && deletedNode.key.equals(max.key)) {
+                max = null;
+            }
+
+            deletedNode = null;
+            size--;
+        }
+
+        return v;
+    }
+
+    public Node delete(@Nullable Node node, @NotNull Key key) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.key.equals(key)) {
+            deletedNode = node;
+            return innerDelete(node);
+        }
+
+        if (node.key.compareTo(key) > 0) {
+            node.left = delete(node.left, key);
+        }
+
+        if (node.key.compareTo(key) < 0) {
+            node.right = delete(node.right, key);
+        }
+
+        return node;
+    }
+
+    private Node innerDelete(Node node) {
+        if (node.right == null) {
+            return node.left;
+        }
+        if (node.left == null) {
+            return node.right;
+        }
+
+        Node tempNode = node;
+        node = min(node.right);
+        node.right = deleteMin(tempNode.right);
+        node.left = tempNode.left;
+
+        return node;
     }
 
     @Override
@@ -192,11 +235,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (isEmpty()) {
             return null;
         }
-        
+
         if (min == null) {
             updateMin();
         }
-        
+
         return min.value;
     }
 
@@ -231,13 +274,13 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (isEmpty()) {
             return null;
         }
-        
+
         Node curr = root;
         while (curr != null) {
             int comparisonResult = curr.key.compareTo(key);
             boolean equals = comparisonResult == 0;
             if (equals) {
-                return curr.left == null ? null : curr.left.key;
+                return curr.key;
             }
 
             boolean lessThanCurrent = comparisonResult > 0;
@@ -247,7 +290,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
             boolean biggerThanCurrent = comparisonResult < 0;
             if (biggerThanCurrent) {
-                if (curr.right != null && curr.right.key.compareTo(key) > 0) {
+                boolean currIsMaxLessThanKey = curr.right == null || curr.right.key.compareTo(key) > 0;
+                if (currIsMaxLessThanKey) {
                     return curr.key;
                 }
 
@@ -258,13 +302,37 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return null;
     }
 
-        @Override
+    @Override
     public Key ceil(@NotNull Key key) {
         if (isEmpty()) {
             return null;
         }
-        
-        throw new UnsupportedOperationException("Implement me");
+
+        Node curr = root;
+        while (curr != null) {
+            int comparisonResult = curr.key.compareTo(key);
+            boolean equals = comparisonResult == 0;
+            if (equals) {
+                return curr.key;
+            }
+
+            boolean lessThanCurrent = comparisonResult > 0;
+            if (lessThanCurrent) {
+                boolean currIsMinBiggerThanKey = curr.left == null || (curr.left.right != null && curr.left.right.key.compareTo(key) < 0);
+                if (currIsMinBiggerThanKey) {
+                    return curr.key;
+                }
+
+                curr = curr.left;
+            }
+
+            boolean biggerThanCurrent = comparisonResult < 0;
+            if (biggerThanCurrent) {
+                curr = curr.right;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -275,6 +343,29 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     @Override
     public int height() {
         return height(root);
+    }
+
+    private Node deleteMin(Node node) {
+        if (node == null) {
+            return null;
+        }
+
+        Node curr = node;
+        while (curr.left != null && curr.left.left != null) {
+            curr = curr.left;
+        }
+
+        curr.left = curr.left == null ? null : curr.left.right;
+
+        return curr.left;
+    }
+
+    private Node min(Node node) {
+        if (node == null) {
+            return null;
+        }
+
+        return node.left == null ? node : min(node.left);
     }
 
     private void updateMax() {
@@ -309,6 +400,23 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     private void setMaxIfBigger(Node addedNode) {
         if (max == null || max.key.compareTo(addedNode.key) < 0) {
             max = addedNode;
+        }
+    }
+
+    private class Node {
+        @NotNull
+        Key key;
+
+        @NotNull
+        Value value;
+        Node left;
+        Node right;
+        int height;
+
+        public Node(@NotNull Key key, @NotNull Value value) {
+            this.key = key;
+            this.value = value;
+            this.height = 1;
         }
     }
 }
