@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 public class AvlBst<Key extends Comparable<Key>, Value>
         implements Bst<Key, Value> {
 
+    private Node root;
+
     private class Node {
         Key key;
         Value value;
@@ -16,9 +18,21 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         int height;
     }
 
+    Value get(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) < 0) {
+            return get(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            return get(x.right, key);
+        }
+        return x.value;
+    }
     @Override
     public Value get(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        return get(root, key);
     }
 
     @Override
