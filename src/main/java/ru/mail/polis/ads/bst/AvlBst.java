@@ -171,8 +171,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         throw new UnsupportedOperationException("Implement me");
     }
 
+    private int height(Node x) {
+        return x == null ? 0 : x.height;
+    }
     @Override
     public int height() {
-        throw new UnsupportedOperationException("Implement me");
+        return height(root);
     }
 }
