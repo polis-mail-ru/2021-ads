@@ -181,4 +181,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     public int height() {
         return height(root);
     }
+
+    private int factor(Node x) {
+        return height(x.left) - height(x.right);
+    }
 }
