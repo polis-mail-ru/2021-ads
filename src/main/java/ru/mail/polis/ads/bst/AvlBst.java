@@ -52,6 +52,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         } else {
             x.value = value;
         }
+        fixHeight(x);
+        x = balance(x);
         return x;
     }
     @Override
