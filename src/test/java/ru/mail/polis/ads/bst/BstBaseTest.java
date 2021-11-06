@@ -359,4 +359,25 @@ class BstBaseTest {
         assertEquals(bst.get("7"), "testStringValue5");
         assertEquals(bst.get("1"), "testStringValue2");
     }
+
+    @Test
+    void stackOutOfMemoryTest() {
+        Bst<String, String> bst = newBst();
+        for (int i = 0; i < 200_000; i++) {
+            bst.put("" + i, "testStringValue" + i);
+        }
+        for (int i = 200_001; i <= 400_000; i++) {
+            bst.put("" + i, "testStringValue" + i);
+        }
+        bst.put("200000","testStringValue200000");
+        assertEquals("testStringValue100000", bst.get("100000"));
+        assertEquals("testStringValue181001", bst.remove("181001"));
+
+        assertEquals("123123", bst.ceil("123123"));
+        assertEquals("123123", bst.floor("123123"));
+        assertEquals("testStringValue123123", bst.remove("123123"));
+
+        assertEquals("123124", bst.ceil("123123"));
+        assertEquals("123122", bst.floor("123123"));
+    }
 }
