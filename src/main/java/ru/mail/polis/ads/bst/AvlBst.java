@@ -171,6 +171,9 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         throw new UnsupportedOperationException("Implement me");
     }
 
+    private void fixHeight(Node x) {
+        x.height = 1 + Math.max(height(x.left), height(x.right));
+    }
     private int height(Node x) {
         return x == null ? 0 : x.height;
     }
