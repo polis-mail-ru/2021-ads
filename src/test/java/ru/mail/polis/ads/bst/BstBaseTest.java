@@ -379,5 +379,10 @@ class BstBaseTest {
 
         assertEquals("123124", bst.ceil("123123"));
         assertEquals("123122", bst.floor("123123"));
+
+        assertEquals("99999", bst.max());
+        assertEquals("testStringValue99999", bst.maxValue());
+        assertEquals("0", bst.min());
+        assertEquals("testStringValue0", bst.minValue());
     }
 }
