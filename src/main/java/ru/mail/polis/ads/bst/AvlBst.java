@@ -182,7 +182,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Implement me");
+        return size;
     }
 
     private void fixHeight(Node x) {
