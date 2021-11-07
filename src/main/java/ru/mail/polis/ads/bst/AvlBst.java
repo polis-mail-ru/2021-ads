@@ -70,6 +70,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return x.right;
         }
         x.left = deleteMin(x.left);
+        fixHeight(x);
+        x = balance(x);
         return x;
     }
 
@@ -84,6 +86,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         x = min(t.right);
         x.right = deleteMin(t.right);
         x.left = t.left;
+        fixHeight(x);
+        x = balance(x);
         return x;
     }
 
@@ -97,10 +101,12 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (key.compareTo(x.key) > 0) {
             x.right = delete(x.right, key);
         }
-        if (key == x.key) {
+        if (key.compareTo(x.key) == 0) {
             size--;
             x = innerDelete(x);
         }
+        fixHeight(x);
+        x = balance(x);
         return x;
     }
 
@@ -222,6 +228,9 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private void fixHeight(Node x) {
+        if (x == null) {
+            return;
+        }
         x.height = 1 + Math.max(height(x.left), height(x.right));
     }
 
@@ -253,6 +262,9 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private Node balance(Node x) {
+        if (x == null) {
+            return null;
+        }
         if (factor(x) == 2) {
             if (factor(x.left) < 0) {
                 x.left = rotateLeft(x.left);
