@@ -195,7 +195,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return height(root);
     }
 
-    Node rotateRight(Node y) {
+    private Node rotateRight(Node y) {
         Node x = y.left;
         y.left = x.right;
         x.right = y;
@@ -204,7 +204,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return x;
     }
 
-    Node rotateLeft(Node x) {
+    private Node rotateLeft(Node x) {
         Node y = x.right;
         x.right = y.left;
         y.left = x;
@@ -213,7 +213,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return y;
     }
 
-    Node balance(Node x) {
+    private Node balance(Node x) {
         if (factor(x) == 2) {
             if (factor(x.left) < 0) {
                 x.left = rotateLeft(x.left);
