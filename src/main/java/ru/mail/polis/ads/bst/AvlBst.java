@@ -85,7 +85,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return x;
     }
 
-    Node delete(Node x, Key key) {
+    private Node delete(Node x, Key key) {
         if (x == null) {
             return null;
         }
