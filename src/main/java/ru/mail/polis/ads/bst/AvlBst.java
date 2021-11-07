@@ -36,6 +36,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return x.value;
     }
+
     @Override
     public Value get(@NotNull Key key) {
         return get(root, key);
@@ -56,6 +57,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         x = balance(x);
         return x;
     }
+
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
         root = put(root, key, value);
@@ -68,6 +70,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         x.left = deleteMin(x.left);
         return x;
     }
+
     private Node innerDelete(Node x) {
         if (x.right == null) {
             return x.left;
@@ -81,6 +84,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         x.left = t.left;
         return x;
     }
+
     Node delete(Node x, Key key) {
         if (x == null) {
             return null;
@@ -96,6 +100,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return x;
     }
+
     @Override
     public Value remove(@NotNull Key key) {
         Value result = get(root, key);
@@ -115,6 +120,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return min(x.left);
     }
+
     @Override
     public Key min() {
         Node minNode = min(root);
@@ -123,6 +129,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return minNode.key;
     }
+
     @Override
     public Value minValue() {
         Node minNode = min(root);
@@ -141,6 +148,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return max(x.right);
     }
+
     @Override
     public Key max() {
         Node maxNode = max(root);
@@ -149,6 +157,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         return maxNode.key;
     }
+
     @Override
     public Value maxValue() {
         Node maxNode = max(root);
@@ -176,9 +185,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     private void fixHeight(Node x) {
         x.height = 1 + Math.max(height(x.left), height(x.right));
     }
+
     private int height(Node x) {
         return x == null ? 0 : x.height;
     }
+
     @Override
     public int height() {
         return height(root);
