@@ -361,7 +361,7 @@ class BstBaseTest {
     }
 
     @Test
-    void stackOutOfMemoryTest() {
+    void stackOverflowTest() {
         Bst<String, String> bst = newBst();
         for (int i = 0; i < 200_000; i++) {
             bst.put("" + i, "testStringValue" + i);
