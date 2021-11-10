@@ -137,7 +137,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             node.value = value;
         }
 
-        return node;
+        fixHeight(node);
+        return balance(node);
     }
 
     private Node remove(Node node, Key key) {
@@ -164,7 +165,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             node.left = removedNode.left;
         }
 
-        return node;
+        fixHeight(node);
+        return balance(node);
     }
 
     private Node removeMin(Node node) {
@@ -176,12 +178,71 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return node;
     }
 
-    private Node min(Node x) {
-        return x.left == null ? x : min(x.left);
+    private Node balance(Node node) {
+        if (factor(node) == 2) {
+            if (factor(node.left) < 0) {
+                rotateLeft(node.left);
+            }
+            return rotateRight(node);
+        }
+        if (factor(node) == -2) {
+            if (factor(node.right) > 0) {
+                rotateRight(node.right);
+            }
+            return rotateLeft(node);
+        }
+
+        return node;
     }
 
-    private Node max(Node x) {
-        return x.right == null ? x : max(x.right);
+    private Node rotateLeft(Node node) {
+        Node oldRight = node.right;
+
+        node.right = oldRight.left;
+        oldRight.left = node;
+
+        fixHeight(oldRight.left);
+        fixHeight(oldRight);
+
+        return oldRight;
+    }
+
+    private Node rotateRight(Node node) {
+        Node oldLeft = node.left;
+
+        node.left = oldLeft.right;
+        oldLeft.right = node;
+
+        fixHeight(oldLeft.right);
+        fixHeight(oldLeft);
+
+        return oldLeft;
+    }
+
+    private int factor(Node node) {
+        int leftHeight = node.left == null ? 0 : node.left.height;
+        int rightHeight = node.right == null ? 0 : node.right.height;
+
+        return leftHeight - rightHeight;
+    }
+
+    private void fixHeight(Node node) {
+        if (node == null) {
+            return;
+        }
+
+        int leftHeight = node.left == null ? 0 : node.left.height;
+        int rightHeight = node.right == null ? 0 : node.right.height;
+
+        node.height = Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    private Node min(Node node) {
+        return node.left == null ? node : min(node.left);
+    }
+
+    private Node max(Node node) {
+        return node.right == null ? node : max(node.right);
     }
 
     private Node floor(Node node, Key key) {
