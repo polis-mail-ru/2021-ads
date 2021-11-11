@@ -2,6 +2,8 @@ package ru.mail.polis.ads.bst;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -358,5 +360,54 @@ class BstBaseTest {
         bst.put("7", "testStringValue5");
         assertEquals(bst.get("7"), "testStringValue5");
         assertEquals(bst.get("1"), "testStringValue2");
+    }
+
+    @Test
+    void timeTest() {
+        long limitTimeInMillis = 2000;
+        AvlBst<Integer, Boolean> bst = new AvlBst<>();
+        int countAdd = 100000;
+
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i <= 14; i++) {
+            bst.put(i, true);
+        }
+        boolean badTime = false;
+        for (int i = 15; i < countAdd; i++) {
+            if (System.currentTimeMillis() - startTime > limitTimeInMillis) {
+                badTime = true;
+                break;
+            }
+            bst.put(i, true);
+            if ((i + 1) % 8 == 0) {
+                int min = i - 15;
+                for (int k = min; k < min + 8; k += 2) {
+                    bst.remove(k);
+                    if (System.currentTimeMillis() - startTime > limitTimeInMillis) {
+                        badTime = true;
+                        break;
+                    }
+                }
+                bst.remove(min + 1);
+                if (System.currentTimeMillis() - startTime > limitTimeInMillis) {
+                    badTime = true;
+                    break;
+                }
+                bst.remove(min + 5);
+                if (System.currentTimeMillis() - startTime > limitTimeInMillis) {
+                    badTime = true;
+                    break;
+                }
+                bst.put(min + 3, true);
+            }
+        }
+        for (int i = 0; i < countAdd; i++) {
+            bst.remove(i);
+            if (System.currentTimeMillis() - startTime > limitTimeInMillis) {
+                badTime = true;
+                break;
+            }
+        }
+        assertFalse(badTime);
     }
 }
