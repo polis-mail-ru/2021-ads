@@ -22,9 +22,15 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             this.right = right;
             this.height = height;
         }
+
+        public Node(Node src) {
+            this(src.key, src.value, src.left, src.right, src.height);
+        }
     }
 
     private Node root;
+    private int size;
+    private Node lastRemoved;
 
     @Override
     public Value get(@NotNull Key key) {
@@ -39,9 +45,12 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
     @Override
     public Value remove(@NotNull Key key) {
-        Node toBeRemoved = get(root, key);
+        int fixedSize = size;
         root = delete(root, key);
-        return toBeRemoved == null ? null : toBeRemoved.value;
+        if (fixedSize == size || lastRemoved == null) {
+            return null;
+        }
+        return lastRemoved.value;
     }
 
     @Override
@@ -76,7 +85,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
     @Override
     public int size() {
-        return size(root);
+        return size;
     }
 
     @Override
@@ -99,6 +108,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
 
     private Node put(Node x, Key key, Value value) {
         if (x == null) {
+            ++size;
             return new Node(key, value, null, null, 1);
         }
         if (key.compareTo(x.key) < 0) {
@@ -132,7 +142,9 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             x.right = delete(x.right, key);
         }
         if (key.compareTo(x.key) == 0) {
+            lastRemoved = new Node(x);
             x = innerDelete(x);
+            --size;
         }
         return x;
     }
@@ -216,7 +228,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return null;
         }
         if (key.compareTo(x.key) == 0
-                || (key.compareTo(x.key) > 0 && (x.right == null || x.right.key.compareTo(key) > 0))) {
+                || (key.compareTo(x.key) > 0 && (x.right == null || min(x.right).key.compareTo(key) > 0))) {
             return x.key;
         }
         if (key.compareTo(x.key) < 0) {
@@ -236,13 +248,6 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return ceil(x.right, key);
         }
         return ceil(x.left, key);
-    }
-
-    private int size(Node x) {
-        if (x == null) {
-            return 0;
-        }
-        return 1 + size(x.left) + size(x.right);
     }
 
 }
