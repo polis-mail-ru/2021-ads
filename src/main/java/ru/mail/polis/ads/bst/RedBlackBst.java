@@ -11,7 +11,6 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
 
     private static final boolean BLACK = false;
     private static final boolean RED = true;
-    private final Node NOT_NULL_NODE = new Node(null, null, null, null, BLACK);
 
     private int blackHeight;
     private int size;
@@ -309,32 +308,6 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         }
         return fixUp(x);
     }
-
-//    private void deleteLeft(Node x, Key key) {
-//        if (x.left != null) {
-//            if (isBlack(x.left) && isBlack(x.left.left)) {
-//                x = moveRedLeft(x);
-//            }
-//            x.left = delete(x.left, key);
-//        }
-//    }
-//
-//    private Node deleteRight(Node x, Key key) {
-//        if (isRed(x.left)) {
-//            x = rotateRight(x);
-//            x.right = delete(x.right, key);
-//        } else if (key.compareTo(x.key) == 0 && x.right == null) {
-//            --size;
-//            lastRemoved = x;
-//            return null;
-//        } else {
-//            if (x.right != null && isBlack(x.right) && isBlack(x.right.left)) {
-//                x = moveRedRight(x); // preserve invariant
-//            }
-//            deleteUnderInvariant(x, key);
-//        }
-//        return NOT_NULL_NODE;
-//    }
 
     private void deleteUnderInvariant(Node x, Key key) {
         if (key.compareTo(x.key) == 0) {
