@@ -116,27 +116,27 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return balance(x);
     }
 
-    private void deleteMin(Node nodeToDelete) {
+    private void deleteMin(Node input) {
         Deque<Node> deque;
 
-        if (nodeToDelete.left == null) {
+        if (input.left == null) {
             // Need to find father of this element
-            deque = traceToNode(nodeToDelete.key);
+            deque = traceToNode(input.key);
             deque.removeFirst();
             Node parentOfNodeToDelete = deque.getFirst();
 
-            if (parentOfNodeToDelete.left != null && parentOfNodeToDelete.left.equals(nodeToDelete)) {
-                parentOfNodeToDelete.left = null;
+            if (parentOfNodeToDelete.left != null && parentOfNodeToDelete.left.equals(input)) {
+                parentOfNodeToDelete.left = input.right;
                 return;
-            } else if (parentOfNodeToDelete.right != null && parentOfNodeToDelete.right.equals(nodeToDelete)) {
-                parentOfNodeToDelete.right = null;
+            } else if (parentOfNodeToDelete.right != null && parentOfNodeToDelete.right.equals(input)) {
+                parentOfNodeToDelete.right = input.right;
                 return;
             }
             return;
         }
 
-        deque = new ArrayDeque<>(getHeight(nodeToDelete));
-        deque.addFirst(nodeToDelete);
+        deque = new ArrayDeque<>(getHeight(input));
+        deque.addFirst(input);
         Node current = deque.getFirst();
 
         while (current.left != null) {
