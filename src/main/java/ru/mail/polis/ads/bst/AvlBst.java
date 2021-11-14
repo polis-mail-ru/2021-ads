@@ -30,7 +30,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return tmp == null ? null : tmp.value;
     }
 
-    Node get(Node x, Key key) {
+    private Node get(Node x, Key key) {
         if (x == null) {
             return null;
         }
@@ -46,11 +46,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
         root = put(root, key, value);
-        size++;
     }
 
-    Node put(Node x, Key key, Value value) {
+    private Node put(Node x, Key key, Value value) {
         if (x == null) {
+            size++;
             return new Node(key, value, 1);
         }
         if (key.compareTo(x.key) < 0) {
@@ -59,7 +59,6 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             x.right = put(x.right, key, value);
         } else {
             x.value = value;
-            size--;
         }
         fixHeight(x);
         x = balance(x);
@@ -73,10 +72,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         Node tmp = get(root, key);
         root = delete(root, key);
+        size--;
         return tmp.value;
     }
 
-    Node deleteMin(Node x) {
+    private Node deleteMin(Node x) {
         if (x.left == null) {
             return x.right;
         }
@@ -84,7 +84,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return x;
     }
 
-    Node delete(Node x, Key key) {
+    private Node delete(Node x, Key key) {
         if (x == null) {
             return null;
         }
@@ -96,14 +96,13 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
         if (key == x.key) {
             x = innerDelete(x);
-            size--;
         }
         fixHeight(x);
         x = balance(x);
         return x;
     }
 
-    Node innerDelete(Node x) {
+    private Node innerDelete(Node x) {
         if (x.right == null) {
             return x.left;
         }
@@ -135,7 +134,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return tmp == null ? null : tmp.value;
     }
 
-    Node min(Node x) {
+    private Node min(Node x) {
         if (x.left == null) {
             return x;
         }
@@ -160,7 +159,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return tmp == null ? null : tmp.value;
     }
 
-    Node max(Node x) {
+    private Node max(Node x) {
         if (x.right == null) {
             return x;
         }
@@ -178,7 +177,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return floor(root, key).key;
     }
 
-    Node floor(Node x, Key key) {
+    private Node floor(Node x, Key key) {
         if (key.compareTo(x.key) < 0) {
             if (key.compareTo(x.left.key) > 0) {
                 return x.left;
@@ -205,7 +204,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return ceil(root, key).key;
     }
 
-    Node ceil(Node x, Key key) {
+    private Node ceil(Node x, Key key) {
         if (key.compareTo(x.key) < 0) {
             if (x.left == null || key.compareTo(x.left.key) > 0) {
                 return x;
@@ -238,14 +237,14 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return x == null ? 0 : x.height;
     }
 
-    void fixHeight(Node x) {
+    private void fixHeight(Node x) {
         if (x == null) {
             return;
         }
         x.height = 1 + Math.max(height(x.left), height(x.right));
     }
 
-    Node rotateRight(Node y) {
+    private Node rotateRight(Node y) {
         Node x = y.left;
         y.left = x.right;
         x.right = y;
@@ -254,7 +253,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return x;
     }
 
-    Node rotateLeft(Node x) {
+    private Node rotateLeft(Node x) {
         Node y = x.right;
         x.right = y.left;
         y.left = x;
@@ -263,11 +262,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return y;
     }
 
-    int factor(Node x) {
+    private int factor(Node x) {
         return height(x.left) - height(x.right);
     }
 
-    Node balance(Node x) {
+    private Node balance(Node x) {
         if (x == null) {
             return null;
         }
