@@ -28,22 +28,21 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             this.height = height;
         }
 
-        public Node changeSon(Node oldNode, Node newNode) {
+        public void changeSon(Node oldNode, Node newNode) {
             if (left != null && left.equals(oldNode)) {
                 left = newNode;
-                return oldNode;
+                return;
             }
             if (right != null && right.equals(oldNode)) {
                 right = newNode;
-                return oldNode;
+                return;
             }
             throw new RuntimeException("No such son");
         }
     }
 
-    // Return trace to node, if node with such key not exist - return possible parent of node where it should stay
-    @NotNull
-    private Deque<Node> traceToNode(@NotNull Key key) {
+    // Return trace to node, if node with such key not exist - return possible parent of node where it might stay
+    private @NotNull Deque<Node> traceToNode(@NotNull Key key) {
         if (root == null) {
             return new ArrayDeque<>(0);
         }
@@ -79,10 +78,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return currentNode != null ? currentNode.value : null;
     }
 
-    // Realization without recursion
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-//        root = putRecursion(root, key, value);
         if (root == null) {
             size++;
             root = new Node(key, value, 1);
@@ -104,29 +101,14 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         balanceBranch(deque);
     }
 
-    // Realization with recursion
-    @Deprecated
-    private @NotNull Node putRecursion(Node x, @NotNull Key key, @NotNull Value value) {
-        if (x == null) {
-            size++;
-            return new Node(key, value, 1);
-        }
-        if (key.compareTo(x.key) < 0) {
-            x.left = putRecursion(x.left, key, value);
-        } else if (key.compareTo(x.key) > 0) {
-            x.right = putRecursion(x.right, key, value);
-        } else {
-            x.value = value;
-        }
-        fixHeight(x);
-        return balance(x);
-    }
-
     // Deletes node with the lowest key in tree with root input.
-    // Returns deleted node
+    // Returns deleted node or null if root is empty
     // (Be careful with sons of deleted element!)
-    // After this operation tree is unbalanced, be careful
-    private Node deleteMin(Node input) {
+    // After this operation tree is balanced, be careful
+    private @NotNull Node deleteMin(@NotNull Node input) {
+        if (root == null) {
+            throw new NullPointerException("Root is null, when deleting min");
+        }
         Deque<Node> deque;
 
         if (input.left == null) {
@@ -134,7 +116,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             // First, find parent of this element
             deque = traceToNode(input.key);
         } else {
-            // Moving from input to nodeToDelete. Finding it
+            // Moving from input to nodeToDelete. Trying to find the lowest one
             deque = new ArrayDeque<>(getHeight(input));
 
             Node current = input;
@@ -151,73 +133,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return nodeToDelete;
     }
 
-    // Realization with recursion
-    @Deprecated
-    private Node deleteMinRecursion(Node x) {
-        if (x.left == null) {
-            return x.right;
-        }
-        x.left = deleteMinRecursion(x.left);
-        fixHeight(x);
-        x = balance(x);
-        return x;
-    }
-
-    private Node innerDelete(Node x) {
-        if (x.right == null) {
-            size--;
-            return x.left;
-        }
-        if (x.left == null) {
-            size--;
-            return x.right;
-        }
-        Node nodeToDelete = x;
-        x = deleteMin(nodeToDelete.right);
-        nodeToDelete.key = x.key;
-        nodeToDelete.value = x.value;
-        fixHeight(nodeToDelete);
-        return balance(nodeToDelete);
-    }
-
-    @Deprecated
-    private @Nullable Node deleteRecursive(Node x, Key key) {
-        if (x == null) {
-            return null;
-        }
-        if (key.compareTo(x.key) < 0) {
-            x.left = deleteRecursive(x.left, key);
-        }
-        if (key.compareTo(x.key) > 0) {
-            x.right = deleteRecursive(x.right, key);
-        }
-        if (key.compareTo(x.key) == 0) {
-            x = innerDelete(x);
-            if (x == null) {
-                return null;
-            }
-        }
-        fixHeight(x);
-        return balance(x);
-    }
-
     @Override
     public Value remove(@NotNull Key key) {
-        // Old realization
-//        if (root == null) {
-//            return null;
-//        }
-//        Value result = get(key);
-//        if (result == null) {
-//            return null;
-//        }
-//        root = deleteRecursive(root, key);
-//        if (root != null) {
-//            balance(root);
-//        }
-//        return result;
-
-
         if (root == null) {
             return null;
         }
@@ -236,16 +153,17 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             if (root.left == null) {
                 root = root.right;
                 size--;
-                return ans;
-            }
-            if (root.right == null) {
+            } else if (root.right == null) {
                 root = root.left;
                 size--;
-                return ans;
+            } else {
+                Node newNode = deleteMin(root.right);
+                // nodeToDelete equal to root, but I can't write root here
+                nodeToDelete.key = newNode.key;
+                // Question: if I write "root" instead of "nodeToDelete", "ans" will change to, because "ans" is only
+                // shallow copy of root.value. So question: how can we make deep copy of generic?
+                nodeToDelete.value = newNode.value;
             }
-            Node newNode = deleteMin(nodeToDelete.right);
-            nodeToDelete.key = newNode.key;
-            nodeToDelete.value = newNode.value;
         } else {
             Node parentOfNodeToDelete = deque.getFirst();
             if (nodeToDelete.left == null) {
@@ -258,6 +176,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
                 Node newNode = deleteMin(nodeToDelete.right);
                 newNode.left = nodeToDelete.left;
                 newNode.right = nodeToDelete.right;
+                newNode.height = nodeToDelete.height;
                 parentOfNodeToDelete.changeSon(nodeToDelete, newNode);
             }
         }
@@ -316,11 +235,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return null;
         }
         Deque<Node> deque = traceToNode(key);
-        if (deque.getFirst().key.equals(key)) {
-            return key;
-        }
         for (Node current : deque) {
-            if (current.key.compareTo(key) < 0) {
+            if (current.key.compareTo(key) <= 0) {
                 return current.key;
             }
         }
@@ -333,11 +249,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return null;
         }
         Deque<Node> deque = traceToNode(key);
-        if (deque.getFirst().key.equals(key)) {
-            return key;
-        }
         for (Node current : deque) {
-            if (current.key.compareTo(key) > 0) {
+            if (current.key.compareTo(key) >= 0) {
                 return current.key;
             }
         }
@@ -384,67 +297,48 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         return getHeight(x.left) - getHeight(x.right);
     }
 
-    // Returns Node - useful for recursive methods
-    @Deprecated
-    private @NotNull Node balance(@NotNull Node x) {
-        if (factor(x) == 2) {
-            if (factor(x.left) < 0) {
-                x.left = rotateLeft(x.left);
-            }
-            return rotateRight(x);
-        }
-        if (factor(x) == -2) {
-            if (factor(x.right) > 0) {
-                x.right = rotateRight(x.right);
-            }
-            return rotateLeft(x);
-        }
-        return x;
-    }
-
-    // void method - useful for non-recursive methods
-    private void balance(@NotNull Node node, @NotNull Node parentNode) {
+    private void balance(@NotNull Node inputNode, @NotNull Node parentNode) {
+        Node currentNode = inputNode;
         boolean hasSmthChanged = false;
-        if (factor(node) == 2) {
+        if (factor(currentNode) == 2) {
             hasSmthChanged = true;
-            if (factor(node.left) < 0) {
-                node.left = rotateLeft(node.left);
+            if (factor(currentNode.left) < 0) {
+                currentNode.left = rotateLeft(currentNode.left);
             }
-            node = rotateRight(node);
-        } else if (factor(node) == -2) {
+            currentNode = rotateRight(currentNode);
+        } else if (factor(currentNode) == -2) {
             hasSmthChanged = true;
-            if (factor(node.right) > 0) {
-                node.right = rotateRight(node.right);
+            if (factor(currentNode.right) > 0) {
+                currentNode.right = rotateRight(currentNode.right);
             }
-            node = rotateLeft(node);
+            currentNode = rotateLeft(currentNode);
         }
 
         if (hasSmthChanged) {
-            if (parentNode.key.compareTo(node.key) > 0) {
-                parentNode.left = node;
-            } else if (parentNode.key.compareTo(node.key) < 0) {
-                parentNode.right = node;
-            }
+            parentNode.changeSon(inputNode, currentNode);
         }
     }
 
     private void balanceROOT() {
-        Node x = root;
-        if (factor(x) == 2) {
-            if (factor(x.left) < 0) {
-                x.left = rotateLeft(x.left);
+        if (factor(root) == 2) {
+            if (factor(root.left) < 0) {
+                root.left = rotateLeft(root.left);
             }
-            x = rotateRight(x);
-        } else if (factor(x) == -2) {
-            if (factor(x.right) > 0) {
-                x.right = rotateRight(x.right);
+            root = rotateRight(root);
+        } else if (factor(root) == -2) {
+            if (factor(root.right) > 0) {
+                root.right = rotateRight(root.right);
             }
-            x = rotateLeft(x);
+            root = rotateLeft(root);
         }
-        root = x;
     }
 
+    // Balancing trace. Deque contains nodes from one of nodes to root
+    // Deque must be not empty
     private void balanceBranch(Deque<Node> deque) {
+        if (deque.isEmpty()) {
+            throw new NullPointerException("Trace is empty, when trying balancing branch. Usually it is because root is null");
+        }
         while (deque.size() > 1) {
             fixHeight(deque.getFirst());
             Node prev = deque.removeFirst();
