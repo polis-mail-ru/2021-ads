@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+import ru.mail.polis.ads.bst.AvlBst;
+import ru.mail.polis.ads.bst.Bst;
+
 /**
  * Problem solution template.
  */
@@ -48,9 +51,18 @@ public final class SolveTemplate {
     }
 
     public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
-        }
+        Bst<String, String> bst = new AvlBst<>();
+
+        bst.put("testStringKey3", "testStringValue3");
+        bst.put("testStringKey4", "testStringValue4");
+        bst.put("testStringKey2", "testStringValue2");
+        bst.put("testStringKey5", "testStringValue5");
+        bst.put("testStringKey1", "testStringValue1");
+        bst.put("testStringKey0", "testStringValue0");
+
+        bst.remove("testStringKey4");
+
+        bst.remove("testStringKey1");
+        bst.containsKey("testStringKey1");
     }
 }

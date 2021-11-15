@@ -48,13 +48,11 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
         root = putElement(root, key, value);
-        size++;
     }
 
     @Override
     public Value remove(@NotNull Key key) {
-        size--;
-        removeElement(root, key);
+        root = removeElement(root, key);
         return deleted;
     }
 
@@ -173,7 +171,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private Node putElement(Node node, Key key, Value value) {
-        if (root == null) {
+        if (node == null) {
+            size++;
             return new Node(key, value, null, null, 1);
         }
 
@@ -183,7 +182,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         } else if (compare < 0) {
             node.left = putElement(node.left, key, value);
         } else {
-            node.key = key;
+            node.value = value;
         }
 
         fixHeight(node);
@@ -235,15 +234,15 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             return null;
         }
 
-        int cmp = key.compareTo(node.key);
-        if (cmp < 0) {
+        int compare = key.compareTo(node.key);
+        if (compare < 0) {
             node.left = removeElement(node.left, key);
-        } else if (cmp > 0) {
+        } else if (compare > 0) {
             node.right = removeElement(node.right, key);
         } else {
             deleted = node.value;
-            size--;
             node = inRemove(node);
+            size--;
         }
         return node;
     }
@@ -258,17 +257,17 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         }
 
         Node current = node;
-        node = getMin(current.right);
-        node.right = removeMin(current.right);
+        node = getMin(node.right);
+        node.right = changeMinLeft(current.right);
         node.left = current.left;
         return node;
     }
 
-    private Node removeMin(Node node) {
+    private Node changeMinLeft(Node node) {
         if (node.left == null) {
             return node.right;
         }
-        node.left = removeMin(node.left);
+        node.left = changeMinLeft(node.left);
         return node;
     }
 }
