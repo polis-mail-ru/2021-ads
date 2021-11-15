@@ -2,6 +2,8 @@
 plugins {
     java
     application
+    `java-library`
+    id("me.champeau.jmh") version "0.6.1"
 }
 
 java {
@@ -15,20 +17,23 @@ repositories {
 
 dependencies {
     // Guava primitives
-    compile("com.google.guava:guava:27.0.1-jre")
+    implementation("com.google.guava:guava:27.0.1-jre")
 
     // Annotation
     implementation ("org.jetbrains:annotations:16.0.3")
 
     // JUnit Jupiter test framework
-    testCompile("org.junit.jupiter:junit-jupiter-api:5.4.0")
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.4.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.4.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.0")
 
-    testCompile("org.apache.commons:commons-lang3:3.11")
+    testImplementation("org.apache.commons:commons-lang3:3.11")
 }
 
 val run by tasks.getting(JavaExec::class) {
     standardInput = System.`in`
+}
+
+jmh {
 }
 
 tasks {
