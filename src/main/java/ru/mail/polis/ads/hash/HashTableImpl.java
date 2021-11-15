@@ -25,7 +25,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public @Nullable Value remove(@NotNull Key key) {
-        map.remove(key);
+        return map.remove(key);
     }
 
     @Override
