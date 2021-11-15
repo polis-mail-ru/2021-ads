@@ -359,4 +359,31 @@ class BstBaseTest {
         assertEquals(bst.get("7"), "testStringValue5");
         assertEquals(bst.get("1"), "testStringValue2");
     }
+
+    @Test
+    void height() {
+        Bst<String, String> bst = newBst();
+        bst.put("1", "1");
+        assertEquals(bst.height(), 1);
+        bst.put("2", "2");
+        assertEquals(bst.height(), 2);
+        bst.put("3", "3");
+        assertEquals(bst.height(), 2);
+        bst.put("4", "4");
+        assertEquals(bst.height(), 3);
+        bst.put("5", "5");
+        assertEquals(bst.height(), 3);
+        bst.put("6", "6");
+        assertEquals(bst.height(), 3);
+        bst.put("7", "7");
+        assertEquals(bst.height(), 3);
+        bst.remove("1");
+        assertEquals(bst.height(), 3);
+        bst.remove("3");
+        assertEquals(bst.height(), 3);
+        bst.remove("2");
+        assertEquals(bst.height(), 3);
+        bst.remove("4");
+        assertEquals(bst.height(), 2);
+    }
 }
