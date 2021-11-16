@@ -22,7 +22,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     @Override
     public Value remove(@NotNull Key key) {
         Value result = get(root, key);
-        root = delete(root, key);
+        root = result == null ? root : delete(root, key);
         return result;
     }
 
@@ -67,7 +67,6 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     public int height() {
         return recHeight(root);
     }
-
 
 
     private int size(Node x) {
@@ -172,7 +171,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
         if (key.equals(x.key)) {
             x = innerDelete(x);
         }
-        if(x != null) {
+        if (x != null) {
             fixHeight(x);
             x = balance(x);
         }
@@ -180,8 +179,7 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private Node deleteMin(Node x) {
-        if (x.left == null)
-        {
+        if (x.left == null) {
             return x.right;
         }
         x.left = deleteMin(x.left);
@@ -217,28 +215,28 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private Node ceil(Node node, Key key) {
-        if(node.key.compareTo(key) < 0) {
+        if (node.key.compareTo(key) < 0) {
             return node.right == null ? null : ceil(node.right, key);
         }
-        if(node.key.compareTo(key) == 0 || node.left == null) {
+        if (node.key.compareTo(key) == 0 || node.left == null) {
             return node;
         }
         Node result = ceil(node.left, key);
-        if(result == null || node.key.compareTo(result.key) < 0) {
+        if (result == null || node.key.compareTo(result.key) < 0) {
             return node;
         }
         return result;
     }
 
     private Node floor(Node node, Key key) {
-        if(node.key.compareTo(key) > 0) {
+        if (node.key.compareTo(key) > 0) {
             return node.left == null ? null : floor(node.left, key);
         }
-        if(node.key.compareTo(key) == 0 || node.right == null) {
+        if (node.key.compareTo(key) == 0 || node.right == null) {
             return node;
         }
         Node result = floor(node.right, key);
-        if(result == null || node.key.compareTo(result.key) > 0) {
+        if (result == null || node.key.compareTo(result.key) > 0) {
             return node;
         }
         return result;
