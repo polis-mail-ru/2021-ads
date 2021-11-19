@@ -1,5 +1,7 @@
 package ru.mail.polis.ads.hash;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,7 +12,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     private int capacity = DEFAULT_CAPACITY;
     private int size = 0;
-    @SuppressWarnings("unchecked") private Node<Key, Value>[] table = (Node<Key, Value>[])(new Node[DEFAULT_CAPACITY]);
+    @SuppressWarnings("unchecked")
+    private Node<Key, Value>[] table = (Node<Key, Value>[]) (new Node[DEFAULT_CAPACITY]);
 
     public HashTableImpl() {
     }
@@ -18,7 +21,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     @Override
     public @Nullable Value get(@NotNull Key key) {
         int hash = Math.abs(key.hashCode()) % capacity;
-        if (table[hash] == null) {
+        if ((table[hash] == null) || (table[hash].find(key) == null)) {
             return null;
         }
         return table[hash].find(key).getValue();
@@ -36,13 +39,11 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private Node<Key, Value>[] expandList(int newCapacity) {
-        @SuppressWarnings("unchecked") Node<Key, Value>[] newtable = (Node<Key, Value>[])(new Node[newCapacity]);
+        @SuppressWarnings("unchecked") Node<Key, Value>[] newtable = (Node<Key, Value>[]) (new Node[newCapacity]);
         for (Node<Key, Value> element : table) {
-            if (element != null) {
-                while (element.getNext() != null) {
-                    putOrReplace(newtable, element.getKey(), element.getValue());
-                    element = element.getNext();
-                }
+            while (element != null) {
+                putOrReplace(newtable, element.getKey(), element.getValue());
+                element = element.getNext();
             }
         }
         return newtable;
