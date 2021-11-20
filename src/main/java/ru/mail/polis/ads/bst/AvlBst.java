@@ -149,11 +149,13 @@ public class AvlBst<Key extends Comparable<Key>, Value>
     }
 
     private int factor(Node node) {
-        return height(node.left) - height(node.right);
+        return node == null ? 0 : height(node.left) - height(node.right);
     }
 
     private void fixHeight(Node node) {
-        node.height = 1 + Math.max(height(node.left), height(node.right));
+        if (node != null) {
+            node.height = 1 + Math.max(height(node.left), height(node.right));
+        }
     }
 
     private int height(Node node) {
@@ -169,6 +171,8 @@ public class AvlBst<Key extends Comparable<Key>, Value>
             } else {
                 node = innerDelete(node);
             }
+            fixHeight(node);
+            node = balance(node);
         }
         return node;
     }
