@@ -359,4 +359,36 @@ class BstBaseTest {
         assertEquals(bst.get("7"), "testStringValue5");
         assertEquals(bst.get("1"), "testStringValue2");
     }
+
+    @Test
+    void balanceWithRemove() {
+        Bst<String, String> bst = newBst();
+        assertEquals(bst.height(), 0);
+        bst.put("100", "1");
+        assertEquals(bst.height(), 1);
+        bst.put("50", "2");
+        assertEquals(bst.height(), 2);
+        bst.put("150", "3");
+        assertEquals(bst.height(), 2);
+        bst.put("25", "4");
+        assertEquals(bst.height(), 3);
+        bst.put("75", "5");
+        bst.put("125", "6");
+        assertEquals(bst.height(), 3);
+        bst.put("175", "7");
+        assertEquals(bst.height(), 4);
+        bst.put("10", "8");
+        bst.put("11", "9");
+        bst.put("70", "10");
+        bst.put("80", "11");
+        assertEquals(bst.height(), 4);
+        assertEquals(bst.remove("150"), "3");
+        assertEquals(bst.height(), 4);
+        assertEquals(bst.remove("125"), "6"); // balanced
+        assertEquals(bst.height(), 4);
+        assertEquals(bst.remove("175"), "7"); // balanced
+        assertEquals(bst.remove("100"), "1");
+        assertEquals(bst.remove("50"), "2");
+        assertEquals(bst.height(), 3);
+    }
 }
