@@ -69,10 +69,28 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         throw new UnsupportedOperationException("Implement me");
     }
 
+    private Node ceil(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) == 0) {
+            return x;
+        }
+        if (key.compareTo(x.key) > 0) {
+            return ceil(x.right, key);
+        }
+        Node t = ceil(x.left, key);
+        return (t == null || t.key.compareTo(key) < 0) ? x : t;
+    }
+
     @Nullable
     @Override
     public Key ceil(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        Node ceilNode = ceil(root, key);
+        if (ceilNode == null) {
+            return null;
+        }
+        return ceilNode.key;
     }
 
     @Override
