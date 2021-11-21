@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 public class RedBlackBst<Key extends Comparable<Key>, Value>
         implements Bst<Key, Value> {
 
+    private Node root = null;
+    private int size = 0;
     private static final boolean BLACK = false;
     private static final boolean RED = true;
 
@@ -75,6 +77,6 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
 
     @Override
     public int size() {
-        throw new UnsupportedOperationException("Implement me");
+        return size;
     }
 }
