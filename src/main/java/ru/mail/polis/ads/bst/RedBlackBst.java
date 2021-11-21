@@ -39,16 +39,34 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         throw new UnsupportedOperationException("Implement me");
     }
 
+    private Node min(Node x) {
+        if (x == null) {
+            return null;
+        }
+        if (x.left == null) {
+            return x;
+        }
+        return min(x.left);
+    }
+
     @Nullable
     @Override
     public Key min() {
-        throw new UnsupportedOperationException("Implement me");
+        Node minNode = min(root);
+        if (minNode == null) {
+            return null;
+        }
+        return minNode.key;
     }
 
     @Nullable
     @Override
     public Value minValue() {
-        throw new UnsupportedOperationException("Implement me");
+        Node minNode = min(root);
+        if (minNode == null) {
+            return null;
+        }
+        return minNode.value;
     }
 
     private Node max(Node x) {
