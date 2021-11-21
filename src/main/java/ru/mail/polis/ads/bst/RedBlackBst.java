@@ -51,16 +51,34 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         throw new UnsupportedOperationException("Implement me");
     }
 
+    private Node max(Node x) {
+        if (x == null) {
+            return null;
+        }
+        if (x.right == null) {
+            return x;
+        }
+        return max(x.right);
+    }
+
     @Nullable
     @Override
     public Key max() {
-        throw new UnsupportedOperationException("Implement me");
+        Node maxNode = max(root);
+        if (maxNode == null) {
+            return null;
+        }
+        return maxNode.key;
     }
 
     @Nullable
     @Override
     public Value maxValue() {
-        throw new UnsupportedOperationException("Implement me");
+        Node maxNode = max(root);
+        if (maxNode == null) {
+            return null;
+        }
+        return maxNode.value;
     }
 
     private Node floor(Node x, Key key) {
