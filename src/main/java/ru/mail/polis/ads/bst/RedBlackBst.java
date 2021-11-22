@@ -20,6 +20,12 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         Node left;
         Node right;
         boolean color;
+
+        public Node(Key key, Value value, boolean color) {
+            this.key = key;
+            this.value = value;
+            this.color = color;
+        }
     }
 
     boolean isRed(Node x) {
@@ -83,9 +89,24 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         return x;
     }
 
+    Node put(Node x, Key key, Value value) {
+        if (x == null) {
+            return new Node(key, value, RED);
+        }
+        if (key.compareTo(x.key) < 0) {
+            x.left = put(x.left, key, value);
+        } else if (key.compareTo(x.key) > 0) {
+            x.right = put(x.right, key, value);
+        } else {
+            x.value = value;
+        }
+        return fixUp(x);
+    }
+
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-        throw new UnsupportedOperationException("Implement me");
+        root = put(root, key, value);
+        root.color = BLACK;
     }
 
     @Nullable
