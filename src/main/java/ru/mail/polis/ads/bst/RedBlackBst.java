@@ -91,6 +91,7 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
 
     Node put(Node x, Key key, Value value) {
         if (x == null) {
+            size++;
             return new Node(key, value, RED);
         }
         if (key.compareTo(x.key) < 0) {
@@ -163,10 +164,50 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         root.color = BLACK;
     }
 
+    Node delete(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) < 0) {
+            if (x.left != null) {
+                if (!isRed(x.left) && !isRed(x.left.left)) {
+                    x = moveRedLeft(x);
+                }
+                x.left = delete(x.left, key);
+            }
+        } else {
+            if (isRed(x.left)) {
+                x = rotateRight(x);
+                x.right = delete(x.right, key);
+            } else if (x.key == key && x.right == null) {
+                return null;
+            } else {
+                if (x.right != null && !isRed(x.right) && !isRed(x.right.left)) {
+                    x = moveRedRight(x);
+                }
+                if (x.key == key) {
+                    Node min = min(x.right);
+                    x.key = min.key;
+                    x.value = min.value;
+                    x.right = deleteMin(x.right);
+                } else {
+                    x.right = delete(x.right, key);
+                }
+            }
+        }
+        return fixUp(x);
+    }
+
     @Nullable
     @Override
     public Value remove(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        Value result = get(key);
+        if (result == null) {
+            return null;
+        }
+        root = delete(root, key);
+        size--;
+        return result;
     }
 
     private Node min(Node x) {
