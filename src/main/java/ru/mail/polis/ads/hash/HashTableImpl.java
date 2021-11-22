@@ -99,7 +99,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int getIndex(@NotNull Key key) {
-        return (key.hashCode() & 0x7fffffff) % capacity;
+        return key.hashCode() & (capacity - 1);
     }
 
     private void resize() {
