@@ -22,10 +22,23 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         boolean color;
     }
 
+    private Value get(Node x, Key key) {
+        if (x == null) {
+            return null;
+        }
+        if (key.compareTo(x.key) < 0) {
+            return get(x.left, key);
+        }
+        if (key.compareTo(x.key) > 0) {
+            return get(x.right, key);
+        }
+        return x.value;
+    }
+
     @Nullable
     @Override
     public Value get(@NotNull Key key) {
-        throw new UnsupportedOperationException("Implement me");
+        return get(root, key);
     }
 
     @Override
