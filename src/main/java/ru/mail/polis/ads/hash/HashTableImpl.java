@@ -1,6 +1,5 @@
 package ru.mail.polis.ads.hash;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +9,11 @@ import org.jetbrains.annotations.Nullable;
 
 public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
-    private static int DEFAULT_START_SIZE = 70000;
+    private static int DEFAULT_START_SIZE = 16;
+
+    private List<Pair>[] data = new List[DEFAULT_START_SIZE];
+    private int capacity = DEFAULT_START_SIZE;
+    private int size = 0;
 
     private class Pair {
         Key key;
@@ -34,10 +37,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             return Objects.hash(key);
         }
     }
-
-    private List<Pair>[] data = new List[DEFAULT_START_SIZE];
-    private int capacity = DEFAULT_START_SIZE;
-    private int size = 0;
 
     public HashTableImpl() {
     }
