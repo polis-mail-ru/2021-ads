@@ -45,6 +45,44 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         return get(root, key);
     }
 
+    Node rotateLeft(Node x) {
+        Node y = x.right;
+        x.right = y.left;
+        y.left = x;
+        y.color = x.color;
+        x.color = RED;
+        return y;
+    }
+
+    Node rotateRight(Node y) {
+        Node x = y.left;
+        y.left = x.right;
+        x.right = y;
+        x.color = y.color;
+        y.color = RED;
+        return x;
+    }
+
+    Node flipColors(Node x) {
+        x.color = !x.color;
+        x.left.color = !x.left.color;
+        x.right.color = !x.right.color;
+        return x;
+    }
+
+    Node fixUp(Node x) {
+        if (isRed(x.right) && !isRed(x.left)) {
+            x = rotateLeft(x);
+        }
+        if (isRed(x.left) && isRed(x.left.left)) {
+            x = rotateRight(x);
+        }
+        if (isRed(x.left) && isRed(x.right)) {
+            flipColors(x);
+        }
+        return x;
+    }
+
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
         throw new UnsupportedOperationException("Implement me");
