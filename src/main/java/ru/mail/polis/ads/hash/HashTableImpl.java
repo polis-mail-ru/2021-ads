@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     private static final int DEFAULT_START_SIZE = 16;
+    private static final double DEFAULT_LOAD_FACTOR = 0.75;
 
     private List<Pair>[] data = new List[DEFAULT_START_SIZE];
     private int capacity = DEFAULT_START_SIZE;
@@ -22,19 +23,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         public Pair(Key key, Value value) {
             this.key = key;
             this.value = value;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Pair pair = (Pair) o;
-            return key.equals(pair.key);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key);
         }
     }
 
@@ -57,6 +45,9 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
+        if (size + 1 > capacity * DEFAULT_LOAD_FACTOR) {
+            resize();
+        }
         int index = getIndex(key);
         if (data[index] == null) {
             data[index] = new LinkedList<Pair>();
@@ -109,5 +100,23 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     private int getIndex(@NotNull Key key) {
         return (key.hashCode() & 0x7fffffff) % capacity;
+    }
+
+    private void resize() {
+        capacity *= 2;
+        List<Pair>[] newData = new List[capacity];
+        for (List<Pair> list : data) {
+            if (list == null) {
+                continue;
+            }
+            for (Pair pair : list) {
+                int index = getIndex(pair.key);
+                if (newData[index] == null) {
+                    newData[index] = new LinkedList<Pair>();
+                }
+                newData[index].add(pair);
+            }
+        }
+        data = newData;
     }
 }
