@@ -179,13 +179,13 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
             if (isRed(x.left)) {
                 x = rotateRight(x);
                 x.right = delete(x.right, key);
-            } else if (x.key == key && x.right == null) {
+            } else if (x.key.compareTo(key) == 0 && x.right == null) {
                 return null;
             } else {
                 if (x.right != null && !isRed(x.right) && !isRed(x.right.left)) {
                     x = moveRedRight(x);
                 }
-                if (x.key == key) {
+                if (x.key.compareTo(key) == 0) {
                     Node min = min(x.right);
                     x.key = min.key;
                     x.value = min.value;
