@@ -43,11 +43,11 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public @Nullable Value get(@NotNull Key key) {
-        int hash = key.hashCode() % capacity;
-        if (data[hash] == null) {
+        int index = getIndex(key);
+        if (data[index] == null) {
             return null;
         }
-        for (Pair pair : data[hash]) {
+        for (Pair pair : data[index]) {
             if (pair.key.equals(key)) {
                 return pair.value;
             }
@@ -57,32 +57,32 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-        int hash = key.hashCode() % capacity;
-        if (data[hash] == null) {
-            data[hash] = new LinkedList<Pair>();
-            data[hash].add(new Pair(key, value));
+        int index = getIndex(key);
+        if (data[index] == null) {
+            data[index] = new LinkedList<Pair>();
+            data[index].add(new Pair(key, value));
             size++;
             return;
         }
-        for (Pair pair : data[hash]) {
+        for (Pair pair : data[index]) {
             if (pair.key.equals(key)) {
                 pair.value = value;
                 return;
             }
         }
-        data[hash].add(new Pair(key, value));
+        data[index].add(new Pair(key, value));
         size++;
     }
 
     @Override
     public @Nullable Value remove(@NotNull Key key) {
-        int hash = key.hashCode() % capacity;
-        if (data[hash] == null) {
+        int index = getIndex(key);
+        if (data[index] == null) {
             return null;
         }
         int i = 0;
         Value result = null;
-        for (Pair pair : data[hash]) {
+        for (Pair pair : data[index]) {
             if (pair.key.equals(key)) {
                 result = pair.value;
                 break;
@@ -92,7 +92,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         if (result == null) {
             return null;
         }
-        data[hash].remove(i);
+        data[index].remove(i);
         size--;
         return result;
     }
@@ -105,5 +105,9 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     @Override
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    private int getIndex(@NotNull Key key) {
+        return (key.hashCode() & 0x7fffffff) % capacity;
     }
 }
