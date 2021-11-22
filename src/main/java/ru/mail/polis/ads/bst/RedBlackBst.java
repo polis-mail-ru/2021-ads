@@ -109,6 +109,32 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         root.color = BLACK;
     }
 
+    Node moveRedLeft(Node x) {
+        flipColors(x);
+        if (isRed(x.right.left)) {
+            x.right = rotateRight(x.right);
+            x = rotateLeft(x);
+            flipColors(x);
+        }
+        return x;
+    }
+
+    Node deleteMin(Node x) {
+        if (x.left == null) {
+            return null;
+        }
+        if (!isRed(x.left) && !isRed(x.left.left)) {
+            x = moveRedLeft(x);
+        }
+        x.left = deleteMin(x.left);
+        return fixUp(x);
+    }
+
+    void deleteMin() {
+        root = deleteMin(root);
+        root.color = BLACK;
+    }
+
     @Nullable
     @Override
     public Value remove(@NotNull Key key) {
