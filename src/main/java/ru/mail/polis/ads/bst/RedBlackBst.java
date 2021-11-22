@@ -22,6 +22,10 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
         boolean color;
     }
 
+    boolean isRed(Node x) {
+        return x != null && x.color == RED;
+    }
+
     private Value get(Node x, Key key) {
         if (x == null) {
             return null;
