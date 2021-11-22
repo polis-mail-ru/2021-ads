@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
-    private static int DEFAULT_START_SIZE = 16;
+    private static final int DEFAULT_START_SIZE = 16;
 
     private List<Pair>[] data = new List[DEFAULT_START_SIZE];
     private int capacity = DEFAULT_START_SIZE;
