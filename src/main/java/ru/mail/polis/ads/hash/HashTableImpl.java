@@ -80,7 +80,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int getHash(@NotNull Key key) {
-        return key.hashCode() & (capacity - 1);
+        return key.hashCode() % capacity;
     }
 
     private boolean isThreshold() {
@@ -88,15 +88,19 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private void resize() {
+        List<Pair<Key, Value>>[] listToData = buckets;
         capacity *= 1.6;
-        List<Pair<Key, Value>>[] updateSizeList = new List[capacity];
-        for (List<Pair<Key, Value>> bucket : buckets) {
+        buckets = new LinkedList[capacity];
+        for (List<Pair<Key, Value>> bucket : listToData) {
             if (bucket != null) {
                 for (Pair<Key, Value> pair : bucket) {
-                    put(pair.key, pair.value);
+                    int hash = getHash(pair.key);
+                    if (buckets[hash] == null) {
+                        buckets[hash] = new LinkedList<>();
+                    }
+                    buckets[hash].add(pair);
                 }
             }
-            buckets = updateSizeList;
         }
     }
 
