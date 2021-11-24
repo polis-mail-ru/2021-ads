@@ -84,6 +84,10 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         return Math.floorMod(hash, capacity());
     }
 
+    /**
+     * Максимальное capacity() == PRIME_CAPACITIES[PRIME_CAPACITIES.length - 1],
+     * Если capacity() достигло максимального значения, то дальше table не расширяется.
+     */
     private Node[] resize() {
         if (capacityIndex >= PRIME_CAPACITIES.length) {
             return table;
@@ -92,6 +96,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             capacityIndex++;
         }
         final int newCapacity = PRIME_CAPACITIES[capacityIndex];
+        // необходимо, так как Node === HashTableImpl<Key, Value>.Node,
+        // а массивы с generic типом компонента вне закона (JLS 15.10.1)
         final Node[] newTable = (Node[])new HashTableImpl<?, ?>.Node[newCapacity];
         if (table == null) {
             return newTable;
