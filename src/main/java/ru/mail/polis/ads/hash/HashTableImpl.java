@@ -98,10 +98,10 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         size *= 2;
         count = 0;
         nodes = new Node[size];
-        for (Node<Key, Value> elem : old) {
-            while (elem != null) {
-                put(elem.key, elem.value);
-                elem = elem.next;
+        for (Node<Key, Value> node : old) {
+            while (node != null) {
+                put(node.key, node.value);
+                node = node.next;
             }
         }
     }
