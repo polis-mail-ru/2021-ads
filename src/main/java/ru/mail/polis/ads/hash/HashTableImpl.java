@@ -18,7 +18,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     int size;
     Node[] table;
     int capacityIndex = 0;
-    int capacity = DEFAULT_INITIAL_CAPACITY;
 
     public HashTableImpl() {
     }
@@ -29,8 +28,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             return null;
         }
         final int hash = key.hashCode();
-        final Node bucket = bucket(hash);
-        return bucket == null ? null : bucket.get(key);
+        final Node bucket = table[index(hash)];
+        return bucket == null ? null : bucket.get(hash, key);
     }
 
     @Override
@@ -58,8 +57,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         if (table[index] == null) {
             return null;
         }
-        if (table[index].next == null && table[index].key.equals(key)) {
-            Value previous = table[index].value;
+        if (table[index].isLast() && table[index].matches(hash, key)) {
+            final Value previous = table[index].value;
             table[index] = null;
             size--;
             return previous;
@@ -85,10 +84,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         return Math.floorMod(hash, capacity());
     }
 
-    private Node bucket(int hash) {
-        return table[index(hash)];
-    }
-
     private Node[] resize() {
         if (capacityIndex >= PRIME_CAPACITIES.length) {
             return table;
@@ -104,7 +99,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         for (Node bucket : table) {
             for (Node node = bucket, next; node != null; node = next) {
                 next = node.next;
-                int index = Math.floorMod(node.hash, newCapacity);
+                final int index = Math.floorMod(node.hash, newCapacity);
                 node.next = newTable[index];
                 newTable[index] = node;
             }
@@ -129,25 +124,20 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             this(hash, key, value, null);
         }
 
-        Node(Key key, Value value) {
-            this(key.hashCode(), key, value, null);
-        }
-
-        Value get(Key key) {
-            Node node = this;
-            while (!(node.next == null || node.hash == key.hashCode() && node.key.equals(key))) {
-                node = node.next;
+        Value get(int hash, Key key) {
+            Node node = findOrGetLast(hash, key);
+            if (!node.isLast() || node.matches(hash, key)) {
+                return node.value;
             }
-            return node.value;
+            return null;
         }
 
         void put(int hash, Key key, Value value) {
             Node node = this;
-            while (!(node.next == null || node.hash == hash && node.key.equals(key))) {
+            while (!node.isLast() && !node.matches(hash, key)) {
                 node = node.next;
             }
-            //node.next == null || node.key.equals(key)
-            if (node.next != null || node.key.equals(key)) {
+            if (!node.isLast() || node.matches(hash, key)) {
                 node.value = value;
                 return;
             }
@@ -157,15 +147,31 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
         Value remove(int hash, Key key) {
             Node node = this;
-            while (!(node.next.next == null || node.next.hash == hash && node.next.key.equals(key))) {
+            while (!node.next.isLast() && !node.next.matches(hash, key)) {
                 node = node.next;
             }
-            if (node.next.next != null || node.next.hash == hash && node.next.key.equals(key)) {
+            if (!node.next.isLast() || node.next.matches(hash, key)) {
                 size--;
             }
             Value previous = node.next.value;
             node.next = node.next.next;
             return previous;
+        }
+
+        Node findOrGetLast(int hash, Key key) {
+            Node node = this;
+            while (!node.isLast() && !node.matches(hash, key)) {
+                node = node.next;
+            }
+            return node;
+        }
+
+        boolean isLast() {
+            return next == null;
+        }
+
+        boolean matches(int hash, Key key) {
+            return this.hash == hash && this.key.equals(key);
         }
     }
 }
