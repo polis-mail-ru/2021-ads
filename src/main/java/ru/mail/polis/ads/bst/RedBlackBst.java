@@ -262,12 +262,12 @@ public class RedBlackBst<Key extends Comparable<Key>, Value>
                     node = moveRedRight(node);
                 }
                 if (key.compareTo(node.key) == 0) {
-                    size--;
                     lastRemElem = node.value;
                     Node min = min(node.right);
                     node.key = min.key;
                     node.value = min.value;
                     node.right = deleteMin(node.right);
+                    size--;
                 } else {
                     node.right = delete(node.right, key);
                 }
