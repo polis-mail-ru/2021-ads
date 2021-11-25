@@ -107,9 +107,9 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private static class Node<K, V> {
-        K key;
-        V value;
-        Node<K, V> nextNode;
+        private final K key;
+        private V value;
+        private Node<K, V> nextNode;
 
         public Node(K key, V value, Node<K, V> nextNode) {
             this.key = key;
