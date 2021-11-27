@@ -51,7 +51,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     private void insert(Node<Key, Value> node, Node<Key, Value>[] array) {
         int index = hash(node.getKey());
-        //System.out.println(index + " " + currentCapacity + " " + array.length);
         Node<Key, Value> current = array[index];
         if (current == null) {
             array[index] = node;
