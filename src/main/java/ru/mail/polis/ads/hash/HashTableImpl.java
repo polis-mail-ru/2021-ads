@@ -94,7 +94,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int getIndex(Key key) {
-        return key.hashCode() % CAPACITY;
+        return Math.abs(key.hashCode() % CAPACITY);
     }
 
     private static class Node {
