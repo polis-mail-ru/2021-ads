@@ -100,13 +100,15 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         if ((nodeList = table[hash & (table.length - 1)]) == null) {
             return null;
         }
-        int i = 0;
-        for (Node<Key, Value> node : nodeList) {
+
+        Iterator<Node<Key, Value>> it = nodeList.iterator();
+        while (it.hasNext()) {
+            Node<Key, Value> node = it.next();
             if (node.hash == hash
                     && Objects.equals(key, node.key)) {
                 size--;
                 Value value = node.value;
-                nodeList.remove(node);
+                it.remove();
                 return node;
             }
         }
