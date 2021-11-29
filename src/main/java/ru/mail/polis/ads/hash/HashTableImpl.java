@@ -22,9 +22,9 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     @Override
     public @Nullable Value get(@NotNull Key key) {
         int hash = key.hashCode() & Integer.MAX_VALUE;
-        List<Pair<Key, Value>> list = hashTable.get(hash % tableSize);
-        if (list != null) {
-            Pair<Key, Value> get = getByHash(list, hash);
+        List<Pair<Key, Value>> bucket = hashTable.get(hash % tableSize);
+        if (bucket != null) {
+            Pair<Key, Value> get = getByHash(bucket, hash);
             while (get != null) {
                 if (get.key.equals(key)) {
                     return get.value;
@@ -44,8 +44,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     public @Nullable Value remove(@NotNull Key key) {
         int hash = key.hashCode() & Integer.MAX_VALUE;
         int index = hash % tableSize;
-        List<Pair<Key, Value>> list = hashTable.get(index);
-        Pair<Key, Value> get = (list != null) ? getByHash(list, hash) : null;
+        List<Pair<Key, Value>> bucket = hashTable.get(index);
+        Pair<Key, Value> get = (bucket != null) ? getByHash(bucket, hash) : null;
         Pair<Key, Value> parent = get;
         while (get != null && !get.key.equals(key)) {
             parent = get;
@@ -59,7 +59,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         }
         if (parent == get) {
             if (get.cloneByHash == null) {
-                Pair<Key, Value> deleted = removeByHash(list, hash);
+                Pair<Key, Value> deleted = removeByHash(bucket, hash);
                 currentSize--;
                 return deleted.value;
             }
@@ -88,8 +88,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     private void putImpl(@NotNull Key key, @NotNull Value value, boolean countSize) {
         int hash = key.hashCode() & Integer.MAX_VALUE;
         int index = hash % tableSize;
-        List<Pair<Key, Value>> list = hashTable.get(index);
-        if (list == null) {
+        List<Pair<Key, Value>> bucket = hashTable.get(index);
+        if (bucket == null) {
             hashTable.set(index, new LinkedList<>());
             hashTable.get(index).add(new Pair<>(key, value, hash));
             if (countSize) {
@@ -97,7 +97,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             }
             return;
         }
-        Pair<Key, Value> get = getByHash(list, hash);
+        Pair<Key, Value> get = getByHash(bucket, hash);
         if (get != null) {
             if (get.key.equals(key)) {
                 get.value = value;
@@ -117,7 +117,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
             }
             return;
         }
-        list.add(new Pair<>(key, value, hash));
+        bucket.add(new Pair<>(key, value, hash));
         if (countSize) {
             currentSize++;
         }
@@ -138,11 +138,11 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         hashTable = new ArrayList<>(tableSize);
         initArray();
 
-        for (List<Pair<Key, Value>> list : oldHash) {
-            if (list == null) {
+        for (List<Pair<Key, Value>> bucket : oldHash) {
+            if (bucket == null) {
                 continue;
             }
-            for (Pair<Key, Value> element : list) {
+            for (Pair<Key, Value> element : bucket) {
                 Pair<Key, Value> get = element;
                 putImpl(element.key, element.value, false);
                 while (get.cloneByHash != null) {
@@ -159,8 +159,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         }
     }
 
-    private Pair<Key, Value> getByHash(List<Pair<Key, Value>> list, int hash){
-        for (Pair<Key, Value> pair: list) {
+    private Pair<Key, Value> getByHash(List<Pair<Key, Value>> bucket, int hash){
+        for (Pair<Key, Value> pair: bucket) {
             if (pair.valueHashcode == hash) {
                 return pair;
             }
@@ -168,10 +168,10 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         return null;
     }
 
-    private Pair<Key, Value> removeByHash(List<Pair<Key, Value>> list, int hash){
-        for (Pair<Key, Value> pair: list) {
+    private Pair<Key, Value> removeByHash(List<Pair<Key, Value>> bucket, int hash){
+        for (Pair<Key, Value> pair: bucket) {
             if (pair.valueHashcode == hash) {
-                list.remove(pair);
+                bucket.remove(pair);
                 return pair;
             }
         }
