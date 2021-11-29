@@ -46,10 +46,11 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public void put(@NotNull Key key, @NotNull Value value) {
-        List<Pair> pairs = buckets[getIndex(key)];
+        int index = getIndex(key);
+        List<Pair> pairs = buckets[index];
         if (pairs == null) {
             pairs = new LinkedList<>();
-            buckets[getIndex(key)] = pairs;
+            buckets[index] = pairs;
         }
         if (!containsKey(key)) {
             pairs.add(new Pair(key, value));
@@ -69,14 +70,15 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public @Nullable Value remove(@NotNull Key key) {
-        if (buckets[getIndex(key)] == null) {
+        int index = getIndex(key);
+        if (buckets[index] == null) {
             return null;
         }
         Pair tmp = null;
-        for (Pair pair : buckets[getIndex(key)]) {
+        for (Pair pair : buckets[index]) {
             if (key.equals(pair.key)) {
                 tmp = pair;
-                buckets[getIndex(key)].remove(pair);
+                buckets[index].remove(pair);
                 size--;
                 break;
             }
