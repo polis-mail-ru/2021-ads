@@ -51,6 +51,10 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private void putVal(int hash, Key key, Value value) {
+        if (1 + size > threshold) {
+            resize();
+        }
+
         int i;
         List<Node<Key, Value>> nodeList = table[(i = hash & (table.length - 1))];
         if (nodeList == null) {
@@ -62,12 +66,8 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
                 return;
             }
         }
-
         nodeList.add(new Node<>(hash, key, value));
-
-        if (++size > threshold) {
-            resize();
-        }
+        size++;
     }
 
     private void resize() {
