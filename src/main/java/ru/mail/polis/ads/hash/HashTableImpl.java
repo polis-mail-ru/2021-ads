@@ -1,6 +1,6 @@
 package ru.mail.polis.ads.hash;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     private final static double LOAD_FACTOR = 0.75;
     private int currentCapacity = 0;
     private int tableSize = INITIAL_CAPACITY;
-    private List<Entry>[] table = new ArrayList[tableSize];
+    private List<Entry>[] table = new LinkedList[tableSize];
 
     public HashTableImpl() {
     }
@@ -32,7 +32,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     public void put(@NotNull Key key, @NotNull Value value) {
         int index = getHash(key);
         if (table[index] == null) {
-            table[index] = new ArrayList<>();
+            table[index] = new LinkedList<>();
         } else {
             for (Entry entry : table[index]) {
                 if (entry.key.equals(key)) {
@@ -75,19 +75,19 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int getHash(Key key) {
-        return Math.abs(key.hashCode() % tableSize);
+        return (key.hashCode() & 0x7fffffff) % tableSize;
     }
 
     private void resize() {
         List<Entry>[] startingArray = table;
         tableSize *= 2;
-        table = new ArrayList[tableSize];
+        table = new LinkedList[tableSize];
         for (List<Entry> element : startingArray) {
             if (element != null) {
                 for (Entry entry : element) {
                     int index = getHash(entry.key);
                     if (table[index] == null) {
-                        table[index] = new ArrayList<>();
+                        table[index] = new LinkedList<>();
                     }
                     table[index].add(entry);
                 }
