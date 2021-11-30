@@ -92,7 +92,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int hash(Key key) {
-        return Math.abs(key.hashCode() % capacity);
+        return (key.hashCode() & 0x7fffffff) % capacity;
     }
 
     private void resize() {
@@ -115,12 +115,6 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
         if (pairs == null) {
             pairs = new LinkedList<>();
             newTable[hash] = pairs;
-        }
-        for (HashPair newPair : pairs) {
-            if (newPair.key.equals(pair.key)) {
-                newPair.value = pair.value;
-                return;
-            }
         }
         pairs.add(pair);
     }
