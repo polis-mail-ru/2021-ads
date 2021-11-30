@@ -1,11 +1,12 @@
 package ru.mail.polis.ads;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,98 +14,69 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-/**
- * Problem solution template.
- */
 public class ShortestPath {
     static Map<Integer, List<Integer>> edges;
+    static List<Integer> path, stack;
+    static boolean found;
     static boolean[] visited;
-    static char[] color;
-    static List<Integer> stack;
     static int n;
+    static int m;
+    static int from, to, count = 0;
 
     private static void solve(final FastScanner in, final PrintWriter out) {
         n = in.nextInt();
-        int m = in.nextInt();
-        visited = new boolean[n + 1];
-        color = new char[n + 1];
-        stack = new LinkedList<>();
+        m = in.nextInt();
         edges = new HashMap<>();
-        for (int i = 0; i < n + 1; i++) {
-            visited[i] = false;
-            color[i] = 'w';
-        }
+        path = new ArrayList<>();
+        stack = new ArrayList<>();
+        visited = new boolean[n + 1];
+        Arrays.fill(visited, false);
 
-        for (int i = 0; i < m; i++) {
-            int a = in.nextInt();
-            edges.compute(a, (k, v) -> {
-                if (v == null) {
-                    v = new LinkedList<>();
-                }
-                v.add(in.nextInt());
-                return v;
-            });
-        }
-        topologicalSort();
-        Collections.reverse(stack);
-        if (stack.size() != n) {
-            System.out.println("-1");
+        readGraph(in);
+
+        if (edges.get(from).isEmpty() || edges.get(to).isEmpty()) {
+            out.print("-1");
             return;
         }
-        stack.forEach(a -> out.print(a + " "));
+
+
     }
 
-    private static void topologicalSort() {
-        for (int i = 1; i < n + 1; i++) {
-            if (checkForCycle(i)) {
-                stack.clear();
-                return;
-            }
-            if (!visited[i])
-                dfs(i);
-        }
-    }
 
-    static boolean checkForCycle(int v) {
-        color[v] = 'g';
-        for (Integer to : edges.getOrDefault(v, Collections.emptyList())) {
-            if (color[to] == 'w') {
-                if (checkForCycle(to)) return true;
-            } else if (color[to] == 'g') {
-                return true;
+    private static int bfs(int beg, int end) {
+        count++;
+        if (beg == end) {
+            found = true;
+            return 1;
+        } else {
+            for (Integer cur : edges.getOrDefault(beg, Collections.emptyList())) {
+                if (!visited[cur]) {
+                    stack.add(cur);
+                    path.add(beg);
+                    visited[cur] = true;
+                }
             }
         }
-        color[v] = 'b';
-        return false;
+        return 0;
     }
 
-    private static void dfs(int b) {
-        visited[b] = true;
-        boolean isCycle = false;
-        for (Integer to : edges.getOrDefault(b, Collections.emptyList())) {
-            if (!visited[to])
-                dfs(to);
-        }
-        stack.add(b);
-    }
-
-    public static PrintWriter createPrintWriterForLocalTests() {
-        return new PrintWriter(System.out, true);
-    }
-
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = createPrintWriterForLocalTests()) {
-            solve(in, out);
-        }
-    }
-
-    static class Edge {
-        int a, b;
-
-        public Edge(int a, int b) {
-            this.a = a;
-            this.b = b;
+    private static void readGraph(FastScanner in) {
+        for (int i = 0; i < m; i++) {
+            int a = in.nextInt();
+            int b = in.nextInt();
+            if (i == 0) {
+                from = a;
+                to = b;
+            }
+            if (a != b) {
+                edges.compute(a, (k, v) -> {
+                    if (v == null) {
+                        v = new LinkedList<>();
+                    }
+                    v.add(b);
+                    return v;
+                });
+            }
         }
     }
 
@@ -131,5 +103,15 @@ public class ShortestPath {
             return Integer.parseInt(next());
         }
     }
-}
 
+    public static PrintWriter createPrintWriterForLocalTests() {
+        return new PrintWriter(System.out, true);
+    }
+
+    public static void main(final String[] arg) {
+        final FastScanner in = new FastScanner(System.in);
+        try (PrintWriter out = new PrintWriter(System.out)) {
+            solve(in, out);
+        }
+    }
+}
