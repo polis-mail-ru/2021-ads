@@ -82,7 +82,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int hash(Key key) {
-        return Math.abs(key.hashCode() % capacity);
+        return (key.hashCode() & 0x7fffffff) % capacity;
     }
 
     private void resize() {
