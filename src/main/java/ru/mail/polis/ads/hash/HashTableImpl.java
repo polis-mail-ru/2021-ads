@@ -20,7 +20,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public @Nullable Value get(@NotNull Key key) {
-        int hash = Math.abs(key.hashCode()) % capacity;
+        int hash = (key.hashCode() & 0x7ffffff) % capacity;
         if ((table[hash] == null) || (table[hash].find(key) == null)) {
             return null;
         }
@@ -53,7 +53,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
      * @return true - if put, or false if replaced
      */
     private boolean putOrReplace(Node<Key, Value>[] table, @NotNull Key key, @NotNull Value value) {
-        int hash = Math.abs(key.hashCode()) % capacity;
+        int hash = (key.hashCode() & 0x7ffffff) % capacity;
         Node<Key, Value> list = table[hash];
         if (list == null) {
             table[hash] = new Node<Key, Value>(key, value);
@@ -67,7 +67,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
 
     @Override
     public @Nullable Value remove(@NotNull Key key) {
-        int hash = Math.abs(key.hashCode()) % capacity;
+        int hash = (key.hashCode() & 0x7ffffff) % capacity;
         Node<Key, Value> list = table[hash];
         if (list == null) {
             return null;
