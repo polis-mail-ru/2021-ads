@@ -34,7 +34,7 @@ public class HashTableImpl<Key, Value> implements HashTable<Key, Value> {
     }
 
     private int hash(Key key) {
-        return Math.abs(key.hashCode() % capacity);//(key.hashCode() % capacity) & 0x7fffffff;
+        return (key.hashCode() & 0x7fffffff) % capacity;
     }
 
     @Override
