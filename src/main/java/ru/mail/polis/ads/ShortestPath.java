@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,64 +17,78 @@ import java.util.StringTokenizer;
 
 public class ShortestPath {
     static Map<Integer, List<Integer>> edges;
-    static List<Integer> path, stack;
-    static boolean found;
-    static boolean[] visited;
+    static List<Integer> path;
+    static Deque<Integer> stack;
     static int n;
     static int m;
-    static int from, to, count = 0;
+    static int from, to;
 
+    //https://www.eolymp.com/ru/submissions/10031114
     private static void solve(final FastScanner in, final PrintWriter out) {
         n = in.nextInt();
         m = in.nextInt();
+        from = in.nextInt();
+        to = in.nextInt();
+
         edges = new HashMap<>();
         path = new ArrayList<>();
-        stack = new ArrayList<>();
-        visited = new boolean[n + 1];
-        Arrays.fill(visited, false);
+        stack = new LinkedList<>();
+        long[] dist = new long[n + 1];
+        Arrays.fill(dist, n + 2);
+        dist[from] = 0;
+        int[] p = new int[n + 1];
+        Arrays.fill(p, -1);
 
         readGraph(in);
+        stack.addLast(from);
 
-        if (edges.get(from).isEmpty() || edges.get(to).isEmpty()) {
+        while (!stack.isEmpty()) {
+            int v = stack.pollFirst();
+            for (int u : edges.getOrDefault(v, Collections.emptyList())) {
+                if (dist[u] > dist[v] + 1) {
+                    p[u] = v;
+                    dist[u] = dist[v] + 1;
+                    stack.addLast(u);
+                }
+            }
+        }
+
+        if (dist[to] == n + 2) {
             out.print("-1");
             return;
         }
 
-
-    }
-
-
-    private static int bfs(int beg, int end) {
-        count++;
-        if (beg == end) {
-            found = true;
-            return 1;
-        } else {
-            for (Integer cur : edges.getOrDefault(beg, Collections.emptyList())) {
-                if (!visited[cur]) {
-                    stack.add(cur);
-                    path.add(beg);
-                    visited[cur] = true;
-                }
-            }
+        long res = dist[to];
+        while (to != -1) {
+            path.add(to);
+            to = p[to];
         }
-        return 0;
+
+        Collections.reverse(path);
+
+        out.println(res);
+        path.forEach(a -> out.print(a + " "));
+
     }
+
 
     private static void readGraph(FastScanner in) {
         for (int i = 0; i < m; i++) {
             int a = in.nextInt();
             int b = in.nextInt();
-            if (i == 0) {
-                from = a;
-                to = b;
-            }
             if (a != b) {
                 edges.compute(a, (k, v) -> {
                     if (v == null) {
                         v = new LinkedList<>();
                     }
                     v.add(b);
+                    return v;
+                });
+                edges.compute(b, (k, v) -> {
+                    if (v == null) {
+                        v = new LinkedList<>();
+                    }
+                    v.add(a);
                     return v;
                 });
             }
