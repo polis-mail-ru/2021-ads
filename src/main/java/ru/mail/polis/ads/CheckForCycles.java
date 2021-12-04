@@ -5,85 +5,96 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+
 public class CheckForCycles {
     static Map<Integer, Set<Integer>> edges;
-    static char[] color;
-    static Deque<Integer> stack;
+    static int[] cl, p;
+    static int cycle_end, cycle_st = -1;
     static int n;
 
+    //https://www.eolymp.com/ru/submissions/10033907
     private static void solve(final FastScanner in, final PrintWriter out) {
         n = in.nextInt();
         int m = in.nextInt();
-        color = new char[n + 1];
+        cl = new int[n + 1];
+        p = new int[n + 1];
         edges = new HashMap<>();
-        stack = new LinkedList<>();
-        for (int i = 0; i < n + 1; i++) {
-            color[i] = 'w';
-        }
+
+        Arrays.fill(cl, 0);
+        Arrays.fill(p, -1);
 
         for (int i = 0; i < m; i++) {
             int a = in.nextInt();
             int to = in.nextInt();
-            edges.compute(a, (k, v) -> {
-                if (v == null) {
-                    v = new HashSet<>();
-                }
-                v.add(to);
-                return v;
-            });
-            edges.compute(to, (k, v) -> {
-                if (v == null) {
-                    v = new HashSet<>();
-                }
-                v.add(a);
-                return v;
-            });
+            if (a != to) {
+                edges.compute(a, (k, v) -> {
+                    if (v == null) {
+                        v = new HashSet<>();
+                    }
+                    v.add(to);
+                    return v;
+                });
+                edges.compute(to, (k, v) -> {
+                    if (v == null) {
+                        v = new HashSet<>();
+                    }
+                    v.add(a);
+                    return v;
+                });
+            }
         }
-        int min = n + 2;
-        for (int i = 1; i < n + 1; i++) {
-            int a = hasCycle(i);
-            if (a != -1 && a < min) min = a;
-            stack.clear();
+
+        int minres = Integer.MAX_VALUE;
+        for (Integer integer : edges.keySet()) {
+            if (dfs(integer)) {
+                int min = cycle_st;
+                int i = cycle_end;
+                while (i != cycle_st) {
+                    if (min > i) {
+                        min = i;
+                    }
+                    i = p[i];
+                }
+                if (min < minres) {
+                    minres = min;
+                }
+                Arrays.fill(cl, 0);
+            }
+
         }
-        if (min != n + 2) {
+
+        if (minres == Integer.MAX_VALUE) {
+            out.println("No");
+        } else {
             out.println("Yes");
-            out.print(min);
-            return;
+            out.print(minres);
         }
-        out.print("No");
     }
 
-    static int hasCycle(int v) {
-        Integer prev = stack.peekFirst();
-        stack.addFirst(v);
-        for (Integer to : edges.getOrDefault(v, Collections.emptySet())) {
-            if (to.equals(prev)) {
+    static boolean dfs(int v) {
+        cl[v] = 1;
+        for (int i : edges.getOrDefault(v, Collections.emptySet())) {
+            if (i == p[v])
                 continue;
-            }
-            if (stack.contains(to)) {
-                int min = to;
-                int cur;
-                while ((cur = stack.poll()) != to) {
-                    if (cur < min) {
-                        min = cur;
-                    }
-                }
-                return min;
-            } else {
-                return hasCycle(to);
+            if (cl[i] == 0) {
+                p[i] = v;
+                if (dfs(i)) return true;
+            } else if (cl[i] == 1) {
+                cycle_end = v;
+                cycle_st = i;
+                return true;
             }
         }
-        stack.poll();
-        return -1;
+        cl[v] = 2;
+        return false;
     }
 
     public static PrintWriter createPrintWriterForLocalTests() {
@@ -92,7 +103,7 @@ public class CheckForCycles {
 
     public static void main(final String[] arg) {
         final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = createPrintWriterForLocalTests()) {
+        try (PrintWriter out = new PrintWriter(System.out)) {
             solve(in, out);
         }
     }

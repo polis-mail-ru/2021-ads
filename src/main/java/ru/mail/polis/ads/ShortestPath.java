@@ -71,7 +71,6 @@ public class ShortestPath {
 
     }
 
-
     private static void readGraph(FastScanner in) {
         for (int i = 0; i < m; i++) {
             int a = in.nextInt();
