@@ -10,7 +10,7 @@ public final class Task2 {
     private static final byte GREY = 1;
     private static final byte BLACK = 2;
     private static List<Integer> result = new ArrayList<>();
-    private static int hasCycle = 0;
+    private static boolean hasCycle;
     private static byte[] color;
     private static Set<Integer>[] graph;
 
@@ -36,7 +36,7 @@ public final class Task2 {
                 dfs(i);
             }
         }
-        if (hasCycle == 1) {
+        if (hasCycle) {
             out.println("-1");
         } else {
             for (int i = result.size() - 1; i >= 0; i--) {
@@ -49,7 +49,8 @@ public final class Task2 {
         color[v] = GREY;
         for (Integer to : graph[v]) {
             if (color[to] == GREY) {
-                hasCycle = 1;
+                hasCycle = true;
+                return;
             }
             if (color[to] == WHITE) {
                 dfs(to);
