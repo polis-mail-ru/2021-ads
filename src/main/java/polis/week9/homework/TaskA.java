@@ -24,7 +24,7 @@ public class TaskA {
             if (adjacencyList[nodeFrom] == null) {
                 adjacencyList[nodeFrom] = new LinkedList<>();
             }
-            if(adjacencyList[nodeTo] == null) {
+            if (adjacencyList[nodeTo] == null) {
                 adjacencyList[nodeTo] = new LinkedList<>();
             }
 
@@ -109,10 +109,6 @@ public class TaskA {
         int nextInt() {
             return Integer.parseInt(next());
         }
-    }
-
-    public static PrintWriter createPrintWriterForLocalTests() {
-        return new PrintWriter(System.out, true);
     }
 
     public static void main(final String[] arg) {
