@@ -44,13 +44,12 @@ public class Condensation {
         formOrgraphAndTransorgraph(in);
     }
 
-    private static int topsort() {
+    private static void topsort() {
         for (int i = 1; i < n + 1; i++) {
             if (!visitedVertexes[i])
                 Utils.dfs(i, visitedVertexes, adjacencyList, vertexesQueue);
         }
         Collections.reverse(vertexesQueue);
-        return 0;
     }
 
     private static void refreshVisitedVertexes() {

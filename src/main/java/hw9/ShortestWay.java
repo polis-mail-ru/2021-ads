@@ -28,7 +28,7 @@ public class ShortestWay {
         bfs(adjacencyList, startV, vertexesParents, shortestDistances);
 
         if (shortestDistances[endV] == Integer.MAX_VALUE) {
-            out.println(Utils.Vertex.NOT_EXIST);
+            out.println(Utils.FAIL);
             return;
         }
 
@@ -56,14 +56,14 @@ public class ShortestWay {
 
     private static void bfs(Map<Integer, List<Integer>> adjacencyList, int startV,
             int[] vertexesParents, int[] shortestDistances) {
-        ShortestWay.vertexesQueue.addLast(startV);
-        while (!ShortestWay.vertexesQueue.isEmpty()) {
-            int v = ShortestWay.vertexesQueue.poll();
+        vertexesQueue.addLast(startV);
+        while (!vertexesQueue.isEmpty()) {
+            int v = vertexesQueue.poll();
             for (int u: adjacencyList.getOrDefault(v, Collections.emptyList())) {
                 if (shortestDistances[u] > shortestDistances[v] + 1) {
                     vertexesParents[u] = v;
                     shortestDistances[u] = shortestDistances[v] + 1;
-                    ShortestWay.vertexesQueue.add(u);
+                    vertexesQueue.add(u);
                 }
             }
         }
