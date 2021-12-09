@@ -10,15 +10,14 @@ public class Topsort {
 
     private static final List<Integer> vertexesQueue = new LinkedList<>();
 
-    private static int n;
+    private static Map<Integer, List<Integer>> adjacencyList;
     private static boolean[] visitedVertexes;
     private static byte[] vertexesColors;
-    private static Map<Integer, List<Integer>> adjacencyList;
+    private static int n;
 
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
-
-        int result = Utils.topsortWithCycles(n, visitedVertexes, vertexesColors, adjacencyList, vertexesQueue);
+        int result = topsort();
         if (result == Utils.FAIL) {
             System.out.println(Utils.FAIL);
         } else {
@@ -36,6 +35,31 @@ public class Topsort {
         for (int i = 0; i < m; i++) {
             Utils.matchAdjacentVertexes(in.nextInt(), in.nextInt(), adjacencyList);
         }
+    }
+
+    private static int topsort() {
+        for (int i = 1; i < n + 1; i++) {
+            if (hasCycle(i))
+                return Utils.FAIL;
+            if (!visitedVertexes[i])
+                Utils.dfs(i, visitedVertexes, adjacencyList, vertexesQueue);
+        }
+        Collections.reverse(vertexesQueue);
+        return 0;
+    }
+
+    public static boolean hasCycle(int v) {
+        boolean hasCycle = false;
+        vertexesColors[v] = Utils.Vertex.GRAY;
+        for (int childV: adjacencyList.getOrDefault(v, Collections.emptyList())) {
+            if (vertexesColors[childV] == Utils.Vertex.WHITE && hasCycle(childV)
+                    || vertexesColors[childV] == Utils.Vertex.GRAY) {
+                hasCycle = true;
+                break;
+            }
+        }
+        vertexesColors[v] = Utils.Vertex.BLACK;
+        return hasCycle;
     }
 
     public static void main(final String[] arg) {

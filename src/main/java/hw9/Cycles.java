@@ -15,19 +15,31 @@ public class Cycles {
     private static int curCycleEndVertex = -1;
 
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
+        initialize(in);
+        int minVertexInCycle = findMinVertexInCycle();
+
+        if (minVertexInCycle == Integer.MAX_VALUE) {
+            out.println("No");
+        } else {
+            out.println("Yes");
+            out.print(minVertexInCycle);
+        }
+    }
+
+    private static void initialize(final SolveTemplate.FastScanner in) {
         int n = in.nextInt();
         int m = in.nextInt();
-
         vertexesColors = new byte[n + 1];
         vertexesParents = new int[n + 1];
-        for (int i = 1; i < n + 1; i++) {
+        for (int i = 1; i < n + 1; ++i) {
             vertexesColors[i] = Utils.Vertex.WHITE;
             vertexesParents[i] = Utils.Vertex.NOT_EXIST;
         }
-
         adjacencyList = new HashMap<>(n);
         Utils.readEdges(in, m, adjacencyList);
+    }
 
+    private static int findMinVertexInCycle() {
         int minVertexInCycle = Integer.MAX_VALUE;
         for (int vertex: adjacencyList.keySet()) {
             if (dfs(vertex)) {
@@ -38,22 +50,15 @@ public class Cycles {
                     curMinVertexInCycle = Math.min(curMinVertexInCycle, i);
                     i = vertexesParents[i];
                 }
-
                 minVertexInCycle = Math.min(minVertexInCycle, curMinVertexInCycle);
             }
             Arrays.fill(vertexesColors, Utils.Vertex.WHITE);
         }
-
-        if (minVertexInCycle == Integer.MAX_VALUE) {
-            out.println("No");
-        } else {
-            out.println("Yes");
-            out.print(minVertexInCycle);
-        }
+        return minVertexInCycle;
     }
 
     // Returns does cycle exist for specified vertex
-    static boolean dfs(int v) {
+    private static boolean dfs(int v) {
         vertexesColors[v] = Utils.Vertex.GRAY;
         for (int i: adjacencyList.getOrDefault(v, Collections.emptyList())) {
             if (i == vertexesParents[v])

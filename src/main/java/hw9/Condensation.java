@@ -27,8 +27,7 @@ public class Condensation {
 
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
-        Utils.topsortWithoutCycles(n, visitedVertexes, adjacencyList, vertexesQueue);
-
+        topsort();
         Arrays.fill(visitedVertexes, false);
         numberConnectivityComponents();
 
@@ -50,8 +49,8 @@ public class Condensation {
         m = in.nextInt();
         visitedVertexes = new boolean[n + 1];
         connectivityComponents = new int[n + 1];
-        transAdjacencyList = new HashMap<>(n);
         adjacencyList = new HashMap<>(n);
+        transAdjacencyList = new HashMap<>(n);
         formOrgraphAndTransorgraph(in);
     }
 
@@ -63,6 +62,15 @@ public class Condensation {
             Utils.matchAdjacentVertexes(v1, v2, adjacencyList);
             Utils.matchAdjacentVertexes(v2, v1, transAdjacencyList);
         }
+    }
+
+    private static int topsort() {
+        for (int i = 1; i < n + 1; i++) {
+            if (!visitedVertexes[i])
+                Utils.dfs(i, visitedVertexes, adjacencyList, vertexesQueue);
+        }
+        Collections.reverse(vertexesQueue);
+        return 0;
     }
 
     private static void numberConnectivityComponents() {

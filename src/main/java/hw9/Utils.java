@@ -41,42 +41,6 @@ public class Utils {
         vertexes.forEach(v -> out.print(v + " "));
     }
 
-    public static int topsortWithCycles(int n, boolean[] visitedVertexes, byte[] vertexesColors,
-                Map<Integer, List<Integer>> adjacencyList, List<Integer> vertexesQueue) {
-        for (int i = 1; i < n + 1; i++) {
-            if (hasCycle(i, vertexesColors, adjacencyList))
-                return Utils.FAIL;
-            if (!visitedVertexes[i])
-                dfs(i, visitedVertexes, adjacencyList, vertexesQueue);
-        }
-        Collections.reverse(vertexesQueue);
-        return 0;
-    }
-
-    public static int topsortWithoutCycles(int n, boolean[] visitedVertexes,
-            Map<Integer, List<Integer>> adjacencyList, List<Integer> vertexesQueue) {
-        for (int i = 1; i < n + 1; i++) {
-            if (!visitedVertexes[i])
-                dfs(i, visitedVertexes, adjacencyList, vertexesQueue);
-        }
-        Collections.reverse(vertexesQueue);
-        return 0;
-    }
-
-    public static boolean hasCycle(int v, byte[] vertexesColors, Map<Integer, List<Integer>> adjacencyList) {
-        boolean hasCycle = false;
-        vertexesColors[v] = Utils.Vertex.GRAY;
-        for (int childV: adjacencyList.getOrDefault(v, Collections.emptyList())) {
-            if (vertexesColors[childV] == Utils.Vertex.WHITE && hasCycle(childV, vertexesColors, adjacencyList)
-                    || vertexesColors[childV] == Utils.Vertex.GRAY) {
-                hasCycle = true;
-                break;
-            }
-        }
-        vertexesColors[v] = Utils.Vertex.BLACK;
-        return hasCycle;
-    }
-
     public static void dfs(int v, boolean[] visitedVertexes,
             Map<Integer, List<Integer>> adjacencyList, List<Integer> vertexesQueue) {
         visitedVertexes[v] = true;
