@@ -28,20 +28,10 @@ public class Condensation {
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
         topsort();
-        Arrays.fill(visitedVertexes, false);
+        refreshVisitedVertexes();
         numberConnectivityComponents();
-
-        for (Map.Entry<Integer, List<Integer>> vertex: adjacencyList.entrySet()) {
-            for (int adjacentVertex: vertex.getValue()) {
-                if (connectivityComponents[adjacentVertex] != connectivityComponents[vertex.getKey()]) {
-                    Utils.matchAdjacentVertexes(connectivityComponents[adjacentVertex], connectivityComponents[vertex.getKey()], connections);
-                }
-            }
-        }
-
-        AtomicInteger nEdgesInGraphCondensation = new AtomicInteger();
-        connections.forEach((k, v) -> nEdgesInGraphCondensation.addAndGet(v.size()));
-        out.print(nEdgesInGraphCondensation.get());
+        formConedsationGraph();
+        countAndPrintCondensedEdgesNumber(out);
     }
 
     private static void initialize(final SolveTemplate.FastScanner in) {
@@ -54,16 +44,6 @@ public class Condensation {
         formOrgraphAndTransorgraph(in);
     }
 
-    private static void formOrgraphAndTransorgraph(final SolveTemplate.FastScanner in) {
-        for (int i = 0; i < m; ++i) {
-            int v1 = in.nextInt();
-            int v2 = in.nextInt();
-
-            Utils.matchAdjacentVertexes(v1, v2, adjacencyList);
-            Utils.matchAdjacentVertexes(v2, v1, transAdjacencyList);
-        }
-    }
-
     private static int topsort() {
         for (int i = 1; i < n + 1; i++) {
             if (!visitedVertexes[i])
@@ -73,12 +53,43 @@ public class Condensation {
         return 0;
     }
 
+    private static void refreshVisitedVertexes() {
+        Arrays.fill(visitedVertexes, false);
+    }
+
     private static void numberConnectivityComponents() {
-        for (Integer v: vertexesQueue) {
+        for (int v: vertexesQueue) {
             if (!visitedVertexes[v]) {
                 condensate(v);
                 ++curConnectivityComponentOrdinal;
             }
+        }
+    }
+
+    private static void formConedsationGraph() {
+        for (Map.Entry<Integer, List<Integer>> vertex: adjacencyList.entrySet()) {
+            for (int adjacentVertex: vertex.getValue()) {
+                if (connectivityComponents[adjacentVertex] != connectivityComponents[vertex.getKey()]) {
+                    Utils.matchAdjacentVertexes(connectivityComponents[adjacentVertex],
+                        connectivityComponents[vertex.getKey()], connections);
+                }
+            }
+        }
+    }
+
+    private static void countAndPrintCondensedEdgesNumber(final PrintWriter out) {
+        AtomicInteger nEdgesInGraphCondensation = new AtomicInteger();
+        connections.forEach((k, v) -> nEdgesInGraphCondensation.addAndGet(v.size()));
+        out.print(nEdgesInGraphCondensation.get());
+    }
+
+    private static void formOrgraphAndTransorgraph(final SolveTemplate.FastScanner in) {
+        for (int i = 0; i < m; ++i) {
+            int v1 = in.nextInt();
+            int v2 = in.nextInt();
+
+            Utils.matchAdjacentVertexes(v1, v2, adjacencyList);
+            Utils.matchAdjacentVertexes(v2, v1, transAdjacencyList);
         }
     }
 

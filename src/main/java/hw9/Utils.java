@@ -17,7 +17,7 @@ public class Utils {
     }
 
     public static void readEdges(SolveTemplate.FastScanner in, int m, Map<Integer, List<Integer>> adjacencyList) {
-        for (int i = 0; i < m; i++) {
+        for (int i = 0; i < m; ++i) {
             int v1 = in.nextInt();
             int v2 = in.nextInt();
 

@@ -11,8 +11,8 @@ public class Cycles {
     private static Map<Integer, List<Integer>> adjacencyList;
     private static byte[] vertexesColors;
     private static int[] vertexesParents;
-    private static int curCycleStartVertex = -1;
-    private static int curCycleEndVertex = -1;
+    private static int curCycleStartVertex = Utils.Vertex.NOT_EXIST;
+    private static int curCycleEndVertex = Utils.Vertex.NOT_EXIST;
 
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
