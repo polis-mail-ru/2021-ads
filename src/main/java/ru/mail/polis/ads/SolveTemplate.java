@@ -11,19 +11,12 @@ import java.util.StringTokenizer;
  * Problem solution template.
  */
 public final class SolveTemplate {
-    private SolveTemplate() {
-        // Should not be instantiated
-    }
 
-    private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
-    }
-
-    private static class FastScanner {
+    public static class FastScanner {
         private final BufferedReader reader;
         private StringTokenizer tokenizer;
 
-        FastScanner(final InputStream in) {
+        public FastScanner(final InputStream in) {
             reader = new BufferedReader(new InputStreamReader(in));
         }
 
@@ -38,7 +31,7 @@ public final class SolveTemplate {
             return tokenizer.nextToken();
         }
 
-        int nextInt() {
+        public int nextInt() {
             return Integer.parseInt(next());
         }
     }
@@ -47,10 +40,4 @@ public final class SolveTemplate {
         return new PrintWriter(System.out, true);
     }
 
-    public static void main(final String[] arg) {
-        final FastScanner in = new FastScanner(System.in);
-        try (PrintWriter out = new PrintWriter(System.out)) {
-            solve(in, out);
-        }
-    }
 }
