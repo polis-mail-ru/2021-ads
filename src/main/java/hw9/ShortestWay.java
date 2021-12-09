@@ -16,8 +16,8 @@ public class ShortestWay {
 
     private static final List<Integer> shortestWay  = new ArrayList<>();
     private static final Deque<Integer> vertexesQueue = new LinkedList<>();
-    private static Map<Integer, List<Integer>> adjacencyList;
 
+    private static Map<Integer, List<Integer>> adjacencyList;
     private static int[] vertexesParents;
     private static int[] shortestDistances;
     private static int startV;

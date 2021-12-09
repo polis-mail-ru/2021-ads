@@ -17,12 +17,8 @@ public class Topsort {
 
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
-        int result = topsort();
-        if (result == Utils.FAIL) {
-            System.out.println(Utils.FAIL);
-        } else {
-            Utils.printVertexes(out, vertexesQueue);
-        }
+        int topsortResult = topsort();
+        printResult(topsortResult, out);
     }
 
     private static void initialize(final SolveTemplate.FastScanner in) {
@@ -37,6 +33,7 @@ public class Topsort {
         }
     }
 
+    // Returns does cycle exist for one of vertexes
     private static int topsort() {
         for (int i = 1; i < n + 1; i++) {
             if (hasCycle(i))
@@ -46,6 +43,14 @@ public class Topsort {
         }
         Collections.reverse(vertexesQueue);
         return 0;
+    }
+
+    private static void printResult(int topsortResult, final PrintWriter out) {
+        if (topsortResult == Utils.FAIL) {
+            System.out.println(Utils.FAIL);
+        } else {
+            Utils.printVertexes(out, vertexesQueue);
+        }
     }
 
     public static boolean hasCycle(int v) {

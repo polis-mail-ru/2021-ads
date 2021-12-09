@@ -17,13 +17,7 @@ public class Cycles {
     private static void solve(final SolveTemplate.FastScanner in, final PrintWriter out) {
         initialize(in);
         int minVertexInCycle = findMinVertexInCycle();
-
-        if (minVertexInCycle == Integer.MAX_VALUE) {
-            out.println("No");
-        } else {
-            out.println("Yes");
-            out.print(minVertexInCycle);
-        }
+        printResult(minVertexInCycle, out);
     }
 
     private static void initialize(final SolveTemplate.FastScanner in) {
@@ -55,6 +49,15 @@ public class Cycles {
             Arrays.fill(vertexesColors, Utils.Vertex.WHITE);
         }
         return minVertexInCycle;
+    }
+
+    private static void printResult(int minVertexInCycle, final PrintWriter out) {
+        if (minVertexInCycle == Integer.MAX_VALUE) {
+            out.println("No");
+        } else {
+            out.println("Yes");
+            out.print(minVertexInCycle);
+        }
     }
 
     // Returns does cycle exist for specified vertex

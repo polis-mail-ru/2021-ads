@@ -30,7 +30,7 @@ public class Condensation {
         topsort();
         refreshVisitedVertexes();
         numberConnectivityComponents();
-        formConedsationGraph();
+        formCondensationGraph();
         countAndPrintCondensedEdgesNumber(out);
     }
 
@@ -66,7 +66,7 @@ public class Condensation {
         }
     }
 
-    private static void formConedsationGraph() {
+    private static void formCondensationGraph() {
         for (Map.Entry<Integer, List<Integer>> vertex: adjacencyList.entrySet()) {
             for (int adjacentVertex: vertex.getValue()) {
                 if (connectivityComponents[adjacentVertex] != connectivityComponents[vertex.getKey()]) {
