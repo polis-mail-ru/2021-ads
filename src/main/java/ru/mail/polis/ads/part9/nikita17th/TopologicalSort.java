@@ -1,22 +1,60 @@
-package ru.mail.polis.ads;
+package ru.mail.polis.ads.part9.nikita17th;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Problem solution template.
  */
-public final class SolveTemplate {
-    private SolveTemplate() {
+public final class TopologicalSort {
+
+    private static int[] color;
+    private static List<Integer>[] graph;
+    private static final List<Integer> ans = new ArrayList<>();
+
+    private TopologicalSort() {
         // Should not be instantiated
     }
 
     private static void solve(final FastScanner in, final PrintWriter out) {
-        // Write me
+        int n = in.nextInt();
+        int m = in.nextInt();
+        color = new int[n];
+        graph = new ArrayList[n];
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < m; i++) {
+            graph[in.nextInt() - 1].add(in.nextInt() - 1);
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (color[i] == 0 && dfs(i)) {
+                out.println(-1);
+            }
+        }
+        for (int i = ans.size() - 1; i >= 0; i--) {
+            out.printf("%d ", ans.get(i) + 1);
+        }
+    }
+
+    private static boolean dfs(int v) {
+        color[v] = 1;
+        for (int to : graph[v]) {
+            if (color[to] == 0) {
+                dfs(to);
+            }
+            if (color[to] == 1) {
+                return true;
+            }
+        }
+        ans.add(v);
+        color[v] = 2;
+        return false;
     }
 
     private static class FastScanner {
