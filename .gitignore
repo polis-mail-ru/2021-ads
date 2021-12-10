@@ -4,6 +4,8 @@
 # But not Java files...
 !.gitignore
 !*.java
+.idea/**
+build/**
 
 # And not Gradle Wrapper stuff
 !gradle/wrapper/*
