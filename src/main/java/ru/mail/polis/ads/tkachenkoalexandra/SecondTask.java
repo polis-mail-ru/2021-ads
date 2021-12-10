@@ -25,17 +25,14 @@ public final class SecondTask {
         color = new Color[adjacencyList.length];
         Arrays.fill(color, Color.WHITE);
         parent = new int[adjacencyList.length];
+        Arrays.fill(parent, -1);
         IntStream.range(0, in.nextInt()).map(i -> in.nextInt() - 1)
                 .forEach(fist -> {
                     int second = in.nextInt() - 1;
                     adjacencyList[fist].add(second);
                     adjacencyList[second].add(fist);
                 });
-        parent = new int[adjacencyList.length];
-        cycle = new boolean[adjacencyList.length];
-        color = new Color[adjacencyList.length];
-        Arrays.fill(color, Color.WHITE);
-        for (int i = 0; i < adjacencyList.length; ++i) {
+        for (int i = 0; i < adjacencyList.length; i++) {
             if (color[i] == Color.WHITE) {
                 dfs(i);
             }
@@ -52,20 +49,20 @@ public final class SecondTask {
 
     private static void dfs(int v) {
         color[v] = Color.GREY;
-        for (Integer i : adjacencyList[v]) {
-            if (color[i] == Color.BLACK || i == parent[v]) {
+        for (Integer node : adjacencyList[v]) {
+            if (color[node] == Color.BLACK || node == parent[v]) {
                 continue;
             }
-            if (color[i] == Color.GREY) {
-                cycle[i] = true;
+            if (color[node] == Color.GREY) {
+                cycle[node] = true;
                 int j = v;
-                while (j != i) {
+                while (j != node) {
                     cycle[j] = true;
                     j = parent[j];
                 }
-            } else if (color[i] == Color.WHITE) {
-                parent[i] = v;
-                dfs(i);
+            } else if (color[node] == Color.WHITE) {
+                parent[node] = v;
+                dfs(node);
             }
         }
         color[v] = Color.BLACK;
