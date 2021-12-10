@@ -41,15 +41,15 @@ public final class ShortestWay {
         int[] dist = new int[n];
         used[start] = true;
         parents[start] = -1;
-
+        int vertex;
         while (!queue.isEmpty()) {
-            int v = queue.poll();
-            for (int to : graph[v]) {
+            vertex = queue.poll();
+            for (int to : graph[vertex]) {
                 if (!used[to]) {
                     used[to] = true;
                     queue.add(to);
-                    dist[to] = dist[v] + 1;
-                    parents[to] = v;
+                    dist[to] = dist[vertex] + 1;
+                    parents[to] = vertex;
                 }
             }
         }

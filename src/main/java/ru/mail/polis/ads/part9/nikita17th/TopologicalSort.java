@@ -37,14 +37,15 @@ public final class TopologicalSort {
                 out.println(-1);
             }
         }
-        for (int i = ans.size() - 1; i >= 0; i--) {
-            out.printf("%d ", ans.get(i) + 1);
+        ListIterator<Integer> iter = ans.listIterator(ans.size());
+        while (iter.hasPrevious()) {
+            out.printf("%d ", iter.previous() + 1);
         }
     }
 
-    private static boolean dfs(int v) {
-        color[v] = 1;
-        for (int to : graph[v]) {
+    private static boolean dfs(int vertex) {
+        color[vertex] = 1;
+        for (int to : graph[vertex]) {
             if (color[to] == 0) {
                 dfs(to);
             }
@@ -52,8 +53,8 @@ public final class TopologicalSort {
                 return true;
             }
         }
-        ans.add(v);
-        color[v] = 2;
+        ans.add(vertex);
+        color[vertex] = 2;
         return false;
     }
 
