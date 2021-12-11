@@ -9,56 +9,57 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class DangerousPath {
-    static int n, m;
-    static long result = 0;
-    static int[] v, color;
     static Edge[] edges;
+    static int n;
+    static int[] mas;
+    static int m;
 
+    static int parent(int n) {
+        if (n == mas[n]) return n;
+        mas[n] = parent(mas[n]);
+        return mas[n];
+    }
+
+    static void union(int x, int y) {
+        int x1 = parent(x), y1 = parent(y);
+        mas[x1] = y1;
+    }
+
+    // https://www.eolymp.com/ru/submissions/10097657#results
     private static void solve(final FastScanner in, final PrintWriter out) {
         n = in.nextInt();
         m = in.nextInt();
-        v = new int[n + 1];
-        color = new int[n + 1];
+        mas = new int[n + 1];
         edges = new Edge[m];
-        Arrays.fill(v, 0);
-        for (int i = 1; i < n + 1; i++) {
-            color[i] = i;
+
+        for (int i = 1; i <= n; i++) {
+            mas[i] = i;
         }
-        for (int i = 0; i < m; i++) {
-            int a = in.nextInt();
-            int b = in.nextInt();
-            int w = in.nextInt();
-            edges[i] = new Edge(a, b, w);
-        }
+
+        readGraph(in);
         Arrays.sort(edges);
 
-        kruskal();
-
-        out.print(result);
-
-    }
-
-    private static void kruskal() {
-        int remain = n;
-        Edge current;
+        int res = 0;
         for (int i = 0; i < m; i++) {
-            current = edges[i];
-            if (color[current.from] != color[current.to]) {
-                result += current.weight;
-                int oldColor = color[current.to];
-                int newColor = color[current.from];
-                for (int j = 1; j < n + 1; j++) {
-                    if (color[j] == oldColor) {
-                        color[j] = newColor;
-                    }
-                }
-                remain--;
-                if (remain == 1)
-                    break;
+            union(edges[i].from, edges[i].to);
+            if (parent(1) == parent(n)) {
+                res = i;
+                break;
             }
         }
 
+        out.println(edges[res].danger);
     }
+
+    private static void readGraph(FastScanner in) {
+        for (int i = 0; i < m; i++) {
+            int a = in.nextInt();
+            int b = in.nextInt();
+            int danger = in.nextInt();
+            edges[i] = new Edge(a, b, danger);
+        }
+    }
+
 
     public static PrintWriter createPrintWriterForLocalTests() {
         return new PrintWriter(System.out, true);
@@ -72,17 +73,17 @@ public class DangerousPath {
     }
 
     static class Edge implements Comparable<Edge> {
-        public int from, to, weight;
+        public int from, to, danger;
 
-        public Edge(int from, int to, int weight) {
+        public Edge(int from, int to, int danger) {
             this.from = from;
             this.to = to;
-            this.weight = weight;
+            this.danger = danger;
         }
 
         @Override
         public int compareTo(Edge o) {
-            return Integer.compare(weight, o.weight);
+            return Integer.compare(danger, o.danger);
         }
     }
 
