@@ -8,42 +8,56 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class BellmanFord {
+public class DangerousPath {
     static int n, m;
-    static long[] v;
+    static long result = 0;
+    static int[] v, color;
     static Edge[] edges;
 
-    // https://www.eolymp.com/ru/submissions/10070847
     private static void solve(final FastScanner in, final PrintWriter out) {
         n = in.nextInt();
         m = in.nextInt();
-        v = new long[n + 1];
+        v = new int[n + 1];
+        color = new int[n + 1];
         edges = new Edge[m];
-        Arrays.fill(v, Long.MAX_VALUE);
-        v[1] = 0;
+        Arrays.fill(v, 0);
+        for (int i = 1; i < n + 1; i++) {
+            color[i] = i;
+        }
         for (int i = 0; i < m; i++) {
             int a = in.nextInt();
             int b = in.nextInt();
             int w = in.nextInt();
             edges[i] = new Edge(a, b, w);
         }
+        Arrays.sort(edges);
 
-        fordBellman();
+        kruskal();
 
-        out.println(v[n]);
+        out.print(result);
+
     }
 
-    private static void fordBellman() {
-
+    private static void kruskal() {
+        int remain = n;
         Edge current;
-        for (int j = 0; j < n; j++) {
-            for (int i = 0; i < m; i++) {
-                current = edges[i];
-                if (v[current.from] < Long.MAX_VALUE) {
-                    v[current.to] = Math.min(v[current.from] + current.weight, v[current.to]);
+        for (int i = 0; i < m; i++) {
+            current = edges[i];
+            if (color[current.from] != color[current.to]) {
+                result += current.weight;
+                int oldColor = color[current.to];
+                int newColor = color[current.from];
+                for (int j = 1; j < n + 1; j++) {
+                    if (color[j] == oldColor) {
+                        color[j] = newColor;
+                    }
                 }
+                remain--;
+                if (remain == 1)
+                    break;
             }
         }
+
     }
 
     public static PrintWriter createPrintWriterForLocalTests() {
