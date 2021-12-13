@@ -25,8 +25,7 @@ public final class Task3 {
         for (int i = 0; i < mEdges; i++) {
             g.addEdge(in.nextInt() - 1, in.nextInt() - 1, in.nextInt());
         }
-        int[] answer = fordBellman(g);
-        for (int distance : answer) {
+        for (int distance : fordBellman(g)) {
             out.printf("%d ", distance);
         }
         out.println();
