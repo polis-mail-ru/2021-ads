@@ -17,7 +17,7 @@ public final class Task1 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         int nVertices = in.nextInt();
         int mEdges = in.nextInt();
-        Graph g = new Graph(mEdges, nVertices);
+        Graph g = new Graph(nVertices, mEdges);
         for (int i = 0; i < mEdges; i++) {
             g.addEdge(in.nextInt() - 1, in.nextInt() - 1, in.nextInt());
         }
@@ -56,7 +56,7 @@ public final class Task1 {
         private int edgesCount;
         private final int verticesCount;
 
-        public Graph(int edgesCount, int verticesCount) {
+        public Graph(int verticesCount, int edgesCount) {
             edges = new Edge[edgesCount];
             this.verticesCount = verticesCount;
         }
