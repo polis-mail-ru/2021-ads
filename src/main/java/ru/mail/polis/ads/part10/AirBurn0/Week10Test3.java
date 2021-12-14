@@ -5,15 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
-//https://www.eolymp.com/ru/submissions/10126544
-public final class Week10Test1 {
-    private Week10Test1() {
+//https://www.eolymp.com/ru/submissions/10125300
+public final class Week10Test3 {
+    private Week10Test3() {
         // Should not be instantiated
     }
+
+    private static final int INF = 30000;
 
     private static class Edge {
 
@@ -32,45 +32,30 @@ public final class Week10Test1 {
         int v = in.nextInt();
         int e = in.nextInt();
 
-        int[] graph = new int[v];
-        for (int i = 0; i < v; ++i) {
-            graph[i] = i;
+        Edge[] graph = new Edge[e];
+
+        for (int i = 0; i < graph.length; ++i) {
+            graph[i] = new Edge(in.nextInt(), in.nextInt(), in.nextInt());
         }
 
-        Queue<Edge> queue = new PriorityQueue<>(v, (e1, e2) -> e1.weight - e2.weight);
-
-        for (int i = 0; i < e; ++i) {
-            queue.add(new Edge(in.nextInt() - 1, in.nextInt() - 1, in.nextInt()));
+        int[] distance = new int[v + 1];
+        distance[1] = 0;
+        for (int i = 2; i < distance.length; ++i) {
+            distance[i] = INF;
         }
 
-        long minSum = 0;
-
-        int countSet = v;
-        while (countSet != 1) {
-            Edge edge = queue.poll();
-            if (findSet(graph, edge.first) != findSet(graph, edge.second)) {
-                unionSet(graph, edge.first, edge.second);
-                minSum += edge.weight;
-                --countSet;
+        for (int i = 0; i < v - 1; ++i) {
+            for (Edge edge : graph) {
+                if (distance[edge.first] == INF) {
+                    continue;
+                }
+                distance[edge.second] = Math.min(distance[edge.second], distance[edge.first] + edge.weight);
             }
         }
 
-        out.println(minSum);
-    }
-
-    private static void unionSet(int[] graph, int e1, int e2) {
-        e1 = findSet(graph, e1);
-        e2 = findSet(graph, e2);
-        if (e1 != e2) {
-            graph[e2] = e1;
+        for (int i = 1; i < distance.length; i++) {
+            out.printf(distance[i] + " ");
         }
-    }
-
-    private static int findSet(int[] graph, int v) {
-        if (v == graph[v]) {
-            return v;
-        }
-        return graph[v] = findSet(graph, graph[v]);
     }
 
     private static class FastScanner {

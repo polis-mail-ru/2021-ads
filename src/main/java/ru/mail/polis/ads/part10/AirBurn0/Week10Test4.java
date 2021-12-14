@@ -9,9 +9,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-//https://www.eolymp.com/ru/submissions/10126544
-public final class Week10Test1 {
-    private Week10Test1() {
+//https://www.eolymp.com/ru/submissions/10126638
+public final class Week10Test4 {
+
+    private Week10Test4() {
         // Should not be instantiated
     }
 
@@ -42,26 +43,25 @@ public final class Week10Test1 {
         for (int i = 0; i < e; ++i) {
             queue.add(new Edge(in.nextInt() - 1, in.nextInt() - 1, in.nextInt()));
         }
-
-        long minSum = 0;
-
-        int countSet = v;
-        while (countSet != 1) {
+        
+        --v;
+        while (!queue.isEmpty()) {
             Edge edge = queue.poll();
-            if (findSet(graph, edge.first) != findSet(graph, edge.second)) {
-                unionSet(graph, edge.first, edge.second);
-                minSum += edge.weight;
-                --countSet;
+            unionSet(graph, edge.first, edge.second);
+            if (findSet(graph, v) == 0) {
+                out.println(edge.weight);
+                break;
             }
         }
 
-        out.println(minSum);
     }
 
     private static void unionSet(int[] graph, int e1, int e2) {
         e1 = findSet(graph, e1);
         e2 = findSet(graph, e2);
-        if (e1 != e2) {
+        if (e1 > e2) {
+            graph[e1] = e2;
+        } else {
             graph[e2] = e1;
         }
     }
