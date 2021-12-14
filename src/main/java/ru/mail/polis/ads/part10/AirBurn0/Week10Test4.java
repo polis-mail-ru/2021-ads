@@ -43,7 +43,7 @@ public final class Week10Test4 {
         for (int i = 0; i < e; ++i) {
             queue.add(new Edge(in.nextInt() - 1, in.nextInt() - 1, in.nextInt()));
         }
-        
+
         --v;
         while (!queue.isEmpty()) {
             Edge edge = queue.poll();

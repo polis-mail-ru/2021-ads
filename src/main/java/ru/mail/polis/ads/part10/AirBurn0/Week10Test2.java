@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-//https://www.eolymp.com/ru/submissions/10124994
+//https://www.eolymp.com/ru/submissions/10126777
 public final class Week10Test2 {
     private Week10Test2() {
         // Should not be instantiated
     }
 
     private static final int INF = Integer.MAX_VALUE;
-    
+
     private static class Edge {
 
         private int edge;
@@ -34,9 +34,8 @@ public final class Week10Test2 {
     private static void solve(final FastScanner in, final PrintWriter out) {
         final int v = in.nextInt();
         final int e = in.nextInt();
-
-        int a = in.nextInt() - 1;
-        int b = in.nextInt() - 1;
+        final int a = in.nextInt();
+        final int b = in.nextInt();
 
         List<Edge>[] graph = new ArrayList[v];
         boolean[] used = new boolean[v];
@@ -48,7 +47,7 @@ public final class Week10Test2 {
             graph[i] = new ArrayList<Edge>();
             dist[i + 1] = INF;
         }
-        dist[a + 1] = 0;
+        dist[a] = 0;
 
         int temp1, temp2, temp3;
         for (int i = 0; i < e; ++i) {
@@ -62,7 +61,7 @@ public final class Week10Test2 {
 
         PriorityQueue<Edge> q = new PriorityQueue<>((e1, e2) -> e1.weight - e2.weight);
 
-        q.add(new Edge(a, 0));
+        q.add(new Edge(a - 1, 0));
 
         while (!q.isEmpty()) {
             temp1 = q.poll().edge;
@@ -83,14 +82,13 @@ public final class Week10Test2 {
         }
 
         Deque<Integer> res = new LinkedList<>();
-        ++b;
         out.println(dist[b]);
-
-        while (prev[b] != 0) {
-            res.push(b);
-            b = prev[b];
+        temp1 = b;
+        while (prev[temp1] != 0) {
+            res.push(temp1);
+            temp1 = prev[temp1];
         }
-        res.push(a + 1);
+        res.push(a);
         while (!res.isEmpty()) {
             out.print(res.pop() + " ");
         }
